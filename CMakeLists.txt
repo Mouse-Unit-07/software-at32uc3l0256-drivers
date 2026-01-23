@@ -5,31 +5,34 @@
 #                                                                              #
 #------------------------------------------------------------------------------#
 cmake_minimum_required(VERSION 4.0.2)
-project(hello_world_lib LANGUAGES C) # <== Name your software project
+project(at32uc3l0256_drivers_lib LANGUAGES C ASM)
 
-include(FetchContent)
+add_library(at32uc3l0256_drivers_lib STATIC)
 
-# \/=== Add dependencies to other GitHub repos
-# Example dependency on Hello World project (check out Repeat Hello World project):
-#FetchContent_Declare(
-#    print_hello_world
-#    GIT_REPOSITORY https://github.com/Mouse-Unit-07/experiment-software-hello-world
-#    GIT_TAG main
-#)
-# FetchContent_MakeAvailable(print_hello_world)
+add_subdirectory(ASF)
+add_subdirectory(config)
 
-add_library(hello_world_lib STATIC) # <== Define your build target
-
-# \/=== Add all interface directories (each w/ a CMakeLists.txt)
-add_subdirectory(hello_world)
-
-# \/=== Add all directories w/ header files
-target_include_directories(hello_world_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/hello_world
+target_include_directories(at32uc3l0256_drivers_lib PUBLIC
+    ${AVR32_INCLUDE_LIBRARIES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/adcifb
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/cpu/cycle_counter
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/eic
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/flashcdw
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/gpio
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/intc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/pwma
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/drivers/tc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/utils/header_files
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/utils/preprocessor
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/avr32/utils/startup
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/boards
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/boards/user_board
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/services/clock
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/services/clock/uc3l
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/services/delay
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/ASF/common/utils/interrupt
+    ${CMAKE_CURRENT_SOURCE_DIR}/config
 )
-
-# \/=== Link to other GitHub repos
-# Example dependency on Hello World project (check out Repeat Hello World project):
-#target_link_libraries(repeat_hello_world_lib PUBLIC
-#    hello_world_lib
-#)
