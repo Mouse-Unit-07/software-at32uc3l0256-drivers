@@ -1,38 +1,40 @@
-/*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : main.c                                                */
-/*                                                                            */
-/* main file for for flashing/testing hello_world interface on mcu            */
-/*                                                                            */
-/*----------------------------------------------------------------------------*/
+/**
+ * \file
+ *
+ * \brief Empty user application template
+ *
+ */
 
-/*----------------------------------------------------------------------------*/
-/*                               Include Files                                */
-/*----------------------------------------------------------------------------*/
-#include "hello_world/print_hello_world.h"
+/**
+ * \mainpage User Application template doxygen documentation
+ *
+ * \par Empty user application template
+ *
+ * Bare minimum empty user application template
+ *
+ * \par Content
+ *
+ * -# Include the ASF header files (through asf.h)
+ * -# "Insert system clock initialization code here" comment
+ * -# Minimal main function that starts with a call to board_init()
+ * -# "Insert application code here" comment
+ *
+ */
 
-/*----------------------------------------------------------------------------*/
-/*                                 Debug Space                                */
-/*----------------------------------------------------------------------------*/
-/* keep empty */
+/*
+ * Include header files for all drivers that have been imported from
+ * Atmel Software Framework (ASF).
+ */
+/*
+ * Support and FAQ: visit <a href="https://www.microchip.com/support/">Microchip Support</a>
+ */
+#include <asf.h>
 
-/*----------------------------------------------------------------------------*/
-/*                               Private Globals                              */
-/*----------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-/* none */
-
-/*----------------------------------------------------------------------------*/
-/*                        Private Function Definitions                        */
-/*----------------------------------------------------------------------------*/
-/* none */
-
-/*----------------------------------------------------------------------------*/
-/*                                    Main                                    */
-/*----------------------------------------------------------------------------*/
-int main(void)
+int main (void)
 {
-    printHelloWorld();
+	/* Insert system clock initialization code here (sysclk_init()). */
+
+	board_init();
+
+	/* Insert application code here, after the board has been initialized. */
 }
