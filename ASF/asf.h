@@ -92,8 +92,17 @@
 // From module: Part identification macros
 #include <parts.h>
 
+// From module: Standard serial I/O (stdio) - UC3 implementation
+#include <stdio_serial.h>
+
 // From module: System Clock Control - UC3 L0 with PLL implementation
 #include <sysclk.h>
+
+// From module: USART - Serial interface - UC3 implementation
+#include <serial.h>
+
+// From module: USART - Universal Synchronous/Asynchronous Receiver/Transmitter
+#include <usart.h>
 
 // From module: TC - Timer/Counter
 #include <tc.h>
