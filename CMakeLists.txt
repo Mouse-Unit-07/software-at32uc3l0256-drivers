@@ -5,7 +5,7 @@
 #                                                                              #
 #------------------------------------------------------------------------------#
 cmake_minimum_required(VERSION 4.0.2)
-project(at32uc3l0256_drivers_lib LANGUAGES C ASM)
+project(at32uc3l0256_drivers_project LANGUAGES C ASM)
 
 add_subdirectory(ASF)
 add_subdirectory(config)
