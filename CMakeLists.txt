@@ -7,5 +7,15 @@
 cmake_minimum_required(VERSION 4.0.2)
 project(at32uc3l0256_drivers_project LANGUAGES C ASM)
 
+include(FetchContent)
+
+FetchContent_Declare(
+    hardware_abstraction_layer
+    GIT_REPOSITORY https://github.com/Mouse-Unit-07/software-hardware-abstraction-layer
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(hardware_abstraction_layer)
+
 add_subdirectory(ASF)
 add_subdirectory(config)
+add_subdirectory(at32uc3l0256_hal_implementation)
