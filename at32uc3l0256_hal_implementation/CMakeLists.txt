@@ -14,4 +14,5 @@ target_include_directories(at32uc3l0256_hal_implementation_lib PUBLIC
 
 target_link_libraries(at32uc3l0256_hal_implementation_lib PUBLIC
     hal_contracts_lib
+    runtime_diagnostics_lib
 )
