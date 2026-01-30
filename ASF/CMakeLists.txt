@@ -28,6 +28,7 @@ add_library(asf_lib STATIC
 target_include_directories(asf_lib PUBLIC
     ${AVR32_INCLUDE_LIBRARIES}
     ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/config
     ${CMAKE_CURRENT_LIST_DIR}/avr32/drivers/adcifb
     ${CMAKE_CURRENT_LIST_DIR}/avr32/drivers/cpu/cycle_counter
     ${CMAKE_CURRENT_LIST_DIR}/avr32/drivers/eic
@@ -51,8 +52,4 @@ target_include_directories(asf_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/common/utils
     ${CMAKE_CURRENT_LIST_DIR}/common/utils/interrupt
     ${CMAKE_CURRENT_LIST_DIR}/common/utils/stdio/stdio_serial
-)
-
-target_link_libraries(asf_lib PUBLIC 
-    config_lib
 )
