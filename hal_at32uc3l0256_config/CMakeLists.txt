@@ -1,18 +1,18 @@
 #--------------------------------- FILE INFO ----------------------------------#
 # Filename           : CMakeLists.txt                                          #
 #                                                                              #
-# CMakeLists.txt file for hal_implementation source files                      #
+# CMakeLists.txt file for hal_at32uc3l0256_config source files                 #
 #                                                                              #
 #------------------------------------------------------------------------------#
-add_library(at32uc3l0256_hal_implementation_lib STATIC
+add_library(hal_at32uc3l0256_config_lib STATIC
     ${CMAKE_CURRENT_LIST_DIR}/delete-me.c
 )
 
-target_include_directories(at32uc3l0256_hal_implementation_lib PUBLIC
+target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
-target_link_libraries(at32uc3l0256_hal_implementation_lib PUBLIC
+target_link_libraries(hal_at32uc3l0256_config_lib PUBLIC
     hal_contracts_lib
-    runtime_diagnostics_lib
+    hal_at32uc3l0256_lib
 )
