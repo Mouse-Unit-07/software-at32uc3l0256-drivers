@@ -15,6 +15,6 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+struct clock_hal_handler *get_clock_hal_handler(void);
 
 #endif /* CLOCK_HAL_CONFIG */

@@ -42,7 +42,8 @@ TEST_GROUP(HalConfigTest)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalConfigTest, DeleteMe)
+TEST(HalConfigTest, HandlerIsNotNull)
 {
-    
+    struct clock_hal_handler *clock_handler = get_clock_hal_handler();
+    CHECK(clock_handler != NULL);
 }
