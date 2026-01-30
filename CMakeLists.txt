@@ -24,5 +24,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(runtime_diagnostics)
 
 add_subdirectory(ASF)
+add_subdirectory(ASF_mock)
 add_subdirectory(hal_at32uc3l0256)
 add_subdirectory(hal_at32uc3l0256_config)
