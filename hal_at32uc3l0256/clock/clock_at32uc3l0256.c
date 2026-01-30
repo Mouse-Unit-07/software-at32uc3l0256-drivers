@@ -37,7 +37,9 @@
 /*----------------------------------------------------------------------------*/
 void init_clock_at32uc3l0256(void)
 {
-    dfll_enable_open_loop(NULL, 1);
+    struct dfll_config dcfg = {0};
+
+    dfll_enable_open_loop(&dcfg, 0);
 }
 
 void deinit_clock_at32uc3l0256(void)
