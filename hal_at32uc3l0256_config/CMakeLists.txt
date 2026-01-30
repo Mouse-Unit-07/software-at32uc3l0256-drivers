@@ -5,11 +5,12 @@
 #                                                                              #
 #------------------------------------------------------------------------------#
 add_library(hal_at32uc3l0256_config_lib STATIC
-    ${CMAKE_CURRENT_LIST_DIR}/delete-me.c
+    ${CMAKE_CURRENT_LIST_DIR}/clock/clock_hal_config.c
 )
 
 target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/clock
 )
 
 target_link_libraries(hal_at32uc3l0256_config_lib PUBLIC
