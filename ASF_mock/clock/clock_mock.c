@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_at32uc3l0256.c                                  */
+/* Filename           : clock_mock.c                                          */
 /*                                                                            */
-/* AT32UC3L0256 implementation for clock HAL                                  */
+/* Empty implementations of functions to be mocked.                           */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "clock_at32uc3l0256.h"
+#include "clock_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -35,26 +37,10 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_clock_at32uc3l0256(void)
+void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 {
-    dfll_enable_open_loop(NULL, 1);
+    /* empty */
 }
-
-void deinit_clock_at32uc3l0256(void)
-{
-
-}
-
-void delay_ms_at32uc3l0256(uint32_t delay_time)
-{
-
-}
-
-void delay_us_at32uc3l0256(uint32_t delay_time)
-{
-
-}
-
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */

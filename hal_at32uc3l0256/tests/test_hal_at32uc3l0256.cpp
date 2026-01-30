@@ -10,16 +10,23 @@
 /*============================================================================*/
 
 extern "C" {
-
+#include <stdint.h>
+#include "clock_at32uc3l0256.h"
 }
 
 #include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
 
 /*============================================================================*/
-/*                             Private Definitions                            */
+/*                             Public Definitions                             */
 /*============================================================================*/
-namespace
+extern "C"
 {
+
+void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
+{
+    mock().actualCall("dfll_enable_open_loop");
+}
 
 }
 
@@ -30,19 +37,21 @@ TEST_GROUP(HalClockTest)
 {
     void setup() override
     {
-
+        mock().clear();
     }
 
     void teardown() override
     {
-
+        mock().checkExpectations();
+        mock().clear();
     }
 };
 
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTest, DeleteMe)
+TEST(HalClockTest, InitCallsFfllEnableOpenLoop)
 {
-
+    mock().expectOneCall("dfll_enable_open_loop");
+    init_clock_at32uc3l0256();
 }

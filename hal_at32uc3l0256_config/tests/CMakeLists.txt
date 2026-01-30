@@ -18,6 +18,7 @@ add_executable(test_hal_at32uc3l0256_config
 )
 
 target_link_libraries(test_hal_at32uc3l0256_config PRIVATE
+    asf_mock_lib
     hal_at32uc3l0256_config_lib
     CppUTest::CppUTest
     CppUTestExt
