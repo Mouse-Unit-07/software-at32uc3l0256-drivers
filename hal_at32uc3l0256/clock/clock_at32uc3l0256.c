@@ -65,12 +65,12 @@ void deinit_clock_at32uc3l0256(void)
 
 void delay_ms_at32uc3l0256(uint32_t delay_time)
 {
-
+    delay_ms(delay_time);
 }
 
 void delay_us_at32uc3l0256(uint32_t delay_time)
 {
-
+    delay_us(delay_time);
 }
 
 /*----------------------------------------------------------------------------*/

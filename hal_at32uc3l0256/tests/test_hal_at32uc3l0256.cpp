@@ -55,9 +55,11 @@ void sysclk_set_source(uint_fast8_t src)
 }
 
 /* Untested- static inline functions in ASF headers:
-dfll_config_init_open_loop_mode()
-dfll_config_tune_for_target_hz()
-osc_disable();
+- dfll_config_init_open_loop_mode()
+- dfll_config_tune_for_target_hz()
+- osc_disable()
+- delay_ms()
+- delay_us()
 */
 /* ---------------------------------------------------------------------------*/
 
@@ -99,4 +101,14 @@ TEST(HalClockTests, InitClockCallsFunctionsWithCorrectArguments)
 TEST(HalClockTests, DeinitClock)
 {
     deinit_clock_at32uc3l0256();
+}
+
+TEST(HalClockTests, DelayMs)
+{
+    delay_ms_at32uc3l0256(1000);
+}
+
+TEST(HalClockTests, DeinitUs)
+{
+    delay_us_at32uc3l0256(1000000);
 }

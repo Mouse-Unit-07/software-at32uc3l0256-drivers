@@ -1,8 +1,8 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : clock_mock.h                                          */
 /*                                                                            */
-/* Bare minimum interface/definitions to get clock hal implementation to      */
-/* build on Windows                                                           */
+/* Bare minimum interface/definitions from ASF library to get clock hal       */
+/* implementation to build on Windows.                                        */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #ifndef CLOCK_MOCK_H_
@@ -34,6 +34,15 @@ struct dfll_config {
     uint32_t                step;           //!< DFLLnSTEP
     uint32_t                ssg;            //!< DFLLnSSG
 };
+
+/* ...These delay functions are implemented w/ a parameterized macro */
+/* that maps to AVR specific always_inline static functions. */
+#ifndef delay_ms
+#define delay_ms(delay)
+#endif
+#ifndef delay_us
+#define delay_us(delay)
+#endif
 
 /* untestable static inline functions in ASF headers */
 static inline void dfll_config_init_open_loop_mode(struct dfll_config *cfg) {}
