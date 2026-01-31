@@ -83,7 +83,7 @@ TEST_GROUP(HalClockTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTests, InitCallsAsfFunctionsWithCorrectArguments)
+TEST(HalClockTests, InitClockCallsFunctionsWithCorrectArguments)
 {
     mock().expectOneCall("dfll_enable_open_loop")
         .withUnsignedIntParameter("dfll_id", 0);
@@ -96,7 +96,7 @@ TEST(HalClockTests, InitCallsAsfFunctionsWithCorrectArguments)
     init_clock_at32uc3l0256();
 }
 
-TEST(HalClockTests, DeinitCall)
+TEST(HalClockTests, DeinitClock)
 {
     deinit_clock_at32uc3l0256();
 }
