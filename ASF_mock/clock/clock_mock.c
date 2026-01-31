@@ -42,6 +42,12 @@ void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
     /* empty */
 }
 
+void sysclk_set_prescalers(unsigned int cpu_shift,
+                            unsigned int pba_shift, unsigned int pbb_shift)
+{
+    /* emtpy */
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

@@ -27,5 +27,6 @@ struct dfll_config {
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id);
-
+void sysclk_set_prescalers(unsigned int cpu_shift,
+                            unsigned int pba_shift, unsigned int pbb_shift);
 #endif /* CLOCK_MOCK_H_ */

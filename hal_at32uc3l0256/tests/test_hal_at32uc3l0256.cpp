@@ -30,6 +30,15 @@ void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
         .withUnsignedIntParameter("dfll_id", dfll_id);
 }
 
+void sysclk_set_prescalers(unsigned int cpu_shift,
+                            unsigned int pba_shift, unsigned int pbb_shift)
+{
+    mock().actualCall("sysclk_set_prescalers")
+        .withUnsignedIntParameter("cpu_shift", cpu_shift)
+        .withUnsignedIntParameter("pba_shift", pba_shift)
+        .withUnsignedIntParameter("pbb_shift", pbb_shift);
+}
+
 }
 
 /*============================================================================*/
@@ -52,9 +61,13 @@ TEST_GROUP(HalClockTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTests, InitCallsDfllEnableOpenLoopWithCorrectArguments)
+TEST(HalClockTests, InitCallsAsfFunctionsWithCorrectArguments)
 {
     mock().expectOneCall("dfll_enable_open_loop")
         .withUnsignedIntParameter("dfll_id", 0);
+    mock().expectOneCall("sysclk_set_prescalers")
+        .withUnsignedIntParameter("cpu_shift", DFLL_FCPU_PRESCALER)
+        .withUnsignedIntParameter("pba_shift", DFLL_PBA_PRESCALER)
+        .withUnsignedIntParameter("pbb_shift", DFLL_PBB_PRESCALER);
     init_clock_at32uc3l0256();
 }

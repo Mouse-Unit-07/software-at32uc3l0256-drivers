@@ -40,6 +40,7 @@ void init_clock_at32uc3l0256(void)
     struct dfll_config dcfg = {0};
 
     dfll_enable_open_loop(&dcfg, 0);
+    sysclk_set_prescalers(DFLL_FCPU_PRESCALER, DFLL_PBA_PRESCALER, DFLL_PBB_PRESCALER);
 }
 
 void deinit_clock_at32uc3l0256(void)
