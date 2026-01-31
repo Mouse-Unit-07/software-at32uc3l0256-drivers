@@ -20,6 +20,11 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
+/* none */
+
+/*============================================================================*/
+/*                            Mock Implementations                            */
+/*============================================================================*/
 extern "C"
 {
 
@@ -37,6 +42,12 @@ void sysclk_set_prescalers(unsigned int cpu_shift,
         .withUnsignedIntParameter("cpu_shift", cpu_shift)
         .withUnsignedIntParameter("pba_shift", pba_shift)
         .withUnsignedIntParameter("pbb_shift", pbb_shift);
+}
+
+void sysclk_set_source(uint_fast8_t src)
+{
+    mock().actualCall("sysclk_set_source")
+        .withUnsignedIntParameter("src", src);
 }
 
 }
@@ -69,5 +80,7 @@ TEST(HalClockTests, InitCallsAsfFunctionsWithCorrectArguments)
         .withUnsignedIntParameter("cpu_shift", DFLL_FCPU_PRESCALER)
         .withUnsignedIntParameter("pba_shift", DFLL_PBA_PRESCALER)
         .withUnsignedIntParameter("pbb_shift", DFLL_PBB_PRESCALER);
+    mock().expectOneCall("sysclk_set_source");
+    
     init_clock_at32uc3l0256();
 }

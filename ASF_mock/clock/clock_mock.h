@@ -11,6 +11,13 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
+enum
+{
+    AVR32_PM_MCSEL_DFLL0 = 2,
+    SYSCLK_SRC_DFLL = AVR32_PM_MCSEL_DFLL0
+};
+ 
+
 struct genclk_config {
     uint32_t ctrl;
 };
@@ -29,4 +36,6 @@ struct dfll_config {
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id);
 void sysclk_set_prescalers(unsigned int cpu_shift,
                             unsigned int pba_shift, unsigned int pbb_shift);
+void sysclk_set_source(uint_fast8_t src);
+
 #endif /* CLOCK_MOCK_H_ */

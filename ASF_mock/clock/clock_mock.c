@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : clock_mock.c                                          */
 /*                                                                            */
-/* Empty implementations of functions to be mocked.                           */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
 /* Needed for the config translation unit- compilation errors are thrown      */
 /* when function pointers point to functions that are defined w/ calls to     */
 /* functions that aren't defined.                                             */
@@ -44,6 +44,11 @@ void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 
 void sysclk_set_prescalers(unsigned int cpu_shift,
                             unsigned int pba_shift, unsigned int pbb_shift)
+{
+    /* emtpy */
+}
+
+void sysclk_set_source(uint_fast8_t src)
 {
     /* emtpy */
 }

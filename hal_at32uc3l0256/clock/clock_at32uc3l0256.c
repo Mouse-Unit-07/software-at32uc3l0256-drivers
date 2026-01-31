@@ -41,6 +41,7 @@ void init_clock_at32uc3l0256(void)
 
     dfll_enable_open_loop(&dcfg, 0);
     sysclk_set_prescalers(DFLL_FCPU_PRESCALER, DFLL_PBA_PRESCALER, DFLL_PBB_PRESCALER);
+    sysclk_set_source(SYSCLK_SRC_DFLL); /* ASF defined constant */
 }
 
 void deinit_clock_at32uc3l0256(void)
