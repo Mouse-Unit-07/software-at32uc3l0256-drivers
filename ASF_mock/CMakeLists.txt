@@ -1,11 +1,16 @@
 #--------------------------------- FILE INFO ----------------------------------#
 # Filename           : CMakeLists.txt                                          #
 #                                                                              #
-# CMakeLists.txt file for config source files                                  #
+# CMakeLists.txt file for ASF mock source files                                #
 #                                                                              #
 #------------------------------------------------------------------------------#
-add_library(config_lib INTERFACE)
-
-target_include_directories(config_lib INTERFACE
-    ${CMAKE_CURRENT_LIST_DIR}
-)
+if (TARGET_WINDOWS)
+    add_library(asf_mock_lib STATIC
+        ${CMAKE_CURRENT_LIST_DIR}/clock/clock_mock.c
+    )
+    
+    target_include_directories(asf_mock_lib PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/clock
+    )
+endif()
