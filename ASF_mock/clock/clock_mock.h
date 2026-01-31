@@ -11,12 +11,17 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
+/* ASF constants and struct definitions */
 enum
 {
     AVR32_PM_MCSEL_DFLL0 = 2,
     SYSCLK_SRC_DFLL = AVR32_PM_MCSEL_DFLL0
 };
- 
+
+enum
+{
+    OSC_ID_RC120M = 3
+}; 
 
 struct genclk_config {
     uint32_t ctrl;
@@ -29,6 +34,12 @@ struct dfll_config {
     uint32_t                step;           //!< DFLLnSTEP
     uint32_t                ssg;            //!< DFLLnSSG
 };
+
+/* untestable static inline functions in ASF headers */
+static inline void dfll_config_init_open_loop_mode(struct dfll_config *cfg) {}
+static inline void dfll_config_tune_for_target_hz(struct dfll_config *cfg, 
+                                                    uint32_t target_hz) {}
+static inline void osc_disable(uint8_t id) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

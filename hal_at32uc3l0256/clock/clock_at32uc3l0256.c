@@ -22,6 +22,11 @@
 /*----------------------------------------------------------------------------*/
 enum
 {
+    DFLL_CLK_FREQ_HZ = 130000000
+};
+
+enum
+{
     DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
     DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
     DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
@@ -44,9 +49,13 @@ void init_clock_at32uc3l0256(void)
 {
     struct dfll_config dcfg = {0};
 
+    dfll_config_init_open_loop_mode(&dcfg);
+    dfll_config_tune_for_target_hz(&dcfg, DFLL_CLK_FREQ_HZ);
     dfll_enable_open_loop(&dcfg, 0);
     sysclk_set_prescalers(DFLL_FCPU_PRESCALER, DFLL_PBA_PRESCALER, DFLL_PBB_PRESCALER);
     sysclk_set_source(SYSCLK_SRC_DFLL); /* ASF defined constant */
+
+    osc_disable(OSC_ID_RC120M); /* ASF defined constant */
 }
 
 void deinit_clock_at32uc3l0256(void)
@@ -63,7 +72,6 @@ void delay_us_at32uc3l0256(uint32_t delay_time)
 {
 
 }
-
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */

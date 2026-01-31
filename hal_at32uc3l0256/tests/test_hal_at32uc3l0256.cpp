@@ -32,7 +32,7 @@ enum
 /*============================================================================*/
 extern "C"
 {
-
+/* Clock */
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 {
     CHECK(cfg != NULL);
@@ -53,6 +53,13 @@ void sysclk_set_source(uint_fast8_t src)
 {
     mock().actualCall("sysclk_set_source");
 }
+
+/* Untested- static inline functions in ASF headers:
+dfll_config_init_open_loop_mode()
+dfll_config_tune_for_target_hz()
+osc_disable();
+*/
+/* ---------------------------------------------------------------------------*/
 
 }
 
