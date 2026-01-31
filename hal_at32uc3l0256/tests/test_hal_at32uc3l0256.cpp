@@ -95,3 +95,8 @@ TEST(HalClockTests, InitCallsAsfFunctionsWithCorrectArguments)
     
     init_clock_at32uc3l0256();
 }
+
+TEST(HalClockTests, DeinitCall)
+{
+    deinit_clock_at32uc3l0256();
+}

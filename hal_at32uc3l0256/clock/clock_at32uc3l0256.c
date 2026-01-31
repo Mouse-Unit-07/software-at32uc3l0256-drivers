@@ -60,7 +60,7 @@ void init_clock_at32uc3l0256(void)
 
 void deinit_clock_at32uc3l0256(void)
 {
-
+    /* nothing to clear/reset */
 }
 
 void delay_ms_at32uc3l0256(uint32_t delay_time)
