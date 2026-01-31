@@ -10,7 +10,7 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "clock_hal.h"
-#include "clock_mock.h"
+#include "asf.h"
 #include "clock_at32uc3l0256.h"
 #include "clock_hal_config.h"
 
