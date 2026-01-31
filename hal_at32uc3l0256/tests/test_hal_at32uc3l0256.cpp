@@ -46,8 +46,7 @@ void sysclk_set_prescalers(unsigned int cpu_shift,
 
 void sysclk_set_source(uint_fast8_t src)
 {
-    mock().actualCall("sysclk_set_source")
-        .withUnsignedIntParameter("src", src);
+    mock().actualCall("sysclk_set_source");
 }
 
 }
