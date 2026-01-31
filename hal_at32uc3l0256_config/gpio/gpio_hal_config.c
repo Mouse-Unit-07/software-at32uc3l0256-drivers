@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_hal_config.c                                    */
+/* Filename           : gpio_hal_config.c                                     */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for clock HAL handler                          */
+/* AT32UC3L0256 Implementation for GPIO HAL handler                           */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,10 +9,10 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "clock_hal.h"
+#include "gpio_hal.h"
 #include "asf.h"
-#include "clock_at32uc3l0256.h"
-#include "clock_hal_config.h"
+#include "gpio_at32uc3l0256.h"
+#include "gpio_hal_config.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -22,12 +22,13 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler clock_handler = 
+struct gpio_hal_handler gpio_handler = 
 {
-    .init_clock = init_clock_at32uc3l0256,
-    .deinit_clock = deinit_clock_at32uc3l0256,
-    .delay_ms = delay_ms_at32uc3l0256,
-    .delay_us = delay_us_at32uc3l0256
+    .init_gpio = init_gpio_at32uc3l0256,
+    .deinit_gpio = deinit_gpio_at32uc3l0256,
+    .read_gpio_pin = read_gpio_pin_at32uc3l0256,
+    .write_gpio_pin = write_gpio_pin_at32uc3l0256,
+    .toggle_gpio_pin = toggle_gpio_pin_at32uc3l0256
 };
 
 /*----------------------------------------------------------------------------*/
@@ -43,9 +44,9 @@ struct clock_hal_handler clock_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler *get_clock_hal_handler(void)
+struct gpio_hal_handler *get_gpio_hal_handler(void)
 {
-    return &clock_handler;
+    return &gpio_handler;
 }
 
 /*----------------------------------------------------------------------------*/

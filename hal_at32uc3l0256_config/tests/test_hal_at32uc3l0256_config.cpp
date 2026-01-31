@@ -13,6 +13,8 @@ extern "C" {
 #include <stdint.h>
 #include "clock_hal.h"
 #include "clock_hal_config.h"
+#include "gpio_hal.h"
+#include "gpio_hal_config.h"
 }
 
 #include <CppUTest/TestHarness.h>
@@ -44,17 +46,33 @@ TEST_GROUP(HalConfigTest)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalConfigTest, HandlerIsNotNull)
+TEST(HalConfigTest, ClockHandlerIsNotNull)
 {
     struct clock_hal_handler *clock_handler = get_clock_hal_handler();
     CHECK(clock_handler != NULL);
 }
 
-TEST(HalConfigTest, HandlerElementsAreNotNull)
+TEST(HalConfigTest, ClockHandlerElementsAreNotNull)
 {
     struct clock_hal_handler *clock_handler = get_clock_hal_handler();
     CHECK(clock_handler->init_clock != NULL);
     CHECK(clock_handler->deinit_clock != NULL);
     CHECK(clock_handler->delay_ms != NULL);
     CHECK(clock_handler->delay_us != NULL);
+}
+
+TEST(HalConfigTest, GpioHandlerIsNotNull)
+{
+    struct gpio_hal_handler *gpio_handler = get_gpio_hal_handler();
+    CHECK(gpio_handler != NULL);
+}
+
+TEST(HalConfigTest, GpioHandlerElementsAreNotNull)
+{
+    struct gpio_hal_handler *gpio_handler = get_gpio_hal_handler();
+    CHECK(gpio_handler->init_gpio != NULL);
+    CHECK(gpio_handler->deinit_gpio != NULL);
+    CHECK(gpio_handler->read_gpio_pin != NULL);
+    CHECK(gpio_handler->write_gpio_pin != NULL);
+    CHECK(gpio_handler->toggle_gpio_pin != NULL);
 }

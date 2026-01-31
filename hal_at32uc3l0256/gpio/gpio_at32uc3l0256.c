@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_hal_config.c                                    */
+/* Filename           : gpio_at32uc3l0256.c                                   */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for clock HAL handler                          */
+/* AT32UC3L0256 implementation for GPIO HAL                                   */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,10 +9,8 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "clock_hal.h"
 #include "asf.h"
-#include "clock_at32uc3l0256.h"
-#include "clock_hal_config.h"
+#include "gpio_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -22,13 +20,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler clock_handler = 
-{
-    .init_clock = init_clock_at32uc3l0256,
-    .deinit_clock = deinit_clock_at32uc3l0256,
-    .delay_ms = delay_ms_at32uc3l0256,
-    .delay_us = delay_us_at32uc3l0256
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -43,9 +35,29 @@ struct clock_hal_handler clock_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler *get_clock_hal_handler(void)
+void init_gpio_at32uc3l0256(void)
 {
-    return &clock_handler;
+
+}
+
+void deinit_gpio_at32uc3l0256(void)
+{
+
+}
+
+uint32_t read_gpio_pin_at32uc3l0256(uint32_t gpio_number)
+{
+    return 0;
+}
+
+void write_gpio_pin_at32uc3l0256(uint32_t gpio_number)
+{
+
+}
+
+void toggle_gpio_pin_at32uc3l0256(uint32_t gpio_number)
+{
+
 }
 
 /*----------------------------------------------------------------------------*/

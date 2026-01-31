@@ -9,6 +9,8 @@ set(ALL_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/test_hal_at32uc3l0256_config.cpp
     ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256_config/clock/clock_hal_config.c
     ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256_config/clock/clock_hal_config.h
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256_config/gpio/gpio_hal_config.c
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256_config/gpio/gpio_hal_config.h
     PARENT_SCOPE
 )
 
