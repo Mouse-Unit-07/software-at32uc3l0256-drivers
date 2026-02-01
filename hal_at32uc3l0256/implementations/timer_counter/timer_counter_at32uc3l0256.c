@@ -9,7 +9,9 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
+#include <stdbool.h>
 #include "asf.h"
+#include "runtime_diagnostics.h"
 #include "timer_counter_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
@@ -20,7 +22,15 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-/* none */
+bool timer_counter_failed = false;
+
+enum
+{
+    TIMER_COUNTER_CHANNEL = 0
+};
+
+/* Can't define AVR32_TC1 w/ an enum- resolves to a macro w/ a custom type */
+#define TIMER_COUNTER_BASE_ADDRESS (&AVR32_TC1)
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -37,7 +47,29 @@
 /*----------------------------------------------------------------------------*/
 void init_timer_counter_at32uc3l0256(void)
 {
+    /* Options for waveform generation */
+    static const tc_waveform_opt_t waveform_opt = {
+        .channel  = TIMER_COUNTER_CHANNEL,           /* Channel selection */
+        .bswtrg   = TC_EVT_EFFECT_NOOP,                 /* Software trigger effect on TIOB */
+        .beevt    = TC_EVT_EFFECT_NOOP,                 /* External event effect on TIOB */
+        .bcpc     = TC_EVT_EFFECT_NOOP,                 /* RC compare effect on TIOB */
+        .bcpb     = TC_EVT_EFFECT_NOOP,                 /* RB compare effect on TIOB */
+        .aswtrg   = TC_EVT_EFFECT_NOOP,                 /* Software trigger effect on TIOA */
+        .aeevt    = TC_EVT_EFFECT_NOOP,                 /* External event effect on TIOA */
+        .acpc     = TC_EVT_EFFECT_NOOP,                 /* RC compare effect on TIOA */
+        .acpa     = TC_EVT_EFFECT_NOOP,                 /* RA compare effect on TIOA (none, set and clear) */
+        .wavsel   = TC_WAVEFORM_SEL_UP_MODE_RC_TRIGGER, /* Up mode w/ auto trigger(reset) on RC compare */
+        .enetrg   = false,                              /* External event trigger enable */
+        .eevt     = 0,                                  /* External event selection */
+        .eevtedg  = TC_SEL_NO_EDGE,                     /* External event edge selection */
+        .cpcdis   = false,                              /* Counter disable when RC compare */
+        .cpcstop  = false,                              /* Counter clock stopped with RC compare */
+        .burst    = false,                              /* Burst signal selection */
+        .clki     = false,                              /* Clock inversion */ 
+        .tcclks   = TC_CLOCK_SOURCE_TC3                 /* Internal source clock 3, connected to fPBA / 8 */
+    };
 
+    tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
 }
 
 void deinit_timer_counter_at32uc3l0256(void)

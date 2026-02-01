@@ -15,8 +15,10 @@
 
 extern "C" {
 #include <stdint.h>
+#include "asf.h"
 #include "clock_at32uc3l0256.h"
 #include "gpio_at32uc3l0256.h"
+#include "timer_counter_at32uc3l0256.h"
 }
 
 /*============================================================================*/
@@ -36,24 +38,6 @@ enum
 {
     INPUT_COUNT = 4,
     OUTPUT_COUNT = 10
-};
-
-enum
-{
-    AVR32_PIN_PB11 = 43,
-    AVR32_PIN_PB06 = 38,
-    AVR32_PIN_PA22 = 22,
-    AVR32_PIN_PB03 = 35,
-    AVR32_PIN_PB02 = 34,
-    AVR32_PIN_PB00 = 32,
-    AVR32_PIN_PB04 = 36,
-    AVR32_PIN_PB10 = 42,
-    AVR32_PIN_PB01 = 33,
-    AVR32_PIN_PA07 = 7,
-    AVR32_PIN_PA21 = 21,
-    AVR32_PIN_PA20 = 20,
-    AVR32_PIN_PA04 = 4,
-    AVR32_PIN_PA11 = 11,
 };
 
 std::unordered_set<int> gpio_pins {
@@ -76,6 +60,9 @@ std::unordered_set<int> gpio_pins {
 
 extern const struct gpio_handle regulators_enable; /* arbitrary input pin */
 extern const struct gpio_handle led_d1; /* arbitrary output pin */
+
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -141,6 +128,16 @@ void gpio_tgl_gpio_pin(uint32_t pin)
     mock().actualCall("gpio_tgl_gpio_pin");
 }
 
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
+int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt)
+{
+    CHECK(tc != NULL);
+    CHECK(opt != NULL);
+    return mock().actualCall("tc_init_waveform")
+        .returnIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -161,6 +158,20 @@ TEST_GROUP(HalClockTests)
 };
 
 TEST_GROUP(HalGpioTests)
+{
+    void setup() override
+    {
+        mock().clear();
+    }
+
+    void teardown() override
+    {
+        mock().checkExpectations();
+        mock().clear();
+    }
+};
+
+TEST_GROUP(HalTimerCounterTests)
 {
     void setup() override
     {
@@ -241,4 +252,13 @@ TEST(HalGpioTests, TogglePinCallsFunction)
 {
     mock().expectOneCall("gpio_tgl_gpio_pin");
     toggle_gpio_pin_at32uc3l0256(&led_d1);
+}
+
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
+TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    init_timer_counter_at32uc3l0256();
 }

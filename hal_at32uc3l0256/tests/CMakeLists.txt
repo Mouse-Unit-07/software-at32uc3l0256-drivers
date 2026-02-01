@@ -28,4 +28,16 @@ target_link_libraries(test_hal_at32uc3l0256 PRIVATE
     CppUTestExt
 )
 
+if (TARGET_AVR32)
+    target_link_libraries(test_hal_at32uc3l0256 PUBLIC
+        asf_lib
+    )
+endif()
+
+if (TARGET_WINDOWS)
+    target_link_libraries(test_hal_at32uc3l0256 PUBLIC
+        asf_mock_lib
+    )
+endif()
+
 add_test(NAME test_hal_at32uc3l0256 COMMAND test_hal_at32uc3l0256)

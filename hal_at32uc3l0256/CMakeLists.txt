@@ -17,6 +17,10 @@ target_include_directories(hal_at32uc3l0256_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/implementations/timer_counter
 )
 
+target_link_libraries(hal_at32uc3l0256_lib PUBLIC
+    runtime_diagnostics_lib
+)
+
 if (TARGET_AVR32)
     target_link_libraries(hal_at32uc3l0256_lib PUBLIC
         asf_lib
