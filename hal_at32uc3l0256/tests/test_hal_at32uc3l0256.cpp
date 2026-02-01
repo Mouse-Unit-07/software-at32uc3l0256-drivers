@@ -15,46 +15,28 @@
 
 extern "C" {
 #include <stdint.h>
+#include "asf.h"
 #include "clock_at32uc3l0256.h"
 #include "gpio_at32uc3l0256.h"
+#include "timer_counter_at32uc3l0256.h"
 }
 
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
+/* ---------------------------------------------------------------------------*/
 /* Clock */
-enum
-{
-    DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-    DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
-    DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
-};
 
 /* ---------------------------------------------------------------------------*/
 /* GPIO */
+extern "C"
+{
 enum
 {
     INPUT_COUNT = 4,
     OUTPUT_COUNT = 10
 };
-
-enum
-{
-    AVR32_PIN_PB11 = 43,
-    AVR32_PIN_PB06 = 38,
-    AVR32_PIN_PA22 = 22,
-    AVR32_PIN_PB03 = 35,
-    AVR32_PIN_PB02 = 34,
-    AVR32_PIN_PB00 = 32,
-    AVR32_PIN_PB04 = 36,
-    AVR32_PIN_PB10 = 42,
-    AVR32_PIN_PB01 = 33,
-    AVR32_PIN_PA07 = 7,
-    AVR32_PIN_PA21 = 21,
-    AVR32_PIN_PA20 = 20,
-    AVR32_PIN_PA04 = 4,
-    AVR32_PIN_PA11 = 11,
-};
+}
 
 std::unordered_set<int> gpio_pins {
     AVR32_PIN_PB11,
@@ -74,8 +56,35 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA11
 };
 
+extern "C"
+{
 extern const struct gpio_handle regulators_enable; /* arbitrary input pin */
 extern const struct gpio_handle led_d1; /* arbitrary output pin */
+}
+
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
+void expect_successful_init_timer_counter_at32uc3l0256(void)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
+        .andReturnValue(1);
+
+    init_timer_counter_at32uc3l0256();
+}
+
+/* this call takes 9 seconds to run */
+void call_tc_isr_to_uint32_max(void)
+{
+    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
+        tc_irq();
+    }
+}
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -83,6 +92,18 @@ extern const struct gpio_handle led_d1; /* arbitrary output pin */
 extern "C"
 {
 
+/* ---------------------------------------------------------------------------*/
+/* Runtime Diagnostics */
+void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_value)
+{
+    CHECK(fail_message != NULL);
+    mock().actualCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", timestamp)
+        .withStringParameter("fail_message", fail_message)
+        .withUnsignedIntParameter("fail_value", fail_value);
+}
+
+/* ---------------------------------------------------------------------------*/
 /* Clock */
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 {
@@ -141,6 +162,39 @@ void gpio_tgl_gpio_pin(uint32_t pin)
     mock().actualCall("gpio_tgl_gpio_pin");
 }
 
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
+int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt)
+{
+    CHECK(tc != NULL);
+    CHECK(opt != NULL);
+    return mock().actualCall("tc_init_waveform")
+        .returnIntValue();
+}
+
+int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value)
+{
+    CHECK(tc != NULL);
+    return mock().actualCall("tc_write_rc")
+        .returnIntValue();
+    return 1;
+}
+
+int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const tc_interrupt_t *bitfield)
+{
+    CHECK(tc != NULL);
+    CHECK(bitfield != NULL);
+    return mock().actualCall("tc_configure_interrupts")
+        .returnIntValue();
+}
+
+int tc_start(volatile avr32_tc_t *tc, unsigned int channel)
+{
+    CHECK(tc != NULL);
+    return mock().actualCall("tc_start")
+        .returnIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -174,9 +228,25 @@ TEST_GROUP(HalGpioTests)
     }
 };
 
+TEST_GROUP(HalTimerCounterTests)
+{
+    void setup() override
+    {
+        mock().clear();
+    }
+
+    void teardown() override
+    {
+        mock().checkExpectations();
+        mock().clear();
+    }
+};
+
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
+/* ---------------------------------------------------------------------------*/
+/* Clock */
 TEST(HalClockTests, InitClockCallsFunctionsWithCorrectArguments)
 {
     mock().expectOneCall("dfll_enable_open_loop")
@@ -241,4 +311,114 @@ TEST(HalGpioTests, TogglePinCallsFunction)
 {
     mock().expectOneCall("gpio_tgl_gpio_pin");
     toggle_gpio_pin_at32uc3l0256(&led_d1);
+}
+
+/* ---------------------------------------------------------------------------*/
+/* Timer Counter */
+TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
+        .andReturnValue(1);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterWriteRcFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_write_rc call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterConfigureInterruptsFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_configure_interrupts call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_start call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+/* time consuming- turn on when needed */
+IGNORE_TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    call_tc_isr_to_uint32_max();
+    CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
+}
+
+/* time consuming- turn on when needed */
+IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    call_tc_isr_to_uint32_max();
+    tc_irq();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+TEST(HalTimerCounterTests, DeinitResetsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    tc_irq();
+    deinit_timer_counter_at32uc3l0256();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+TEST(HalTimerCounterTests, RestartTimerResetsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    tc_irq();
+    restart_timer_at32uc3l0256();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
 }

@@ -7,8 +7,8 @@
 set(ALL_TEST_SOURCES
     ${ALL_TEST_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/test_hal_at32uc3l0256.cpp
-    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/clock/clock_at32uc3l0256.c
-    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/clock/clock_at32uc3l0256.h
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/implementations/clock/clock_at32uc3l0256.c
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/implementations/clock/clock_at32uc3l0256.h
     PARENT_SCOPE
 )
 
@@ -27,5 +27,17 @@ target_link_libraries(test_hal_at32uc3l0256 PRIVATE
     CppUTest::CppUTest
     CppUTestExt
 )
+
+if (TARGET_AVR32)
+    target_link_libraries(test_hal_at32uc3l0256 PUBLIC
+        asf_lib
+    )
+endif()
+
+if (TARGET_WINDOWS)
+    target_link_libraries(test_hal_at32uc3l0256 PUBLIC
+        asf_mock_lib
+    )
+endif()
 
 add_test(NAME test_hal_at32uc3l0256 COMMAND test_hal_at32uc3l0256)

@@ -1,16 +1,11 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : timer_counter_hal_config.h                            */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 Implementation for timer counter HAL handler    */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
+#ifndef TIMER_COUNTER_HAL_CONFIG_H_
+#define TIMER_COUNTER_HAL_CONFIG_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
@@ -20,6 +15,6 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+struct tc_hal_handler *get_tc_hal_handler(void);
 
-#endif /* ASF_H_ */
+#endif /* TIMER_COUNTER_HAL_CONFIG */

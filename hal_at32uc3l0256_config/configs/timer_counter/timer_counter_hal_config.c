@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_at32uc3l0256.c                                  */
+/* Filename           : timer_counter_hal_config.c                            */
 /*                                                                            */
-/* AT32UC3L0256 implementation for clock HAL                                  */
+/* AT32UC3L0256 Implementation for timer counter HAL handler                  */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +9,10 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
+#include "timer_counter_hal.h"
 #include "asf.h"
-#include "clock_at32uc3l0256.h"
+#include "timer_counter_at32uc3l0256.h"
+#include "timer_counter_hal_config.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -20,16 +22,12 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-enum
+struct tc_hal_handler tc_handler = 
 {
-    DFLL_CLK_FREQ_HZ = 130000000
-};
-
-enum
-{
-    DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-    DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
-    DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
+    .init_timer_counter = init_timer_counter_at32uc3l0256,
+    .deinit_timer_counter = deinit_timer_counter_at32uc3l0256,
+    .get_timer_count = get_timer_count_at32uc3l0256,
+    .restart_timer = restart_timer_at32uc3l0256
 };
 
 /*----------------------------------------------------------------------------*/
@@ -45,32 +43,9 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_clock_at32uc3l0256(void)
+struct tc_hal_handler *get_tc_hal_handler(void)
 {
-    struct dfll_config dcfg = {{0}};
-
-    dfll_config_init_open_loop_mode(&dcfg);
-    dfll_config_tune_for_target_hz(&dcfg, DFLL_CLK_FREQ_HZ);
-    dfll_enable_open_loop(&dcfg, 0);
-    sysclk_set_prescalers(DFLL_FCPU_PRESCALER, DFLL_PBA_PRESCALER, DFLL_PBB_PRESCALER);
-    sysclk_set_source(SYSCLK_SRC_DFLL); /* ASF defined constant */
-
-    osc_disable(OSC_ID_RC120M); /* ASF defined constant */
-}
-
-void deinit_clock_at32uc3l0256(void)
-{
-    /* nothing to clear/reset */
-}
-
-void delay_ms_at32uc3l0256(uint32_t delay_time)
-{
-    delay_ms(delay_time);
-}
-
-void delay_us_at32uc3l0256(uint32_t delay_time)
-{
-    delay_us(delay_time);
+    return &tc_handler;
 }
 
 /*----------------------------------------------------------------------------*/

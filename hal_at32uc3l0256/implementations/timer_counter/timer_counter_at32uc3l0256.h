@@ -1,16 +1,11 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : timer_counter_at32uc3l0256.h                          */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for timer counter HAL            */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
+#ifndef TIMER_COUNTER_AT32UC3L0256_H_
+#define TIMER_COUNTER_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
@@ -20,6 +15,13 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_timer_counter_at32uc3l0256(void);
+void deinit_timer_counter_at32uc3l0256(void);
+uint32_t get_timer_count_at32uc3l0256(void);
+void restart_timer_at32uc3l0256(void);
 
-#endif /* ASF_H_ */
+#ifdef WINDOWS_BUILD /* ISR exposed just when testing */
+void tc_irq(void);
+#endif
+
+#endif /* TIMER_COUNTER_AT32UC3L0256_H_ */
