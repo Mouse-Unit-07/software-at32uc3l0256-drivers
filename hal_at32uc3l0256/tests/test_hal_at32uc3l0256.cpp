@@ -9,14 +9,15 @@
 /*                               Include Files                                */
 /*============================================================================*/
 
+#include <unordered_set>
+#include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
+
 extern "C" {
 #include <stdint.h>
 #include "clock_at32uc3l0256.h"
 #include "gpio_at32uc3l0256.h"
 }
-
-#include <CppUTest/TestHarness.h>
-#include <CppUTestExt/MockSupport.h>
 
 /*============================================================================*/
 /*                             Public Definitions                             */
@@ -34,6 +35,42 @@ enum
 {
     INPUT_COUNT = 4,
     OUTPUT_COUNT = 10
+};
+
+enum
+{
+    AVR32_PIN_PB11 = 43,
+    AVR32_PIN_PB06 = 38,
+    AVR32_PIN_PA22 = 22,
+    AVR32_PIN_PB03 = 35,
+    AVR32_PIN_PB02 = 34,
+    AVR32_PIN_PB00 = 32,
+    AVR32_PIN_PB04 = 36,
+    AVR32_PIN_PB10 = 42,
+    AVR32_PIN_PB01 = 33,
+    AVR32_PIN_PA07 = 7,
+    AVR32_PIN_PA21 = 21,
+    AVR32_PIN_PA20 = 20,
+    AVR32_PIN_PA04 = 4,
+    AVR32_PIN_PA11 = 11,
+};
+
+std::unordered_set<int> gpio_pins {
+    AVR32_PIN_PB11,
+    AVR32_PIN_PB11,
+    AVR32_PIN_PB06,
+    AVR32_PIN_PA22,
+    AVR32_PIN_PB03,
+    AVR32_PIN_PB02,
+    AVR32_PIN_PB00,
+    AVR32_PIN_PB04,
+    AVR32_PIN_PB10,
+    AVR32_PIN_PB01,
+    AVR32_PIN_PA07,
+    AVR32_PIN_PA21,
+    AVR32_PIN_PA20,
+    AVR32_PIN_PA04,
+    AVR32_PIN_PA11
 };
 
 /*============================================================================*/
@@ -74,6 +111,7 @@ void sysclk_set_source(uint_fast8_t src)
 /* GPIO */
 void gpio_configure_pin(uint32_t pin, uint32_t flags)
 {
+    CHECK(gpio_pins.find(static_cast<int>(pin)) != gpio_pins.end());
     mock().actualCall("gpio_configure_pin");
 }
 
