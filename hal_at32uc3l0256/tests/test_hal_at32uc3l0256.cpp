@@ -24,13 +24,8 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
+/* ---------------------------------------------------------------------------*/
 /* Clock */
-enum
-{
-    DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-    DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
-    DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
-};
 
 /* ---------------------------------------------------------------------------*/
 /* GPIO */
@@ -150,6 +145,14 @@ int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt)
         .returnIntValue();
 }
 
+int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value)
+{
+    CHECK(tc != NULL);
+    return mock().actualCall("tc_write_rc")
+        .returnIntValue();
+    return 1;
+}
+
 }
 
 /*============================================================================*/
@@ -200,6 +203,8 @@ TEST_GROUP(HalTimerCounterTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
+/* ---------------------------------------------------------------------------*/
+/* Clock */
 TEST(HalClockTests, InitClockCallsFunctionsWithCorrectArguments)
 {
     mock().expectOneCall("dfll_enable_open_loop")
@@ -272,6 +277,7 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 {
     mock().expectOneCall("tc_init_waveform")
         .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc");
     init_timer_counter_at32uc3l0256();
 }
 

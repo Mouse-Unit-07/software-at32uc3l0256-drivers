@@ -292,5 +292,6 @@ typedef struct avr32_tc_t
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
 int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt);
+int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value);
 
 #endif /* TIMER_COUNTER_MOCK_H_ */

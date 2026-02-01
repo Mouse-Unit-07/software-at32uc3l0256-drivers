@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include "asf.h"
 #include "runtime_diagnostics.h"
+#include "clock_at32uc3l0256.h"
 #include "timer_counter_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
@@ -71,7 +72,20 @@ void init_timer_counter_at32uc3l0256(void)
 
     if (tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt) == TC_INVALID_ARGUMENT) {
         RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
     }
+
+    /* Set the compare triggers */
+    /* We configure it to count every 1 milliseconds */
+    /* We want: (1 / (fPBA / 8)) * RC = 1 ms; RC = (fPBA / 8) / 1000 */
+    /* to get an interrupt every 10 ms */
+    tc_write_rc(
+        TIMER_COUNTER_BASE_ADDRESS, 
+        TIMER_COUNTER_CHANNEL, 
+        PBA_CLK_FREQ_HZ / 8 / 1000 * 4
+    );
+
 }
 
 void deinit_timer_counter_at32uc3l0256(void)

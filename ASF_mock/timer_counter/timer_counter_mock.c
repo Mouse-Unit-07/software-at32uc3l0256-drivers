@@ -42,6 +42,11 @@ int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt)
     return 1;
 }
 
+int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value)
+{
+    return 1;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
