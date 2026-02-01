@@ -73,6 +73,8 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA11
 };
 
+extern const struct gpio_handle regulators_enable;
+
 /*============================================================================*/
 /*                            Mock Implementations                            */
 /*============================================================================*/
@@ -113,6 +115,12 @@ void gpio_configure_pin(uint32_t pin, uint32_t flags)
 {
     CHECK(gpio_pins.find(static_cast<int>(pin)) != gpio_pins.end());
     mock().actualCall("gpio_configure_pin");
+}
+
+bool gpio_get_pin_value(uint32_t pin)
+{
+    return mock().actualCall("gpio_get_pin_value")
+        .returnBoolValue();
 }
 
 }
@@ -179,12 +187,6 @@ TEST(HalClockTests, DeinitUs)
     delay_us_at32uc3l0256(1000000);
 }
 
-// TEST(HalGpioTests, ReadPinCallsFunctions)
-// {
-//     mock().expectOneCall("gpio_get_pin_value");
-//     init_gpio_at32uc3l0256();
-// }
-
 TEST(HalGpioTests, InitGpioCallsFunctions)
 {
     mock().expectNCalls(INPUT_COUNT + OUTPUT_COUNT, "gpio_configure_pin");
@@ -194,4 +196,11 @@ TEST(HalGpioTests, InitGpioCallsFunctions)
 TEST(HalGpioTests, DeinitGpio)
 {
     deinit_gpio_at32uc3l0256();
+}
+
+TEST(HalGpioTests, ReadPinCallsFunctions)
+{
+    mock().expectOneCall("gpio_get_pin_value")
+        .andReturnValue(true);
+    read_gpio_pin_at32uc3l0256(&regulators_enable);
 }

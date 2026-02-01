@@ -10,7 +10,20 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* none */
+extern const struct gpio_handle regulators_enable;
+extern const struct gpio_handle battery_comparator;
+extern const struct gpio_handle led_d1;
+extern const struct gpio_handle led_d2;
+extern const struct gpio_handle led_d3;
+extern const struct gpio_handle led_d4;
+extern const struct gpio_handle wheel_driver_standby;
+extern const struct gpio_handle wheel_driver_cld;
+extern const struct gpio_handle wheel_driver_motor_1_in1;
+extern const struct gpio_handle wheel_driver_motor_1_in2;
+extern const struct gpio_handle wheel_driver_motor_2_in1;
+extern const struct gpio_handle wheel_driver_motor_2_in2;
+extern const struct gpio_handle wheel_encoder_motor_1_b_channel;
+extern const struct gpio_handle wheel_encoder_motor_2_b_channel;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
