@@ -179,8 +179,19 @@ TEST(HalClockTests, DeinitUs)
     delay_us_at32uc3l0256(1000000);
 }
 
+// TEST(HalGpioTests, ReadPinCallsFunctions)
+// {
+//     mock().expectOneCall("gpio_get_pin_value");
+//     init_gpio_at32uc3l0256();
+// }
+
 TEST(HalGpioTests, InitGpioCallsFunctions)
 {
     mock().expectNCalls(INPUT_COUNT + OUTPUT_COUNT, "gpio_configure_pin");
     init_gpio_at32uc3l0256();
+}
+
+TEST(HalGpioTests, DeinitGpio)
+{
+    deinit_gpio_at32uc3l0256();
 }

@@ -142,7 +142,7 @@ void init_gpio_at32uc3l0256(void)
 
 void deinit_gpio_at32uc3l0256(void)
 {
-
+    /* nothing to clear/reset */
 }
 
 uint32_t read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
