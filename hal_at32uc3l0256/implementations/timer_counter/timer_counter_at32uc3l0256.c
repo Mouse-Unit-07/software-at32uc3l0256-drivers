@@ -41,6 +41,7 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
+void tc_runtime_error(const char *fail_message, uint32_t fail_value);
 int call_asf_tc_init_waveform(void);
 int call_asf_tc_write_rc(void);
 int call_asf_tc_configure_interrupts(void);
@@ -55,29 +56,25 @@ void init_timer_counter_at32uc3l0256(void)
 
     asf_return_value = call_asf_tc_init_waveform();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
+        tc_runtime_error("tc_init_waveform call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
     asf_return_value = call_asf_tc_write_rc();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_write_rc call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
+        tc_runtime_error("tc_write_rc call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
     asf_return_value = call_asf_tc_configure_interrupts();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
+        tc_runtime_error("tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
     asf_return_value = call_asf_tc_start();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_start call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
+        tc_runtime_error("tc_start call failed", TC_INVALID_ARGUMENT);
         return;
     }
 }
@@ -100,6 +97,12 @@ void restart_timer_at32uc3l0256(void)
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+void tc_runtime_error(const char *fail_message, uint32_t fail_value)
+{
+    RUNTIME_ERROR(0, fail_message, fail_value);
+    timer_counter_failed = true;
+}
+
 int call_asf_tc_init_waveform(void)
 {
     /* Options for waveform generation */
