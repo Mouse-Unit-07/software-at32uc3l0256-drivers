@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_at32uc3l0256.c                                  */
+/* Filename           : gpio_mock.c                                           */
 /*                                                                            */
-/* AT32UC3L0256 implementation for clock HAL                                  */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +12,8 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "clock_at32uc3l0256.h"
+#include <stdbool.h>
+#include "gpio_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -20,17 +23,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    DFLL_CLK_FREQ_HZ = 130000000
-};
-
-enum
-{
-    DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-    DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
-    DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -45,32 +38,29 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_clock_at32uc3l0256(void)
+void gpio_configure_pin(uint32_t pin, uint32_t flags)
 {
-    struct dfll_config dcfg = {{0}};
-
-    dfll_config_init_open_loop_mode(&dcfg);
-    dfll_config_tune_for_target_hz(&dcfg, DFLL_CLK_FREQ_HZ);
-    dfll_enable_open_loop(&dcfg, 0);
-    sysclk_set_prescalers(DFLL_FCPU_PRESCALER, DFLL_PBA_PRESCALER, DFLL_PBB_PRESCALER);
-    sysclk_set_source(SYSCLK_SRC_DFLL); /* ASF defined constant */
-
-    osc_disable(OSC_ID_RC120M); /* ASF defined constant */
+    /* empty */
 }
 
-void deinit_clock_at32uc3l0256(void)
+bool gpio_get_pin_value(uint32_t pin)
 {
-    /* nothing to clear/reset */
+    return true;
 }
 
-void delay_ms_at32uc3l0256(uint32_t delay_time)
+void gpio_set_gpio_pin(uint32_t pin)
 {
-    delay_ms(delay_time);
+    /* empty */
 }
 
-void delay_us_at32uc3l0256(uint32_t delay_time)
+void gpio_clr_gpio_pin(uint32_t pin)
 {
-    delay_us(delay_time);
+    /* empty */
+}
+
+void gpio_tgl_gpio_pin(uint32_t pin)
+{
+    /* empty */
 }
 
 /*----------------------------------------------------------------------------*/

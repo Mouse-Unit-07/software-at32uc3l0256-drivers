@@ -17,6 +17,11 @@ add_executable(test_hal_at32uc3l0256
     ${CMAKE_SOURCE_DIR}/cmake/tests/test_main.cpp
 )
 
+# Needed for STL library in C++ test file:
+target_compile_definitions(test_hal_at32uc3l0256
+    PRIVATE CPPUTEST_USE_NEW_MACROS=0
+)
+
 target_link_libraries(test_hal_at32uc3l0256 PRIVATE
     hal_at32uc3l0256_lib
     CppUTest::CppUTest

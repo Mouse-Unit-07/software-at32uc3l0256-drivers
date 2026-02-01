@@ -1,24 +1,24 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : gpio_at32uc3l0256.h                                   */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for GPIO HAL                     */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
+#ifndef GPIO_AT32UC3L0256_H_
+#define GPIO_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* none */
+struct gpio_handle;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_gpio_at32uc3l0256(void);
+void deinit_gpio_at32uc3l0256(void);
+uint32_t read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle);
+void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value);
+void toggle_gpio_pin_at32uc3l0256(const struct gpio_handle *handle);
 
-#endif /* ASF_H_ */
+#endif /* GPIO_AT32UC3L0256_H_ */
