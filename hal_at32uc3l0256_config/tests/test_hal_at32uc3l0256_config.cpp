@@ -15,6 +15,8 @@ extern "C" {
 #include "clock_hal_config.h"
 #include "gpio_hal.h"
 #include "gpio_hal_config.h"
+#include "timer_counter_hal.h"
+#include "timer_counter_hal_config.h"
 }
 
 #include <CppUTest/TestHarness.h>
@@ -75,4 +77,19 @@ TEST(HalConfigTest, GpioHandlerElementsAreNotNull)
     CHECK(gpio_handler->read_gpio_pin != NULL);
     CHECK(gpio_handler->write_gpio_pin != NULL);
     CHECK(gpio_handler->toggle_gpio_pin != NULL);
+}
+
+TEST(HalConfigTest, TimerCounterHandlerIsNotNull)
+{
+    struct tc_hal_handler *tc_handler = get_tc_hal_handler();
+    CHECK(tc_handler != NULL);
+}
+
+TEST(HalConfigTest, TimerCounterHandlerElementsAreNotNull)
+{
+    struct tc_hal_handler *tc_handler = get_tc_hal_handler();
+    CHECK(tc_handler->init_timer_counter != NULL);
+    CHECK(tc_handler->deinit_timer_counter != NULL);
+    CHECK(tc_handler->get_timer_count != NULL);
+    CHECK(tc_handler->restart_timer != NULL);
 }
