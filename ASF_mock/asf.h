@@ -9,6 +9,7 @@
 #define ASF_H_
 
 #include "clock/clock_mock.h"
+#include "gpio/gpio_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */

@@ -12,6 +12,7 @@
 extern "C" {
 #include <stdint.h>
 #include "clock_at32uc3l0256.h"
+#include "gpio_at32uc3l0256.h"
 }
 
 #include <CppUTest/TestHarness.h>
@@ -20,11 +21,19 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
+/* Clock */
 enum
 {
     DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
     DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
     DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
+};
+
+/* GPIO */
+enum
+{
+    INPUT_COUNT = 4,
+    OUTPUT_COUNT = 10
 };
 
 /*============================================================================*/
@@ -54,14 +63,19 @@ void sysclk_set_source(uint_fast8_t src)
     mock().actualCall("sysclk_set_source");
 }
 
-/* Untested- static inline functions in ASF headers:
-- dfll_config_init_open_loop_mode()
-- dfll_config_tune_for_target_hz()
-- osc_disable()
-- delay_ms()
-- delay_us()
-*/
+/* Untested- static inline functions in ASF headers: */
+/* dfll_config_init_open_loop_mode() */
+/* dfll_config_tune_for_target_hz() */
+/* osc_disable() */
+/* delay_ms() */
+/* delay_us() */
+
 /* ---------------------------------------------------------------------------*/
+/* GPIO */
+void gpio_configure_pin(uint32_t pin, uint32_t flags)
+{
+    mock().actualCall("gpio_configure_pin");
+}
 
 }
 
@@ -69,6 +83,20 @@ void sysclk_set_source(uint_fast8_t src)
 /*                                 Test Group                                 */
 /*============================================================================*/
 TEST_GROUP(HalClockTests)
+{
+    void setup() override
+    {
+        mock().clear();
+    }
+
+    void teardown() override
+    {
+        mock().checkExpectations();
+        mock().clear();
+    }
+};
+
+TEST_GROUP(HalGpioTests)
 {
     void setup() override
     {
@@ -111,4 +139,10 @@ TEST(HalClockTests, DelayMs)
 TEST(HalClockTests, DeinitUs)
 {
     delay_us_at32uc3l0256(1000000);
+}
+
+TEST(HalGpioTests, InitGpioCallsFunctions)
+{
+    mock().expectNCalls(INPUT_COUNT + OUTPUT_COUNT, "gpio_configure_pin");
+    init_gpio_at32uc3l0256();
 }
