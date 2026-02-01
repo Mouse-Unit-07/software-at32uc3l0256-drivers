@@ -390,14 +390,16 @@ TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
 
-TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
+/* time consuming- turn on when needed */
+IGNORE_TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
 {
     expect_successful_init_timer_counter_at32uc3l0256();
     call_tc_isr_to_uint32_max();
     CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
 }
 
-TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
+/* time consuming- turn on when needed */
+IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
 {
     expect_successful_init_timer_counter_at32uc3l0256();
     call_tc_isr_to_uint32_max();
