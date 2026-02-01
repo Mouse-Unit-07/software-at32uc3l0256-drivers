@@ -134,6 +134,11 @@ void gpio_clr_gpio_pin(uint32_t pin)
     mock().actualCall("gpio_clr_gpio_pin");
 }
 
+void gpio_tgl_gpio_pin(uint32_t pin)
+{
+    mock().actualCall("gpio_tgl_gpio_pin");
+}
+
 }
 
 /*============================================================================*/
@@ -226,4 +231,10 @@ TEST(HalGpioTests, WritePinLowCallsClearFunction)
 {
     mock().expectOneCall("gpio_clr_gpio_pin");
     write_gpio_pin_at32uc3l0256(&led_d1, 0);
+}
+
+TEST(HalGpioTests, TogglePinCallsFunction)
+{
+    mock().expectOneCall("gpio_tgl_gpio_pin");
+    toggle_gpio_pin_at32uc3l0256(&led_d1);
 }

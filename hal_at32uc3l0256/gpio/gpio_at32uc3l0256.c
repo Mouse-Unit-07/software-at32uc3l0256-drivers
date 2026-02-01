@@ -162,7 +162,7 @@ void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value)
 
 void toggle_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
 {
-
+    gpio_tgl_gpio_pin(handle->gpio_pin_address);
 }
 
 /*----------------------------------------------------------------------------*/
