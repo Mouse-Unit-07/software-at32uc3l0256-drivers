@@ -9,6 +9,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
+#include <stdbool.h>
 #include "asf.h"
 #include "gpio_at32uc3l0256.h"
 
@@ -150,9 +151,13 @@ uint32_t read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
     return gpio_get_pin_value(handle->gpio_pin_address);
 }
 
-void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
+void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value)
 {
-
+    if(value) {
+        gpio_set_gpio_pin(handle->gpio_pin_address);
+    } else {
+        
+    }
 }
 
 void toggle_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)

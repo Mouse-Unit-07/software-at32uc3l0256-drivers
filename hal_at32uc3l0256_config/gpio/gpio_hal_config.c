@@ -9,6 +9,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
+#include <stdbool.h>
 #include "gpio_hal.h"
 #include "asf.h"
 #include "gpio_at32uc3l0256.h"

@@ -48,6 +48,11 @@ bool gpio_get_pin_value(uint32_t pin)
     return true;
 }
 
+void gpio_set_gpio_pin(uint32_t pin)
+{
+    /* empty */
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

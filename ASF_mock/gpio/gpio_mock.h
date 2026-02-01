@@ -42,5 +42,6 @@ enum
 /*----------------------------------------------------------------------------*/
 void gpio_configure_pin(uint32_t pin, uint32_t flags);
 bool gpio_get_pin_value(uint32_t pin);
+void gpio_set_gpio_pin(uint32_t pin);
 
 #endif /* GPIO_MOCK_H_ */

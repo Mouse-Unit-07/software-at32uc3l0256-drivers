@@ -73,7 +73,8 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA11
 };
 
-extern const struct gpio_handle regulators_enable;
+extern const struct gpio_handle regulators_enable; /* arbitrary input pin */
+extern const struct gpio_handle led_d1; /* arbitrary output pin */
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -121,6 +122,11 @@ bool gpio_get_pin_value(uint32_t pin)
 {
     return mock().actualCall("gpio_get_pin_value")
         .returnBoolValue();
+}
+
+void gpio_set_gpio_pin(uint32_t pin)
+{
+    mock().actualCall("gpio_set_gpio_pin");
 }
 
 }
@@ -203,4 +209,10 @@ TEST(HalGpioTests, ReadPinCallsFunctions)
     mock().expectOneCall("gpio_get_pin_value")
         .andReturnValue(true);
     read_gpio_pin_at32uc3l0256(&regulators_enable);
+}
+
+TEST(HalGpioTests, WritePinHighCallsSetFunction)
+{
+    mock().expectOneCall("gpio_set_gpio_pin");
+    write_gpio_pin_at32uc3l0256(&led_d1, 1);
 }
