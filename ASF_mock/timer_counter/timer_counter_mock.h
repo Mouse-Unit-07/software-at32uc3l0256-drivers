@@ -307,5 +307,6 @@ typedef struct
 int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt);
 int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value);
 int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const tc_interrupt_t *bitfield);
+int tc_start(volatile avr32_tc_t *tc, unsigned int channel);
 
 #endif /* TIMER_COUNTER_MOCK_H_ */

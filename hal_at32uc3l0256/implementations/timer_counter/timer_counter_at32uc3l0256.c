@@ -44,6 +44,7 @@ enum
 int call_asf_tc_init_waveform(void);
 int call_asf_tc_write_rc(void);
 int call_asf_tc_configure_interrupts(void);
+int call_asf_tc_start(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -72,6 +73,8 @@ void init_timer_counter_at32uc3l0256(void)
         timer_counter_failed = true;
         return;
     }
+
+    call_asf_tc_start();
 }
 
 void deinit_timer_counter_at32uc3l0256(void)
@@ -150,5 +153,13 @@ int call_asf_tc_configure_interrupts(void)
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
         &tc_interrupt
+    );
+}
+
+int call_asf_tc_start(void)
+{
+    return tc_start(
+        TIMER_COUNTER_BASE_ADDRESS,
+        TIMER_COUNTER_CHANNEL
     );
 }

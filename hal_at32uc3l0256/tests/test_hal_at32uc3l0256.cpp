@@ -161,6 +161,13 @@ int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const
         .returnIntValue();
 }
 
+int tc_start(volatile avr32_tc_t *tc, unsigned int channel)
+{
+    CHECK(tc != NULL);
+    return mock().actualCall("tc_start")
+        .returnIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -288,6 +295,8 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
     mock().expectOneCall("tc_write_rc")
         .andReturnValue(1);
     mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
         .andReturnValue(1);
     init_timer_counter_at32uc3l0256();
 }

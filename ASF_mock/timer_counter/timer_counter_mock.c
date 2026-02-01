@@ -52,6 +52,10 @@ int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const
     return 1;
 }
 
+int tc_start(volatile avr32_tc_t *tc, unsigned int channel)
+{
+    return 1;
+}
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
