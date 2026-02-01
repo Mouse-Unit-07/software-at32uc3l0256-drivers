@@ -339,3 +339,20 @@ TEST(HalTimerCounterTests, InitTimerCounterConfigureInterruptsFailureCallsRuntim
         .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
+
+TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_start call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}

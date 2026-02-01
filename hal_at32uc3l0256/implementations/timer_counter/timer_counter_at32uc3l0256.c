@@ -74,7 +74,12 @@ void init_timer_counter_at32uc3l0256(void)
         return;
     }
 
-    call_asf_tc_start();
+    asf_return_value = call_asf_tc_start();
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_start call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
 }
 
 void deinit_timer_counter_at32uc3l0256(void)
