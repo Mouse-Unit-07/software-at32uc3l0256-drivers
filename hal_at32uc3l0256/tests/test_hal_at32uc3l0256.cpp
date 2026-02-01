@@ -30,6 +30,7 @@ enum
     DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
 };
 
+/* ---------------------------------------------------------------------------*/
 /* GPIO */
 enum
 {
@@ -81,6 +82,7 @@ extern const struct gpio_handle led_d1; /* arbitrary output pin */
 /*============================================================================*/
 extern "C"
 {
+
 /* Clock */
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 {
@@ -103,7 +105,7 @@ void sysclk_set_source(uint_fast8_t src)
     mock().actualCall("sysclk_set_source");
 }
 
-/* Untested- static inline functions in ASF headers: */
+/* Unable to mock- below are static inline functions in ASF headers: */
 /* dfll_config_init_open_loop_mode() */
 /* dfll_config_tune_for_target_hz() */
 /* osc_disable() */
@@ -195,14 +197,16 @@ TEST(HalClockTests, DeinitClock)
 
 TEST(HalClockTests, DelayMs)
 {
-    delay_ms_at32uc3l0256(1000);
+    delay_ms_at32uc3l0256(1000); /* arbitrary delay value */
 }
 
 TEST(HalClockTests, DeinitUs)
 {
-    delay_us_at32uc3l0256(1000000);
+    delay_us_at32uc3l0256(1000000); /* arbitrary delay value */
 }
 
+/* ---------------------------------------------------------------------------*/
+/* GPIO */
 TEST(HalGpioTests, InitGpioCallsFunctions)
 {
     mock().expectNCalls(INPUT_COUNT + OUTPUT_COUNT, "gpio_configure_pin");
