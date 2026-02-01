@@ -69,7 +69,9 @@ void init_timer_counter_at32uc3l0256(void)
         .tcclks   = TC_CLOCK_SOURCE_TC3                 /* Internal source clock 3, connected to fPBA / 8 */
     };
 
-    tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
+    if (tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt) == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
+    }
 }
 
 void deinit_timer_counter_at32uc3l0256(void)

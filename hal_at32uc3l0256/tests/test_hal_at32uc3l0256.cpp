@@ -70,6 +70,18 @@ extern const struct gpio_handle led_d1; /* arbitrary output pin */
 extern "C"
 {
 
+/* ---------------------------------------------------------------------------*/
+/* Runtime Diagnostics */
+void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_value)
+{
+    CHECK(fail_message != NULL);
+    mock().actualCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", timestamp)
+        .withStringParameter("fail_message", fail_message)
+        .withUnsignedIntParameter("fail_value", fail_value);
+}
+
+/* ---------------------------------------------------------------------------*/
 /* Clock */
 void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
 {
@@ -260,5 +272,16 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 {
     mock().expectOneCall("tc_init_waveform")
         .andReturnValue(1);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
