@@ -29,11 +29,14 @@ extern "C" {
 
 /* ---------------------------------------------------------------------------*/
 /* GPIO */
+extern "C"
+{
 enum
 {
     INPUT_COUNT = 4,
     OUTPUT_COUNT = 10
 };
+}
 
 std::unordered_set<int> gpio_pins {
     AVR32_PIN_PB11,
@@ -53,11 +56,25 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA11
 };
 
+extern "C"
+{
 extern const struct gpio_handle regulators_enable; /* arbitrary input pin */
 extern const struct gpio_handle led_d1; /* arbitrary output pin */
+}
 
 /* ---------------------------------------------------------------------------*/
 /* Timer Counter */
+void expect_successful_init_timer_counter_at32uc3l0256(void)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_start")
+        .andReturnValue(1);
+}
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -355,4 +372,13 @@ TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
         .withStringParameter("fail_message", "tc_start call failed")
         .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    init_timer_counter_at32uc3l0256();
+
+    uint32_t count = get_timer_count_at32uc3l0256();
+    CHECK(count == 0);
 }

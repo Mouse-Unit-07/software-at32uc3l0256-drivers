@@ -23,7 +23,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-bool timer_counter_failed = false;
+static bool timer_counter_failed = false;
+volatile static uint32_t timer_counter_count = 0u;
 
 enum
 {
@@ -45,9 +46,9 @@ enum
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
 __attribute__((__interrupt__))
 #endif
-static void tc_irq(void)
+void tc_irq(void)
 {
-    /* empty for now */
+    timer_counter_count++;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -105,7 +106,7 @@ void deinit_timer_counter_at32uc3l0256(void)
 
 uint32_t get_timer_count_at32uc3l0256(void)
 {
-    return 0;
+    return timer_counter_count;
 }
 
 void restart_timer_at32uc3l0256(void)
