@@ -54,6 +54,7 @@ void tc_irq(void)
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
+void reset_tc_flags_and_count(void);
 void tc_runtime_error(const char *fail_message, uint32_t fail_value);
 int call_asf_tc_init_waveform(void);
 int call_asf_tc_write_rc(void);
@@ -65,8 +66,7 @@ int call_asf_tc_start(void);
 /*----------------------------------------------------------------------------*/
 void init_timer_counter_at32uc3l0256(void)
 {
-    timer_counter_failed = false;
-    timer_counter_count = 0u;
+    reset_tc_flags_and_count();
 
     int asf_return_value = 0;
 
@@ -120,6 +120,12 @@ void restart_timer_at32uc3l0256(void)
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+void reset_tc_flags_and_count(void)
+{
+    timer_counter_failed = false;
+    timer_counter_count = 0u;
+}
+
 void tc_runtime_error(const char *fail_message, uint32_t fail_value)
 {
     RUNTIME_ERROR(0, fail_message, fail_value);

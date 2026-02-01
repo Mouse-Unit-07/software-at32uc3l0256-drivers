@@ -74,6 +74,16 @@ void expect_successful_init_timer_counter_at32uc3l0256(void)
         .andReturnValue(1);
     mock().expectOneCall("tc_start")
         .andReturnValue(1);
+
+    init_timer_counter_at32uc3l0256();
+}
+
+/* this call takes 9 seconds to run */
+void call_tc_isr_to_uint32_max(void)
+{
+    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
+        tc_irq();
+    }
 }
 
 /*============================================================================*/
@@ -377,30 +387,20 @@ TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
 TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
 {
     expect_successful_init_timer_counter_at32uc3l0256();
-    init_timer_counter_at32uc3l0256();
-
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
 
 TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
 {
     expect_successful_init_timer_counter_at32uc3l0256();
-    init_timer_counter_at32uc3l0256();
-
-    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
-        tc_irq();
-    }
+    call_tc_isr_to_uint32_max();
     CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
 }
 
 TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
 {
     expect_successful_init_timer_counter_at32uc3l0256();
-    init_timer_counter_at32uc3l0256();
-
-    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
-        tc_irq();
-    }
+    call_tc_isr_to_uint32_max();
     tc_irq();
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
