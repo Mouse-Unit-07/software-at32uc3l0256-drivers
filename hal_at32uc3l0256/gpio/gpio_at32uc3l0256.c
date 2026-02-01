@@ -156,7 +156,7 @@ void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value)
     if(value) {
         gpio_set_gpio_pin(handle->gpio_pin_address);
     } else {
-        
+        gpio_clr_gpio_pin(handle->gpio_pin_address);
     }
 }
 
