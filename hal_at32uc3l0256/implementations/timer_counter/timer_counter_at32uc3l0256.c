@@ -41,12 +41,58 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* none */
+int call_asf_tc_init_waveform(void);
+int call_asf_tc_write_rc(void);
+int call_asf_tc_configure_interrupts(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
 void init_timer_counter_at32uc3l0256(void)
+{
+    int asf_return_value = 0;
+
+    asf_return_value = call_asf_tc_init_waveform();
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
+
+    asf_return_value = call_asf_tc_write_rc();
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_write_rc call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
+
+    asf_return_value = call_asf_tc_configure_interrupts();
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
+}
+
+void deinit_timer_counter_at32uc3l0256(void)
+{
+
+}
+
+uint32_t get_timer_count_at32uc3l0256(void)
+{
+    return 0;
+}
+
+void restart_timer_at32uc3l0256(void)
+{
+
+}
+
+/*----------------------------------------------------------------------------*/
+/*                        Private Function Definitions                        */
+/*----------------------------------------------------------------------------*/
+int call_asf_tc_init_waveform(void)
 {
     /* Options for waveform generation */
     static const tc_waveform_opt_t waveform_opt = {
@@ -70,30 +116,24 @@ void init_timer_counter_at32uc3l0256(void)
         .tcclks   = TC_CLOCK_SOURCE_TC3                 /* Internal source clock 3, connected to fPBA / 8 */
     };
 
-    int asf_return_value = 0;
+    return tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
+}
 
-    asf_return_value = tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
-    if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
-        return;
-    }
-
+int call_asf_tc_write_rc(void)
+{
     /* Set the compare triggers */
     /* We configure it to count every 1 milliseconds */
     /* We want: (1 / (fPBA / 8)) * RC = 1 ms; RC = (fPBA / 8) / 1000 */
     /* to get an interrupt every 10 ms */
-    asf_return_value = tc_write_rc(
+    return tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
         PBA_CLK_FREQ_HZ / 8 / 1000 * 4
     );
-    if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_write_rc call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
-        return;
-    }
+}
 
+int call_asf_tc_configure_interrupts(void)
+{
     /* Options for enabling TC interrupts */
     static const tc_interrupt_t tc_interrupt = {
         .etrgs = 0,
@@ -106,35 +146,9 @@ void init_timer_counter_at32uc3l0256(void)
         .covfs = 0
     };
 
-    asf_return_value = tc_configure_interrupts(
+    return tc_configure_interrupts(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
         &tc_interrupt
     );
-    if (asf_return_value == TC_INVALID_ARGUMENT) {
-        RUNTIME_ERROR(0, "tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
-        timer_counter_failed = true;
-        return;
-    }
 }
-
-void deinit_timer_counter_at32uc3l0256(void)
-{
-
-}
-
-uint32_t get_timer_count_at32uc3l0256(void)
-{
-    return 0;
-}
-
-void restart_timer_at32uc3l0256(void)
-{
-
-}
-
-
-/*----------------------------------------------------------------------------*/
-/*                        Private Function Definitions                        */
-/*----------------------------------------------------------------------------*/
-/* none */
