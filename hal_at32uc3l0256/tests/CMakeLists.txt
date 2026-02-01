@@ -7,8 +7,8 @@
 set(ALL_TEST_SOURCES
     ${ALL_TEST_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/test_hal_at32uc3l0256.cpp
-    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/clock/clock_at32uc3l0256.c
-    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/clock/clock_at32uc3l0256.h
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/implementations/clock/clock_at32uc3l0256.c
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/implementations/clock/clock_at32uc3l0256.h
     PARENT_SCOPE
 )
 

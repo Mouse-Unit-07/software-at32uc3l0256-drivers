@@ -5,16 +5,16 @@
 #                                                                              #
 #------------------------------------------------------------------------------#
 add_library(hal_at32uc3l0256_lib STATIC
-    ${CMAKE_CURRENT_LIST_DIR}/clock/clock_at32uc3l0256.c
-    ${CMAKE_CURRENT_LIST_DIR}/gpio/gpio_at32uc3l0256.c
-    ${CMAKE_CURRENT_LIST_DIR}/timer_counter/timer_counter_at32uc3l0256.c
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/clock/clock_at32uc3l0256.c
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/gpio/gpio_at32uc3l0256.c
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/timer_counter/timer_counter_at32uc3l0256.c
 )
 
 target_include_directories(hal_at32uc3l0256_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
-    ${CMAKE_CURRENT_LIST_DIR}/clock
-    ${CMAKE_CURRENT_LIST_DIR}/gpio
-    ${CMAKE_CURRENT_LIST_DIR}/timer_counter
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/clock
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/gpio
+    ${CMAKE_CURRENT_LIST_DIR}/implementations/timer_counter
 )
 
 if (TARGET_AVR32)
