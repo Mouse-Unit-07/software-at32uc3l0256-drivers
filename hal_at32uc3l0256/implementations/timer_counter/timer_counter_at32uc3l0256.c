@@ -65,6 +65,9 @@ int call_asf_tc_start(void);
 /*----------------------------------------------------------------------------*/
 void init_timer_counter_at32uc3l0256(void)
 {
+    timer_counter_failed = false;
+    timer_counter_count = 0u;
+
     int asf_return_value = 0;
 
     asf_return_value = call_asf_tc_init_waveform();

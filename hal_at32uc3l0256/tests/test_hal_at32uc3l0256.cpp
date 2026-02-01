@@ -379,6 +379,28 @@ TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
     expect_successful_init_timer_counter_at32uc3l0256();
     init_timer_counter_at32uc3l0256();
 
-    uint32_t count = get_timer_count_at32uc3l0256();
-    CHECK(count == 0);
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    init_timer_counter_at32uc3l0256();
+
+    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
+        tc_irq();
+    }
+    CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
+}
+
+TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    init_timer_counter_at32uc3l0256();
+
+    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
+        tc_irq();
+    }
+    tc_irq();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
 }
