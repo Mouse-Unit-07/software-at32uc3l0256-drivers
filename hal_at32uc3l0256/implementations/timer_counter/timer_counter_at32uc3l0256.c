@@ -106,11 +106,16 @@ void init_timer_counter_at32uc3l0256(void)
         .covfs = 0
     };
 
-    tc_configure_interrupts(
+    asf_return_value = tc_configure_interrupts(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
         &tc_interrupt
     );
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
 }
 
 void deinit_timer_counter_at32uc3l0256(void)
