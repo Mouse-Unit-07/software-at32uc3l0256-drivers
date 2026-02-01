@@ -47,7 +47,7 @@ enum
 /*----------------------------------------------------------------------------*/
 void init_clock_at32uc3l0256(void)
 {
-    struct dfll_config dcfg = {0};
+    struct dfll_config dcfg = {{0}};
 
     dfll_config_init_open_loop_mode(&dcfg);
     dfll_config_tune_for_target_hz(&dcfg, DFLL_CLK_FREQ_HZ);
