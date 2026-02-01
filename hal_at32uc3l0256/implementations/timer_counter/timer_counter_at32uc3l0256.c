@@ -70,7 +70,10 @@ void init_timer_counter_at32uc3l0256(void)
         .tcclks   = TC_CLOCK_SOURCE_TC3                 /* Internal source clock 3, connected to fPBA / 8 */
     };
 
-    if (tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt) == TC_INVALID_ARGUMENT) {
+    int asf_return_value = 0;
+
+    asf_return_value = tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
         RUNTIME_ERROR(0, "tc_init_waveform call failed", TC_INVALID_ARGUMENT);
         timer_counter_failed = true;
         return;
@@ -80,12 +83,18 @@ void init_timer_counter_at32uc3l0256(void)
     /* We configure it to count every 1 milliseconds */
     /* We want: (1 / (fPBA / 8)) * RC = 1 ms; RC = (fPBA / 8) / 1000 */
     /* to get an interrupt every 10 ms */
-    tc_write_rc(
+    asf_return_value = tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
         PBA_CLK_FREQ_HZ / 8 / 1000 * 4
     );
+    if (asf_return_value == TC_INVALID_ARGUMENT) {
+        RUNTIME_ERROR(0, "tc_write_rc call failed", TC_INVALID_ARGUMENT);
+        timer_counter_failed = true;
+        return;
+    }
 
+    
 }
 
 void deinit_timer_counter_at32uc3l0256(void)

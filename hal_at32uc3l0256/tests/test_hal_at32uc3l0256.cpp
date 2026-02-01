@@ -277,7 +277,8 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 {
     mock().expectOneCall("tc_init_waveform")
         .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc");
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(1);
     init_timer_counter_at32uc3l0256();
 }
 
@@ -288,6 +289,19 @@ TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
     mock().expectOneCall("RUNTIME_ERROR")
         .withUnsignedIntParameter("timestamp", 0)
         .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
+TEST(HalTimerCounterTests, InitTimerCounterWriteRcFailureCallsRuntimeError)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(1);
+    mock().expectOneCall("tc_write_rc")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_write_rc call failed")
         .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
