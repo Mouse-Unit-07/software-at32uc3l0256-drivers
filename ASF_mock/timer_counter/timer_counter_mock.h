@@ -11,6 +11,7 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
+/* ASF constants and struct definitions */
 typedef struct
 {
     unsigned int channel       ;
@@ -299,7 +300,17 @@ typedef struct
     unsigned int covfs    : 1;
 } tc_interrupt_t;
 
+/* this macro can't be an enum */
 #define AVR32_TC1    (*((volatile avr32_tc_t*)AVR32_TC1_ADDRESS))
+
+enum
+{
+    AVR32_TC1_IRQ0 = 832,
+    AVR32_INTC_INT0 = 0x00000000
+};
+
+/* untestable static inline functions in ASF headers */
+static inline void sysclk_enable_peripheral_clock(const volatile void *module) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

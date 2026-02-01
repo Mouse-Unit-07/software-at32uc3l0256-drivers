@@ -30,13 +30,25 @@ enum
     TIMER_COUNTER_CHANNEL = 0
 };
 
+enum
+{
+    TIMER_COUNTER_IRQ = AVR32_TC1_IRQ0,
+    TIMER_COUNTER_IRQ_PRIORITY = AVR32_INTC_INT0
+};
+
 /* Can't define AVR32_TC1 w/ an enum- resolves to a macro w/ a custom type */
 #define TIMER_COUNTER_BASE_ADDRESS (&AVR32_TC1)
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+#ifndef WINDOWS_BUILD /* need this ISR to build for testing */
+__attribute__((__interrupt__))
+#endif
+static void tc_irq(void)
+{
+    /* empty for now */
+}
 
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
@@ -77,6 +89,13 @@ void init_timer_counter_at32uc3l0256(void)
         tc_runtime_error("tc_start call failed", TC_INVALID_ARGUMENT);
         return;
     }
+
+    sysclk_enable_peripheral_clock(TIMER_COUNTER_BASE_ADDRESS);
+    
+#ifndef WINDOWS_BUILD
+    /* can't build for testing- takes an AVR32 defined type as a parameter */
+    INTC_register_interrupt(&tc_irq, TIMER_COUNTER_IRQ, TIMER_COUNTER_IRQ_PRIORITY);
+#endif
 }
 
 void deinit_timer_counter_at32uc3l0256(void)
