@@ -47,6 +47,11 @@ int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short va
     return 1;
 }
 
+int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const tc_interrupt_t *bitfield)
+{
+    return 1;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

@@ -286,6 +286,19 @@ typedef struct avr32_tc_t
     };
 } avr32_tc_t;
 
+typedef struct
+{
+    unsigned int          :24;
+    unsigned int etrgs    : 1;
+    unsigned int ldrbs    : 1;
+    unsigned int ldras    : 1;
+    unsigned int cpcs     : 1;
+    unsigned int cpbs     : 1;
+    unsigned int cpas     : 1;
+    unsigned int lovrs    : 1;
+    unsigned int covfs    : 1;
+} tc_interrupt_t;
+
 #define AVR32_TC1    (*((volatile avr32_tc_t*)AVR32_TC1_ADDRESS))
 
 /*----------------------------------------------------------------------------*/
@@ -293,5 +306,6 @@ typedef struct avr32_tc_t
 /*----------------------------------------------------------------------------*/
 int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt);
 int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value);
+int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const tc_interrupt_t *bitfield);
 
 #endif /* TIMER_COUNTER_MOCK_H_ */

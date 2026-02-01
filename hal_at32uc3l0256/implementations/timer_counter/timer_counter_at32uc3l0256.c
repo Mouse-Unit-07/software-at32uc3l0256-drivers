@@ -94,7 +94,23 @@ void init_timer_counter_at32uc3l0256(void)
         return;
     }
 
-    
+    /* Options for enabling TC interrupts */
+    static const tc_interrupt_t tc_interrupt = {
+        .etrgs = 0,
+        .ldrbs = 0,
+        .ldras = 0,
+        .cpcs  = 1, /* Enable interrupt on RC compare alone */
+        .cpbs  = 0,
+        .cpas  = 0,
+        .lovrs = 0,
+        .covfs = 0
+    };
+
+    tc_configure_interrupts(
+        TIMER_COUNTER_BASE_ADDRESS, 
+        TIMER_COUNTER_CHANNEL, 
+        &tc_interrupt
+    );
 }
 
 void deinit_timer_counter_at32uc3l0256(void)
