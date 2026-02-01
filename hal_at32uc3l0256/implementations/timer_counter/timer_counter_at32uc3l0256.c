@@ -104,7 +104,7 @@ void init_timer_counter_at32uc3l0256(void)
 
 void deinit_timer_counter_at32uc3l0256(void)
 {
-
+    reset_tc_flags_and_count();
 }
 
 uint32_t get_timer_count_at32uc3l0256(void)
@@ -114,7 +114,7 @@ uint32_t get_timer_count_at32uc3l0256(void)
 
 void restart_timer_at32uc3l0256(void)
 {
-
+    reset_tc_flags_and_count();
 }
 
 /*----------------------------------------------------------------------------*/

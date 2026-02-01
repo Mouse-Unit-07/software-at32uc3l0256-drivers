@@ -406,3 +406,19 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
     tc_irq();
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
+
+TEST(HalTimerCounterTests, DeinitResetsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    tc_irq();
+    deinit_timer_counter_at32uc3l0256();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+TEST(HalTimerCounterTests, RestartTimerResetsCount)
+{
+    expect_successful_init_timer_counter_at32uc3l0256();
+    tc_irq();
+    restart_timer_at32uc3l0256();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
