@@ -24,7 +24,7 @@
 bool pwm_failed = false;
 
 static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
-static uint16_t duty_cycle[] = {0u, 0u, 0u};
+static uint16_t duty_cycle[] = {0u, 0u, 0u}; /* 0% on init for PWM off */
 
 /* avoiding enum to prevent casting errors */
 const uint32_t GCLK_FREQUENCY = 48000000;
@@ -98,20 +98,10 @@ void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
 
 void initialize_pwm_pins(void)
 {
-    enum
-    {
-        WHEEL_MOTOR_1_PIN = AVR32_PWMA_28_PIN,
-        WHEEL_MOTOR_2_PIN = AVR32_PWMA_13_PIN,
-        VACUUM_MOTOR_PIN = AVR32_PWMA_31_PIN,
-        WHEEL_MOTOR_1_PIN_FUNCTION = AVR32_PWMA_28_FUNCTION,
-        WHEEL_MOTOR_2_PIN_FUNCTION = AVR32_PWMA_13_FUNCTION,
-        VACUUM_MOTOR_PIN_FUNCTION = AVR32_PWMA_31_FUNCTION
-    };
-
     static const gpio_map_t PWMA_GPIO_MAP = {
-        {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
-        {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
-        {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION},
+        {AVR32_PWMA_28_PIN, AVR32_PWMA_28_FUNCTION}, /* wheel motor 1 */
+        {AVR32_PWMA_13_PIN, AVR32_PWMA_13_FUNCTION}, /* wheel motor 2 */
+        {AVR32_PWMA_31_PIN, AVR32_PWMA_31_FUNCTION}, /* vacuum motor */
     };
     gpio_enable_module(PWMA_GPIO_MAP, 
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
@@ -133,23 +123,21 @@ void initialize_pwm_clock_source(void)
 
 bool configure_frequency_and_spread(void)
 {
-    enum
-    {
-        OUTPUT_FREQUENCY = 190000,
-        SPREAD = 0
-    };
+    /* PWM output freq limited such that: */
+    /* MM_PWMA_GCLK_FREQUENCY/OUTPUT_FREQUENCY < 255 */
+    /* to minimize PWM frequency, 48MHz/190kHz = 252 */
+    /* for some reason we can't change GCLK, but we can change OUTPUT_FREQUENCY */
+    const uint32_t OUTPUT_FREQUENCY = 190000u;
+    const uint16_t SPREAD = 0u;
 
     return pwma_config_enable(pwma, OUTPUT_FREQUENCY, GCLK_FREQUENCY, SPREAD);
 }
 
 bool set_duty_cycles(void)
 {
-    enum
-    {
-        WHEEL_MOTOR_1_CHANNEL_ID = 28,
-        WHEEL_MOTOR_2_CHANNEL_ID = 13,
-        VACUUM_MOTOR_CHANNEL_ID = 31
-    };
+    const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
+    const uint32_t WHEEL_MOTOR_2_CHANNEL_ID = 13u;
+    const uint32_t VACUUM_MOTOR_CHANNEL_ID = 31u;
 
     return pwma_set_multiple_values(
         pwma,
