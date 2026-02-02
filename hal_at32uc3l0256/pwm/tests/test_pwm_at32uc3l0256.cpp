@@ -29,6 +29,17 @@ extern "C"
 {
 
 /* ---------------------------------------------------------------------------*/
+/* Runtime Diagnostics */
+void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_value)
+{
+    CHECK(fail_message != NULL);
+    mock().actualCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", timestamp)
+        .withStringParameter("fail_message", fail_message)
+        .withUnsignedIntParameter("fail_value", fail_value);
+}
+
+/* ---------------------------------------------------------------------------*/
 /* Pulse Width Modulation */
 uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
 {
@@ -70,6 +81,19 @@ TEST(HalPwmTests, InitPwmCallsFunctions)
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(1);
     mock().expectOneCall("pwma_config_enable")
-        .andReturnValue(true);
+        .andReturnValue(static_cast<bool>(PASS));
+    init_pwm_at32uc3l0256();
+}
+
+TEST(HalPwmTests, InitPwmPwmaConfigEnableFailureCallsRuntimeError)
+{
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(1);
+    mock().expectOneCall("pwma_config_enable")
+        .andReturnValue(static_cast<bool>(FAIL));
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "pwma_config_enable() failed")
+        .withUnsignedIntParameter("fail_value", FAIL);
     init_pwm_at32uc3l0256();
 }

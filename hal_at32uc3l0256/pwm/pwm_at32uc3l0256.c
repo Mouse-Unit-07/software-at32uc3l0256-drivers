@@ -10,6 +10,7 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "asf.h"
+#include "runtime_diagnostics.h"
 #include "pwm_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
@@ -21,6 +22,7 @@
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
 static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
+bool pwm_failed = false;
 
 enum
 {
@@ -55,6 +57,8 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
+void reset_pwm_flags(void);
+void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
 void call_asf_gpio_enable_module(void);
 void call_asf_genclk_enable_config(void);
 bool call_asf_pwma_config_enable(void);
@@ -64,10 +68,18 @@ bool call_asf_pwma_config_enable(void);
 /*----------------------------------------------------------------------------*/
 void init_pwm_at32uc3l0256(void)
 {
+    bool asf_return_value = FAIL;
+
+    reset_pwm_flags();
+
     call_asf_gpio_enable_module();
     call_asf_genclk_enable_config();
 
-    call_asf_pwma_config_enable();
+    asf_return_value = call_asf_pwma_config_enable();
+    if (asf_return_value == FAIL) {
+        pwm_runtime_error("pwma_config_enable() failed", FAIL);
+        return;
+    }
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -83,6 +95,17 @@ void set_pwm_duty_cycle_percent_at32uc3l0256(struct pwm_handle *handle, uint32_t
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+void reset_pwm_flags(void)
+{
+    pwm_failed = false;
+}
+
+void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
+{
+    RUNTIME_ERROR(0, fail_message, fail_value);
+    pwm_failed = true;
+}
+
 void call_asf_gpio_enable_module(void)
 {
     static const gpio_map_t PWMA_GPIO_MAP = {
