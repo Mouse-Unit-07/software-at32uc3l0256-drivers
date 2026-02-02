@@ -69,7 +69,11 @@ void init_pwm_at32uc3l0256(void)
         return;
     }
 
-    set_pwm_top();
+    asf_return_value = set_pwm_top();
+    if (asf_return_value == FAIL) {
+        pwm_runtime_error("pwm init: set_pwm_top() failed", FAIL);
+        return;
+    }
 }
 
 void deinit_pwm_at32uc3l0256(void)

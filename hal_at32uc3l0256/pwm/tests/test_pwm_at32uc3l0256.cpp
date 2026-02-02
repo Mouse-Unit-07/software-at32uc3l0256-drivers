@@ -115,7 +115,7 @@ TEST(HalPwmTests, InitPwmFreqAndSpreadConfigFailureCallsRuntimeError)
     init_pwm_at32uc3l0256();
 }
 
-TEST(HalPwmTests, InitPwmConfigDutyCyclesFailureCallsRuntimeError)
+TEST(HalPwmTests, InitPwmSetDutyCyclesFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(1);
@@ -126,6 +126,23 @@ TEST(HalPwmTests, InitPwmConfigDutyCyclesFailureCallsRuntimeError)
     mock().expectOneCall("RUNTIME_ERROR")
         .withUnsignedIntParameter("timestamp", 0)
         .withStringParameter("fail_message", "pwm init: set_duty_cycles() failed")
+        .withUnsignedIntParameter("fail_value", FAIL);
+    init_pwm_at32uc3l0256();
+}
+
+TEST(HalPwmTests, InitPwmSetTopFailureCallsRuntimeError)
+{
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(1);
+    mock().expectOneCall("pwma_config_enable")
+        .andReturnValue(static_cast<bool>(PASS));
+    mock().expectOneCall("pwma_set_multiple_values")
+        .andReturnValue(static_cast<bool>(PASS));
+    mock().expectOneCall("pwma_write_top_value")
+        .andReturnValue(static_cast<bool>(FAIL));
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "pwm init: set_pwm_top() failed")
         .withUnsignedIntParameter("fail_value", FAIL);
     init_pwm_at32uc3l0256();
 }
