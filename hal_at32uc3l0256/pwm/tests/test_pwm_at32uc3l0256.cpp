@@ -54,6 +54,13 @@ bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
         .returnBoolValue();
 }
 
+bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask,
+                        uint16_t *channel_duty_cycles)
+{
+    return mock().actualCall("pwma_set_multiple_values")
+        .returnBoolValue();
+}
+
 }
 
 /*============================================================================*/
@@ -81,6 +88,8 @@ TEST(HalPwmTests, InitPwmCallsFunctions)
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(1);
     mock().expectOneCall("pwma_config_enable")
+        .andReturnValue(static_cast<bool>(PASS));
+    mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));
     init_pwm_at32uc3l0256();
 }

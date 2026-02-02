@@ -21,8 +21,10 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
 bool pwm_failed = false;
+
+static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
+static uint16_t duty_cycle[] = {0u, 0u, 0u};
 
 enum
 {
@@ -49,6 +51,13 @@ enum
     SPREAD = 0
 };
 
+enum
+{
+    WHEEL_MOTOR_1_CHANNEL_ID = 28,
+    WHEEL_MOTOR_2_CHANNEL_ID = 13,
+    VACUUM_MOTOR_CHANNEL_ID = 31
+};
+
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
@@ -62,6 +71,7 @@ void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
 void call_asf_gpio_enable_module(void);
 void call_asf_genclk_enable_config(void);
 bool call_asf_pwma_config_enable(void);
+bool call_asf_pwma_set_multiple_values(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -80,6 +90,8 @@ void init_pwm_at32uc3l0256(void)
         pwm_runtime_error("pwma_config_enable() failed", FAIL);
         return;
     }
+
+    call_asf_pwma_set_multiple_values();
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -126,4 +138,14 @@ void call_asf_genclk_enable_config(void)
 bool call_asf_pwma_config_enable(void)
 {
     return pwma_config_enable(pwma, OUTPUT_FREQUENCY, GCLK_FREQUENCY, SPREAD);
+}
+
+bool call_asf_pwma_set_multiple_values(void)
+{
+    return pwma_set_multiple_values(
+        pwma,
+        ((WHEEL_MOTOR_1_CHANNEL_ID << 0) |
+        (WHEEL_MOTOR_2_CHANNEL_ID << 8) |
+        (VACUUM_MOTOR_CHANNEL_ID << 16)),
+        (uint16_t*)&duty_cycle);
 }

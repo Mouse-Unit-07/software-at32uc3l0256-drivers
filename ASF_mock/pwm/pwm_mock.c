@@ -49,6 +49,12 @@ bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
     return true;
 }
 
+bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask,
+                        uint16_t *channel_duty_cycles)
+{
+    return true;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
