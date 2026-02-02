@@ -29,10 +29,18 @@ static uint16_t duty_cycle[] = {0u, 0u, 0u}; /* 0% on init for PWM off */
 /* avoiding enum to prevent casting errors */
 const uint32_t GCLK_FREQUENCY = 48000000;
 
+/* needs to be a macro to concatenate w/ other macros */
+#define PWMA_INTERRUPT_PRIORITY 0
+
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+#ifndef WINDOWS_BUILD /* untestable ISR*/
+ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
+{
+    pwma->scr=AVR32_PWMA_SCR_TOFL_MASK;
+}
+#endif
 
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
@@ -44,6 +52,7 @@ void initialize_pwm_clock_source(void);
 bool configure_frequency_and_spread(void);
 bool set_duty_cycles(void);
 bool set_pwm_top(void);
+void enable_pwm_interrupts(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -74,6 +83,8 @@ void init_pwm_at32uc3l0256(void)
         pwm_runtime_error("pwm init: set_pwm_top() failed", FAIL);
         return;
     }
+
+    enable_pwm_interrupts();
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -156,4 +167,12 @@ bool set_pwm_top(void)
     /* 0xFF top lets us have the conventional 0~255 PWM range */
     const uint32_t PWMA_TOP = 0xFFu;
     return pwma_write_top_value(pwma, PWMA_TOP);
+}
+
+void enable_pwm_interrupts(void)
+{
+#ifndef WINDOWS_BUILD /* untestable macro & code */
+    irq_register_handler(&tofl_irq, AVR32_PWMA_IRQ, PWMA_INTERRUPT_PRIORITY);
+    pwma->ier = AVR32_PWMA_IER_TOFL_MASK;
+#endif
 }
