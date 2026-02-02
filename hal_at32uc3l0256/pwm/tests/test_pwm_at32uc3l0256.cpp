@@ -164,3 +164,16 @@ TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCauseErrors)
     set_pwm_duty_cycle_percent_at32uc3l0256(
         &wheel_motor_1, 9000);
 }
+
+TEST(HalPwmTests, SetPwmDutyCycleSetDutyCyclesFailureCallsRuntimeError)
+{
+    mock().expectOneCall("pwma_set_multiple_values")
+        .andReturnValue(static_cast<bool>(FAIL));
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "pwm set duty cycle: set_duty_cycles() failed")
+        .withUnsignedIntParameter("fail_value", FAIL);
+    
+    set_pwm_duty_cycle_percent_at32uc3l0256(
+        &wheel_motor_1, 0);
+}
