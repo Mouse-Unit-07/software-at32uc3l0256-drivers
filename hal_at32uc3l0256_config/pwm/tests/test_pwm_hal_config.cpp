@@ -57,3 +57,10 @@ TEST(PwmHalConfigTest, PwmHandlerElementsAreNotNull)
     CHECK(pwm_handler->deinit_pwm != NULL);
     CHECK(pwm_handler->set_pwm_duty_cycle_percent != NULL);
 }
+
+TEST(PwmHalConfigTest, PwmHandleAccessorsAreNotNull)
+{
+    CHECK(get_wheel_motor_1_handle() != NULL);
+    CHECK(get_wheel_motor_2_handle() != NULL);
+    CHECK(get_vacuum_motor_handle() != NULL);
+}

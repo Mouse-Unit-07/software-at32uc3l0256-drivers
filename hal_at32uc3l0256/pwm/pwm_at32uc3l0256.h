@@ -10,7 +10,13 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-struct pwm_handle;
+struct pwm_handle {
+    uint32_t index;
+};
+
+extern const struct pwm_handle wheel_motor_1;
+extern const struct pwm_handle wheel_motor_2;
+extern const struct pwm_handle vacuum_motor;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

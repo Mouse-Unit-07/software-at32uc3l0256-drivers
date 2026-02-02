@@ -47,6 +47,22 @@ struct pwm_hal_handler *get_pwm_hal_handler(void)
     return &pwm_handler;
 }
 
+const struct pwm_handle *get_wheel_motor_1_handle(void)
+{
+    return &wheel_motor_1;
+}
+
+const struct pwm_handle *get_wheel_motor_2_handle(void)
+{
+    return &wheel_motor_2;
+}
+
+const struct pwm_handle *get_vacuum_motor_handle(void)
+{
+    return &vacuum_motor;
+}
+
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

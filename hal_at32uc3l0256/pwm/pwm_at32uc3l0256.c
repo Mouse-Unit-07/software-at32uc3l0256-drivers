@@ -21,16 +21,38 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-bool pwm_failed = false;
+static bool pwm_failed = false;
 
 static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
 static uint16_t duty_cycle[] = {0u, 0u, 0u}; /* 0% on init for PWM off */
 
+enum
+{
+    WHEEL_MOTOR_1_INDEX = 0,
+    WHEEL_MOTOR_2_INDEX,
+    VACUUM_MOTOR_1_INDEX
+};
+
 /* avoiding enum to prevent casting errors */
-const uint32_t GCLK_FREQUENCY = 48000000;
+static const uint32_t GCLK_FREQUENCY = 48000000;
 
 /* needs to be a macro to concatenate w/ other macros */
 #define PWMA_INTERRUPT_PRIORITY 0
+
+/*----------------------------------------------------------------------------*/
+/*                               Public Handles                               */
+/*----------------------------------------------------------------------------*/
+const struct pwm_handle wheel_motor_1 = {
+    .index = WHEEL_MOTOR_1_INDEX
+};
+
+const struct pwm_handle wheel_motor_2 = {
+    .index = WHEEL_MOTOR_2_INDEX
+};
+
+const struct pwm_handle vacuum_motor = {
+    .index = VACUUM_MOTOR_1_INDEX
+};
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
