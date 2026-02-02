@@ -10,25 +10,12 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* needed by PBA_CLK_FREQ_HZ */
-enum
-{
-    DFLL_CLK_FREQ_HZ = 130000000
-};
-
-/* needed by PBA_CLK_FREQ_HZ */
-enum
-{
-    DFLL_FCPU_PRESCALER = 2, /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-    DFLL_PBA_PRESCALER = 1, /* PBA = (DFLL base) / 2^1 = 70MHz */
-    DFLL_PBB_PRESCALER = 1 /* PBB = (DFLL base) / 2^1 = 70MHz */
-};
-
-/* needed by timer counter implementation */
-enum
-{
-    PBA_CLK_FREQ_HZ = DFLL_CLK_FREQ_HZ >> DFLL_PBA_PRESCALER
-};
+/* can't use enums- shifting performed */
+/* can't use const variables- need multiple instances (timer counter) */
+#define DFLL_CLK_FREQ_HZ (130000000u)
+#define DFLL_FCPU_PRESCALER (2u) /* F_CPU = (DFLL base) / 2^2 = 35MHz */
+#define DFLL_PBA_PRESCALER (1u)  /* PBA = (DFLL base) / 2^1 = 70MHz */
+#define DFLL_PBB_PRESCALER (1u)   /* PBB = (DFLL base) / 2^1 = 70MHz */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

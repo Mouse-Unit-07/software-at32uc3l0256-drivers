@@ -11,6 +11,7 @@
 #include "clock/clock_mock.h"
 #include "gpio/gpio_mock.h"
 #include "timer_counter/timer_counter_mock.h"
+#include "pwm/pwm_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */

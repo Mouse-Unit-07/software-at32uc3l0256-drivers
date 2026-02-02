@@ -49,12 +49,6 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA11
 };
 
-extern "C"
-{
-extern const struct gpio_handle regulators_enable; /* arbitrary input pin */
-extern const struct gpio_handle led_d1; /* arbitrary output pin */
-}
-
 /*============================================================================*/
 /*                            Mock Implementations                            */
 /*============================================================================*/

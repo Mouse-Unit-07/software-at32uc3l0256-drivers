@@ -1,11 +1,12 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_hal_config.h                                    */
+/* Filename           : pwm_hal_config.h                                      */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for clock HAL handler            */
+/* Interface for AT32UC3L0256 Implementation for pulse width modulation HAL   */
+/* handler                                                                    */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef CLOCK_HAL_CONFIG_H_
-#define CLOCK_HAL_CONFIG_H_
+#ifndef PWM_HAL_CONFIG_H_
+#define PWM_HAL_CONFIG_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
@@ -15,6 +16,9 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-const struct clock_hal_handler *get_clock_hal_handler(void);
+const struct pwm_hal_handler *get_pwm_hal_handler(void);
+const struct pwm_handle *get_wheel_motor_1_handle(void);
+const struct pwm_handle *get_wheel_motor_2_handle(void);
+const struct pwm_handle *get_vacuum_motor_handle(void);
 
-#endif /* CLOCK_HAL_CONFIG */
+#endif /* PWM_HAL_CONFIG */

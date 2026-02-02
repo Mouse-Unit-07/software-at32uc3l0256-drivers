@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : timer_counter_hal_config.c                            */
+/* Filename           : pwm_hal_config.c                                      */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for timer counter HAL handler                  */
+/* AT32UC3L0256 Implementation for pulse width modulation HAL handler         */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,10 +9,10 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "timer_counter_hal.h"
+#include "pwm_hal.h"
 #include "asf.h"
-#include "timer_counter_at32uc3l0256.h"
-#include "timer_counter_hal_config.h"
+#include "pwm_at32uc3l0256.h"
+#include "pwm_hal_config.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -22,12 +22,11 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct tc_hal_handler tc_handler = 
+const struct pwm_hal_handler pwm_handler = 
 {
-    .init_timer_counter = init_timer_counter_at32uc3l0256,
-    .deinit_timer_counter = deinit_timer_counter_at32uc3l0256,
-    .get_timer_count = get_timer_count_at32uc3l0256,
-    .restart_timer = restart_timer_at32uc3l0256
+    .init_pwm = init_pwm_at32uc3l0256,
+    .deinit_pwm = deinit_pwm_at32uc3l0256,
+    .set_pwm_duty_cycle_percent = set_pwm_duty_cycle_percent_at32uc3l0256,
 };
 
 /*----------------------------------------------------------------------------*/
@@ -43,10 +42,26 @@ const struct tc_hal_handler tc_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-const struct tc_hal_handler *get_tc_hal_handler(void)
+const struct pwm_hal_handler *get_pwm_hal_handler(void)
 {
-    return &tc_handler;
+    return &pwm_handler;
 }
+
+const struct pwm_handle *get_wheel_motor_1_handle(void)
+{
+    return &wheel_motor_1;
+}
+
+const struct pwm_handle *get_wheel_motor_2_handle(void)
+{
+    return &wheel_motor_2;
+}
+
+const struct pwm_handle *get_vacuum_motor_handle(void)
+{
+    return &vacuum_motor;
+}
+
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */

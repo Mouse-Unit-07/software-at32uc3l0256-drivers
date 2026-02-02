@@ -8,6 +8,7 @@ add_library(hal_at32uc3l0256_config_lib STATIC
     ${CMAKE_CURRENT_LIST_DIR}/clock/clock_hal_config.c
     ${CMAKE_CURRENT_LIST_DIR}/gpio/gpio_hal_config.c
     ${CMAKE_CURRENT_LIST_DIR}/timer_counter/timer_counter_hal_config.c
+    ${CMAKE_CURRENT_LIST_DIR}/pwm/pwm_hal_config.c
 )
 
 target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
@@ -15,6 +16,7 @@ target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/clock
     ${CMAKE_CURRENT_LIST_DIR}/gpio
     ${CMAKE_CURRENT_LIST_DIR}/timer_counter
+    ${CMAKE_CURRENT_LIST_DIR}/pwm
 )
 
 target_link_libraries(hal_at32uc3l0256_config_lib PUBLIC

@@ -26,16 +26,8 @@
 static bool timer_counter_failed = false;
 volatile static uint32_t timer_counter_count = 0u;
 
-enum
-{
-    TIMER_COUNTER_CHANNEL = 0
-};
-
-enum
-{
-    TIMER_COUNTER_IRQ = AVR32_TC1_IRQ0,
-    TIMER_COUNTER_IRQ_PRIORITY = AVR32_INTC_INT0
-};
+/* need an unsigned bitfield constant */
+#define TIMER_COUNTER_CHANNEL (0u)
 
 /* Can't define AVR32_TC1 w/ an enum- resolves to a macro w/ a custom type */
 #define TIMER_COUNTER_BASE_ADDRESS (&AVR32_TC1)
@@ -98,7 +90,8 @@ void init_timer_counter_at32uc3l0256(void)
     
 #ifndef WINDOWS_BUILD
     /* can't build for testing- takes an AVR32 defined type as a parameter */
-    INTC_register_interrupt(&tc_irq, TIMER_COUNTER_IRQ, TIMER_COUNTER_IRQ_PRIORITY);
+    /* parameters are ISR, IRQ, and IRQ priority respectively */
+    INTC_register_interrupt(&tc_irq, AVR32_TC1_IRQ0, AVR32_INTC_INT0);
 #endif
 }
 
@@ -168,7 +161,7 @@ int call_asf_tc_write_rc(void)
     return tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
-        PBA_CLK_FREQ_HZ / 8 / 1000 * 4
+        (DFLL_CLK_FREQ_HZ >> DFLL_PBA_PRESCALER) / 8 / 1000 * 4
     );
 }
 

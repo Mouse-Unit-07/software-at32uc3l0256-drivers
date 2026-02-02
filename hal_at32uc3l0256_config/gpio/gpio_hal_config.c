@@ -23,7 +23,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct gpio_hal_handler gpio_handler = 
+const struct gpio_hal_handler gpio_handler = 
 {
     .init_gpio = init_gpio_at32uc3l0256,
     .deinit_gpio = deinit_gpio_at32uc3l0256,
@@ -45,9 +45,79 @@ struct gpio_hal_handler gpio_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct gpio_hal_handler *get_gpio_hal_handler(void)
+const struct gpio_hal_handler *get_gpio_hal_handler(void)
 {
     return &gpio_handler;
+}
+
+const struct gpio_handle *get_regulators_enable_handle(void)
+{
+    return &regulators_enable;
+}
+
+const struct gpio_handle *get_battery_comparator_handle(void)
+{
+    return &battery_comparator;
+}
+
+const struct gpio_handle *get_led_d1_handle(void)
+{
+    return &led_d1;
+}
+
+const struct gpio_handle *get_led_d2_handle(void)
+{
+    return &led_d2;
+}
+
+const struct gpio_handle *get_led_d3_handle(void)
+{
+    return &led_d3;
+}
+
+const struct gpio_handle *get_led_d4_handle(void)
+{
+    return &led_d4;
+}
+
+const struct gpio_handle *get_wheel_driver_standby_handle(void)
+{
+    return &wheel_driver_standby;
+}
+
+const struct gpio_handle *get_wheel_driver_cld_handle(void)
+{
+    return &wheel_driver_cld;
+}
+
+const struct gpio_handle *get_wheel_driver_motor_1_in1_handle(void)
+{
+    return &wheel_driver_motor_1_in1;
+}
+
+const struct gpio_handle *get_wheel_driver_motor_1_in2_handle(void)
+{
+    return &wheel_driver_motor_1_in2;
+}
+
+const struct gpio_handle *get_wheel_driver_motor_2_in1_handle(void)
+{
+    return &wheel_driver_motor_2_in1;
+}
+
+const struct gpio_handle *get_wheel_driver_motor_2_in2_handle(void)
+{
+    return &wheel_driver_motor_2_in2;
+}
+
+const struct gpio_handle *get_wheel_encoder_motor_1_b_channel_handle(void)
+{
+    return &wheel_encoder_motor_1_b_channel;
+}
+
+const struct gpio_handle *get_wheel_encoder_motor_2_b_channel_handle(void)
+{
+    return &wheel_encoder_motor_2_b_channel;
 }
 
 /*----------------------------------------------------------------------------*/

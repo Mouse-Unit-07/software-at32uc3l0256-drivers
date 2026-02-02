@@ -1,20 +1,28 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : clock_hal_config.h                                    */
+/* Filename           : pwm_at32uc3l0256.h                                    */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for clock HAL handler            */
+/* Interface for AT32UC3L0256 implementation for pulse width modulation HAL   */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef CLOCK_HAL_CONFIG_H_
-#define CLOCK_HAL_CONFIG_H_
+#ifndef PWM_AT32UC3L0256_H_
+#define PWM_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* none */
+struct pwm_handle {
+    uint32_t index;
+};
+
+extern const struct pwm_handle wheel_motor_1;
+extern const struct pwm_handle wheel_motor_2;
+extern const struct pwm_handle vacuum_motor;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-const struct clock_hal_handler *get_clock_hal_handler(void);
+void init_pwm_at32uc3l0256(void);
+void deinit_pwm_at32uc3l0256(void);
+void set_pwm_duty_cycle_percent_at32uc3l0256(const struct pwm_handle *handle, uint32_t percent);
 
-#endif /* CLOCK_HAL_CONFIG */
+#endif /* PWM_AT32UC3L0256_H_ */

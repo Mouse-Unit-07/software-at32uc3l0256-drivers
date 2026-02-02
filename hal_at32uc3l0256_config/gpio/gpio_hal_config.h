@@ -10,24 +10,25 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-extern const struct gpio_handle regulators_enable;
-extern const struct gpio_handle battery_comparator;
-extern const struct gpio_handle led_d1;
-extern const struct gpio_handle led_d2;
-extern const struct gpio_handle led_d3;
-extern const struct gpio_handle led_d4;
-extern const struct gpio_handle wheel_driver_standby;
-extern const struct gpio_handle wheel_driver_cld;
-extern const struct gpio_handle wheel_driver_motor_1_in1;
-extern const struct gpio_handle wheel_driver_motor_1_in2;
-extern const struct gpio_handle wheel_driver_motor_2_in1;
-extern const struct gpio_handle wheel_driver_motor_2_in2;
-extern const struct gpio_handle wheel_encoder_motor_1_b_channel;
-extern const struct gpio_handle wheel_encoder_motor_2_b_channel;
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-struct gpio_hal_handler *get_gpio_hal_handler(void);
+const struct gpio_hal_handler *get_gpio_hal_handler(void);
+const struct gpio_handle *get_regulators_enable_handle(void);
+const struct gpio_handle *get_battery_comparator_handle(void);
+const struct gpio_handle *get_led_d1_handle(void);
+const struct gpio_handle *get_led_d2_handle(void);
+const struct gpio_handle *get_led_d3_handle(void);
+const struct gpio_handle *get_led_d4_handle(void);
+const struct gpio_handle *get_wheel_driver_standby_handle(void);
+const struct gpio_handle *get_wheel_driver_cld_handle(void);
+const struct gpio_handle *get_wheel_driver_motor_1_in1_handle(void);
+const struct gpio_handle *get_wheel_driver_motor_1_in2_handle(void);
+const struct gpio_handle *get_wheel_driver_motor_2_in1_handle(void);
+const struct gpio_handle *get_wheel_driver_motor_2_in2_handle(void);
+const struct gpio_handle *get_wheel_encoder_motor_1_b_channel_handle(void);
+const struct gpio_handle *get_wheel_encoder_motor_2_b_channel_handle(void);
 
 #endif /* GPIO_HAL_CONFIG */

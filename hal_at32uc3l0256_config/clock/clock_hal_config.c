@@ -22,7 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler clock_handler = 
+const struct clock_hal_handler clock_handler = 
 {
     .init_clock = init_clock_at32uc3l0256,
     .deinit_clock = deinit_clock_at32uc3l0256,
@@ -43,7 +43,7 @@ struct clock_hal_handler clock_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct clock_hal_handler *get_clock_hal_handler(void)
+const struct clock_hal_handler *get_clock_hal_handler(void)
 {
     return &clock_handler;
 }

@@ -15,6 +15,6 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-struct tc_hal_handler *get_tc_hal_handler(void);
+const struct tc_hal_handler *get_tc_hal_handler(void);
 
 #endif /* TIMER_COUNTER_HAL_CONFIG */
