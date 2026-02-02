@@ -22,7 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct tc_hal_handler tc_handler = 
+const struct tc_hal_handler tc_handler = 
 {
     .init_timer_counter = init_timer_counter_at32uc3l0256,
     .deinit_timer_counter = deinit_timer_counter_at32uc3l0256,
@@ -43,7 +43,7 @@ struct tc_hal_handler tc_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct tc_hal_handler *get_tc_hal_handler(void)
+const struct tc_hal_handler *get_tc_hal_handler(void)
 {
     return &tc_handler;
 }

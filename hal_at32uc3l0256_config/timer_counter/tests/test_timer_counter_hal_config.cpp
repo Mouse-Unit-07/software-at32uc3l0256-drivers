@@ -46,13 +46,13 @@ TEST_GROUP(TimerCounterHalConfigTest)
 /*============================================================================*/
 TEST(TimerCounterHalConfigTest, TimerCounterHandlerIsNotNull)
 {
-    struct tc_hal_handler *tc_handler = get_tc_hal_handler();
+    const struct tc_hal_handler *tc_handler = get_tc_hal_handler();
     CHECK(tc_handler != NULL);
 }
 
 TEST(TimerCounterHalConfigTest, TimerCounterHandlerElementsAreNotNull)
 {
-    struct tc_hal_handler *tc_handler = get_tc_hal_handler();
+    const struct tc_hal_handler *tc_handler = get_tc_hal_handler();
     CHECK(tc_handler->init_timer_counter != NULL);
     CHECK(tc_handler->deinit_timer_counter != NULL);
     CHECK(tc_handler->get_timer_count != NULL);
