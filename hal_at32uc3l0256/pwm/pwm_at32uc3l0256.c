@@ -20,6 +20,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
+static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
+
 enum
 {
     WHEEL_MOTOR_1_PIN = AVR32_PWMA_28_PIN,
@@ -39,6 +41,12 @@ enum
     GCLK_SOURCE = AVR32_SCIF_GC_USES_CLK_PBA
 };
 
+enum
+{
+    OUTPUT_FREQUENCY = 190000,
+    SPREAD = 0
+};
+
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
@@ -49,6 +57,7 @@ enum
 /*----------------------------------------------------------------------------*/
 void call_asf_gpio_enable_module(void);
 void call_asf_genclk_enable_config(void);
+bool call_asf_pwma_config_enable(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -57,6 +66,8 @@ void init_pwm_at32uc3l0256(void)
 {
     call_asf_gpio_enable_module();
     call_asf_genclk_enable_config();
+
+    call_asf_pwma_config_enable();
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -89,3 +100,7 @@ void call_asf_genclk_enable_config(void)
     genclk_enable_config(GCLK_ID, GCLK_SOURCE, div);
 }
 
+bool call_asf_pwma_config_enable(void)
+{
+    return pwma_config_enable(pwma, OUTPUT_FREQUENCY, GCLK_FREQUENCY, SPREAD);
+}
