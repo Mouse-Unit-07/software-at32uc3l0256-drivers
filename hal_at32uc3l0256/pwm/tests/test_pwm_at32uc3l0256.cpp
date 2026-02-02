@@ -30,7 +30,11 @@ extern "C"
 
 /* ---------------------------------------------------------------------------*/
 /* Pulse Width Modulation */
-
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+{
+    return mock().actualCall("gpio_enable_module")
+        .returnIntValue();
+}
 
 }
 
@@ -54,7 +58,9 @@ TEST_GROUP(HalPwmTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalPwmTests, DeleteMe)
+TEST(HalPwmTests, InitPwmCallsFunctions)
 {
-    
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(1);
+    init_pwm_at32uc3l0256();
 }

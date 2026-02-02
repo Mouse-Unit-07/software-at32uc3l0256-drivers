@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : pwm_at32uc3l0256.c                                    */
+/* Filename           : pwm_mock.c                                            */
 /*                                                                            */
-/* AT32UC3L0256 implementation for timer counter HAL                          */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "pwm_at32uc3l0256.h"
+#include "pwm_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -20,15 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    WHEEL_MOTOR_1_PIN = AVR32_PWMA_28_PIN,
-    WHEEL_MOTOR_2_PIN = AVR32_PWMA_13_PIN,
-    VACUUM_MOTOR_PIN = AVR32_PWMA_31_PIN,
-    WHEEL_MOTOR_1_PIN_FUNCTION = AVR32_PWMA_28_FUNCTION,
-    WHEEL_MOTOR_2_PIN_FUNCTION = AVR32_PWMA_13_FUNCTION,
-    VACUUM_MOTOR_PIN_FUNCTION = AVR32_PWMA_31_FUNCTION
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -43,27 +37,10 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_pwm_at32uc3l0256(void)
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
 {
-    static const gpio_map_t PWMA_GPIO_MAP = {
-        {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
-        {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
-        {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION},
-    };
-    gpio_enable_module(PWMA_GPIO_MAP, 
-        sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
+    return 1;
 }
-
-void deinit_pwm_at32uc3l0256(void)
-{
-
-}
-
-void set_pwm_duty_cycle_percent_at32uc3l0256(struct pwm_handle *handle, uint32_t percent)
-{
-
-}
-
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
