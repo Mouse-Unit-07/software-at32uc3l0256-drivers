@@ -60,7 +60,7 @@ TEST(GpioHalConfigTest, GpioHandlerElementsAreNotNull)
     CHECK(gpio_handler->toggle_gpio_pin != NULL);
 }
 
-TEST(GpioHalConfigTest, dinosaur)
+TEST(GpioHalConfigTest, GpioHandlesAreNotNull)
 {
     CHECK(get_regulators_enable_handle() != NULL);
     CHECK(get_battery_comparator_handle() != NULL);
