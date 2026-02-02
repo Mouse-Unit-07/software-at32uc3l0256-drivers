@@ -55,6 +55,11 @@ bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask
     return true;
 }
 
+bool pwma_write_top_value(volatile avr32_pwma_t *pwma, uint16_t top_value)
+{
+    return true;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

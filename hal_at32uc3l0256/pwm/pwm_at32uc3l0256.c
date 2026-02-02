@@ -43,6 +43,7 @@ void initialize_pwm_pins(void);
 void initialize_pwm_clock_source(void);
 bool configure_frequency_and_spread(void);
 bool set_duty_cycles(void);
+bool set_pwm_top(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -67,6 +68,8 @@ void init_pwm_at32uc3l0256(void)
         pwm_runtime_error("pwm init: set_duty_cycles() failed", FAIL);
         return;
     }
+
+    set_pwm_top();
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -154,4 +157,10 @@ bool set_duty_cycles(void)
         (WHEEL_MOTOR_2_CHANNEL_ID << 8) |
         (VACUUM_MOTOR_CHANNEL_ID << 16)),
         (uint16_t*)&duty_cycle);
+}
+
+bool set_pwm_top(void)
+{
+    const uint32_t PWMA_TOP = 0xFFu;
+    return pwma_write_top_value(pwma, PWMA_TOP);
 }

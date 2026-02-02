@@ -255,5 +255,6 @@ bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
                         uint32_t gclk_freq_hz, uint16_t spread);
 bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask,
                         uint16_t *channel_duty_cycles);
+bool pwma_write_top_value(volatile avr32_pwma_t *pwma, uint16_t top_value);
 
 #endif /* PWM_MOCK_H_ */

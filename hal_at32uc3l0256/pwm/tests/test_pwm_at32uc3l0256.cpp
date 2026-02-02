@@ -61,6 +61,12 @@ bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask
         .returnBoolValue();
 }
 
+bool pwma_write_top_value(volatile avr32_pwma_t *pwma, uint16_t top_value)
+{
+    return mock().actualCall("pwma_write_top_value")
+        .returnBoolValue();
+}
+
 }
 
 /*============================================================================*/
