@@ -26,37 +26,8 @@ bool pwm_failed = false;
 static volatile avr32_pwma_t *pwma = &AVR32_PWMA;
 static uint16_t duty_cycle[] = {0u, 0u, 0u};
 
-enum
-{
-    WHEEL_MOTOR_1_PIN = AVR32_PWMA_28_PIN,
-    WHEEL_MOTOR_2_PIN = AVR32_PWMA_13_PIN,
-    VACUUM_MOTOR_PIN = AVR32_PWMA_31_PIN,
-    WHEEL_MOTOR_1_PIN_FUNCTION = AVR32_PWMA_28_FUNCTION,
-    WHEEL_MOTOR_2_PIN_FUNCTION = AVR32_PWMA_13_FUNCTION,
-    VACUUM_MOTOR_PIN_FUNCTION = AVR32_PWMA_31_FUNCTION
-};
-
-/* avoiding enums to prevent casting errors */
-const unsigned int GCLK_ID = AVR32_SCIF_GCLK_PWMA;
+/* avoiding enum to prevent casting errors */
 const uint32_t GCLK_FREQUENCY = 48000000;
-
-enum
-{
-    GCLK_SOURCE = AVR32_SCIF_GC_USES_CLK_PBA
-};
-
-enum
-{
-    OUTPUT_FREQUENCY = 190000,
-    SPREAD = 0
-};
-
-enum
-{
-    WHEEL_MOTOR_1_CHANNEL_ID = 28,
-    WHEEL_MOTOR_2_CHANNEL_ID = 13,
-    VACUUM_MOTOR_CHANNEL_ID = 31
-};
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -68,10 +39,10 @@ enum
 /*----------------------------------------------------------------------------*/
 void reset_pwm_flags(void);
 void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
-void call_asf_gpio_enable_module(void);
-void call_asf_genclk_enable_config(void);
-bool call_asf_pwma_config_enable(void);
-bool call_asf_pwma_set_multiple_values(void);
+void initialize_pwm_pins(void);
+void initialize_pwm_clock_source(void);
+bool configure_frequency_and_spread(void);
+bool set_duty_cycles(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -82,16 +53,16 @@ void init_pwm_at32uc3l0256(void)
 
     reset_pwm_flags();
 
-    call_asf_gpio_enable_module();
-    call_asf_genclk_enable_config();
+    initialize_pwm_pins();
+    initialize_pwm_clock_source();
 
-    asf_return_value = call_asf_pwma_config_enable();
+    asf_return_value = configure_frequency_and_spread();
     if (asf_return_value == FAIL) {
         pwm_runtime_error("pwma_config_enable() failed", FAIL);
         return;
     }
 
-    call_asf_pwma_set_multiple_values();
+    set_duty_cycles();
 }
 
 void deinit_pwm_at32uc3l0256(void)
@@ -118,8 +89,18 @@ void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
     pwm_failed = true;
 }
 
-void call_asf_gpio_enable_module(void)
+void initialize_pwm_pins(void)
 {
+    enum
+    {
+        WHEEL_MOTOR_1_PIN = AVR32_PWMA_28_PIN,
+        WHEEL_MOTOR_2_PIN = AVR32_PWMA_13_PIN,
+        VACUUM_MOTOR_PIN = AVR32_PWMA_31_PIN,
+        WHEEL_MOTOR_1_PIN_FUNCTION = AVR32_PWMA_28_FUNCTION,
+        WHEEL_MOTOR_2_PIN_FUNCTION = AVR32_PWMA_13_FUNCTION,
+        VACUUM_MOTOR_PIN_FUNCTION = AVR32_PWMA_31_FUNCTION
+    };
+
     static const gpio_map_t PWMA_GPIO_MAP = {
         {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
         {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
@@ -129,19 +110,40 @@ void call_asf_gpio_enable_module(void)
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
 }
 
-void call_asf_genclk_enable_config(void)
+void initialize_pwm_clock_source(void)
 {
+    /* avoiding enums to prevent casting errors */
+    const unsigned int GCLK_ID = AVR32_SCIF_GCLK_PWMA;
+
+    enum
+    {
+        GCLK_SOURCE = AVR32_SCIF_GC_USES_CLK_PBA
+    };
+
     uint32_t div = div_ceil((sysclk_get_pba_hz()), GCLK_FREQUENCY);
     genclk_enable_config(GCLK_ID, GCLK_SOURCE, div);
 }
 
-bool call_asf_pwma_config_enable(void)
+bool configure_frequency_and_spread(void)
 {
+    enum
+    {
+        OUTPUT_FREQUENCY = 190000,
+        SPREAD = 0
+    };
+
     return pwma_config_enable(pwma, OUTPUT_FREQUENCY, GCLK_FREQUENCY, SPREAD);
 }
 
-bool call_asf_pwma_set_multiple_values(void)
+bool set_duty_cycles(void)
 {
+    enum
+    {
+        WHEEL_MOTOR_1_CHANNEL_ID = 28,
+        WHEEL_MOTOR_2_CHANNEL_ID = 13,
+        VACUUM_MOTOR_CHANNEL_ID = 31
+    };
+
     return pwma_set_multiple_values(
         pwma,
         ((WHEEL_MOTOR_1_CHANNEL_ID << 0) |
