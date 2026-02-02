@@ -113,7 +113,6 @@ void initialize_pwm_pins(void)
 
 void initialize_pwm_clock_source(void)
 {
-    /* avoiding enums to prevent casting errors */
     const unsigned int GCLK_ID = AVR32_SCIF_GCLK_PWMA;
 
     enum
@@ -139,6 +138,7 @@ bool configure_frequency_and_spread(void)
 
 bool set_duty_cycles(void)
 {
+    /* magic numbers come from pin numbers- can't find masks in ASF library */
     const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
     const uint32_t WHEEL_MOTOR_2_CHANNEL_ID = 13u;
     const uint32_t VACUUM_MOTOR_CHANNEL_ID = 31u;
@@ -153,6 +153,7 @@ bool set_duty_cycles(void)
 
 bool set_pwm_top(void)
 {
+    /* 0xFF top lets us have the conventional 0~255 PWM range */
     const uint32_t PWMA_TOP = 0xFFu;
     return pwma_write_top_value(pwma, PWMA_TOP);
 }
