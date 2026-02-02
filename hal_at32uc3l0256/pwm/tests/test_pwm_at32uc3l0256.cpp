@@ -147,6 +147,11 @@ TEST(HalPwmTests, InitPwmSetTopFailureCallsRuntimeError)
     init_pwm_at32uc3l0256();
 }
 
+TEST(HalPwmTests, DeinitPwm)
+{
+    deinit_pwm_at32uc3l0256();
+}
+
 TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
 {
     mock().expectOneCall("pwma_set_multiple_values")

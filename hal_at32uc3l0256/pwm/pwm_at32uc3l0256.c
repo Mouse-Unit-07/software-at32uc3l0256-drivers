@@ -112,7 +112,7 @@ void init_pwm_at32uc3l0256(void)
 
 void deinit_pwm_at32uc3l0256(void)
 {
-
+    reset_pwm_flags();
 }
 
 void set_pwm_duty_cycle_percent_at32uc3l0256(const struct pwm_handle *handle, uint32_t percent)
