@@ -58,11 +58,15 @@ void init_pwm_at32uc3l0256(void)
 
     asf_return_value = configure_frequency_and_spread();
     if (asf_return_value == FAIL) {
-        pwm_runtime_error("pwma_config_enable() failed", FAIL);
+        pwm_runtime_error("pwm init: configure_frequency_and_spread() failed", FAIL);
         return;
     }
 
-    set_duty_cycles();
+    asf_return_value = set_duty_cycles();
+    if (asf_return_value == FAIL) {
+        pwm_runtime_error("pwm init: set_duty_cycles() failed", FAIL);
+        return;
+    }
 }
 
 void deinit_pwm_at32uc3l0256(void)
