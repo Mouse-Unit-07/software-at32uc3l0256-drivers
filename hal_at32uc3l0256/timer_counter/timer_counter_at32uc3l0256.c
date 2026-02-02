@@ -26,10 +26,8 @@
 static bool timer_counter_failed = false;
 volatile static uint32_t timer_counter_count = 0u;
 
-enum
-{
-    TIMER_COUNTER_CHANNEL = 0
-};
+/* need an unsigned bitfield constant */
+#define TIMER_COUNTER_CHANNEL (0u)
 
 /* Can't define AVR32_TC1 w/ an enum- resolves to a macro w/ a custom type */
 #define TIMER_COUNTER_BASE_ADDRESS (&AVR32_TC1)
@@ -163,7 +161,7 @@ int call_asf_tc_write_rc(void)
     return tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
-        PBA_CLK_FREQ_HZ / 8 / 1000 * 4
+        (DFLL_CLK_FREQ_HZ >> DFLL_PBA_PRESCALER) / 8 / 1000 * 4
     );
 }
 
