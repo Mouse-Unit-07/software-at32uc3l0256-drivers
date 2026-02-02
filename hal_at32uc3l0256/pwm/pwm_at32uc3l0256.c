@@ -45,14 +45,14 @@ ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-void reset_pwm_flags(void);
-void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
-void initialize_pwm_pins(void);
-void initialize_pwm_clock_source(void);
-bool configure_frequency_and_spread(void);
-bool set_duty_cycles(void);
-bool set_pwm_top(void);
-void enable_pwm_interrupts(void);
+static void reset_pwm_flags(void);
+static void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
+static void initialize_pwm_pins(void);
+static void initialize_pwm_clock_source(void);
+static bool configure_frequency_and_spread(void);
+static bool set_duty_cycles(void);
+static bool set_pwm_top(void);
+static void enable_pwm_interrupts(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -100,18 +100,18 @@ void set_pwm_duty_cycle_percent_at32uc3l0256(struct pwm_handle *handle, uint32_t
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void reset_pwm_flags(void)
+static void reset_pwm_flags(void)
 {
     pwm_failed = false;
 }
 
-void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
+static void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
 {
     RUNTIME_ERROR(0, fail_message, fail_value);
     pwm_failed = true;
 }
 
-void initialize_pwm_pins(void)
+static void initialize_pwm_pins(void)
 {
     static const gpio_map_t PWMA_GPIO_MAP = {
         {AVR32_PWMA_28_PIN, AVR32_PWMA_28_FUNCTION}, /* wheel motor 1 */
@@ -122,7 +122,7 @@ void initialize_pwm_pins(void)
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
 }
 
-void initialize_pwm_clock_source(void)
+static void initialize_pwm_clock_source(void)
 {
     const unsigned int GCLK_ID = AVR32_SCIF_GCLK_PWMA;
 
@@ -135,7 +135,7 @@ void initialize_pwm_clock_source(void)
     genclk_enable_config(GCLK_ID, GCLK_SOURCE, div);
 }
 
-bool configure_frequency_and_spread(void)
+static bool configure_frequency_and_spread(void)
 {
     /* PWM output freq limited such that: */
     /* MM_PWMA_GCLK_FREQUENCY/OUTPUT_FREQUENCY < 255 */
@@ -147,7 +147,7 @@ bool configure_frequency_and_spread(void)
     return pwma_config_enable(pwma, OUTPUT_FREQUENCY, GCLK_FREQUENCY, SPREAD);
 }
 
-bool set_duty_cycles(void)
+static bool set_duty_cycles(void)
 {
     /* magic numbers come from pin numbers- can't find masks in ASF library */
     const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
@@ -162,14 +162,14 @@ bool set_duty_cycles(void)
         (uint16_t*)&duty_cycle);
 }
 
-bool set_pwm_top(void)
+static bool set_pwm_top(void)
 {
     /* 0xFF top lets us have the conventional 0~255 PWM range */
     const uint32_t PWMA_TOP = 0xFFu;
     return pwma_write_top_value(pwma, PWMA_TOP);
 }
 
-void enable_pwm_interrupts(void)
+static void enable_pwm_interrupts(void)
 {
 #ifndef WINDOWS_BUILD /* untestable macro & code */
     irq_register_handler(&tofl_irq, AVR32_PWMA_IRQ, PWMA_INTERRUPT_PRIORITY);
