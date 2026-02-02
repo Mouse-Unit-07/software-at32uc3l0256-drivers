@@ -23,6 +23,6 @@ extern const struct pwm_handle vacuum_motor;
 /*----------------------------------------------------------------------------*/
 void init_pwm_at32uc3l0256(void);
 void deinit_pwm_at32uc3l0256(void);
-void set_pwm_duty_cycle_percent_at32uc3l0256(struct pwm_handle *handle, uint32_t percent);
+void set_pwm_duty_cycle_percent_at32uc3l0256(const struct pwm_handle *handle, uint32_t percent);
 
 #endif /* PWM_AT32UC3L0256_H_ */
