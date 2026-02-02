@@ -21,10 +21,42 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct gpio_handle {
-    uint32_t gpio_pin_address;
+enum
+{
+    INPUT_COUNT = 4,
+    OUTPUT_COUNT = 10
 };
 
+const struct gpio_handle *const input_handles[INPUT_COUNT] = {
+    &battery_comparator,
+    &wheel_driver_cld,
+    &wheel_encoder_motor_1_b_channel,
+    &wheel_encoder_motor_2_b_channel
+};
+
+const uint32_t pull_up_configs[INPUT_COUNT] = {
+    0,
+    0,
+    GPIO_PULL_UP,
+    GPIO_PULL_UP
+};
+
+const struct gpio_handle *const output_handles[OUTPUT_COUNT] = {
+    &regulators_enable,
+    &led_d1,
+    &led_d2,
+    &led_d3,
+    &led_d4,
+    &wheel_driver_standby,
+    &wheel_driver_motor_1_in1,
+    &wheel_driver_motor_1_in2,
+    &wheel_driver_motor_2_in1,
+    &wheel_driver_motor_2_in2
+};
+
+/*----------------------------------------------------------------------------*/
+/*                               Public Handles                               */
+/*----------------------------------------------------------------------------*/
 const struct gpio_handle regulators_enable = {
     .gpio_pin_address = AVR32_PIN_PB11
 };
@@ -79,39 +111,6 @@ const struct gpio_handle wheel_encoder_motor_1_b_channel = {
 
 const struct gpio_handle wheel_encoder_motor_2_b_channel = {
     .gpio_pin_address = AVR32_PIN_PA11
-};
-
-enum
-{
-    INPUT_COUNT = 4,
-    OUTPUT_COUNT = 10
-};
-
-const struct gpio_handle *const input_handles[INPUT_COUNT] = {
-    &battery_comparator,
-    &wheel_driver_cld,
-    &wheel_encoder_motor_1_b_channel,
-    &wheel_encoder_motor_2_b_channel
-};
-
-const uint32_t pull_up_configs[INPUT_COUNT] = {
-    0,
-    0,
-    GPIO_PULL_UP,
-    GPIO_PULL_UP
-};
-
-const struct gpio_handle *const output_handles[OUTPUT_COUNT] = {
-    &regulators_enable,
-    &led_d1,
-    &led_d2,
-    &led_d3,
-    &led_d4,
-    &wheel_driver_standby,
-    &wheel_driver_motor_1_in1,
-    &wheel_driver_motor_1_in2,
-    &wheel_driver_motor_2_in1,
-    &wheel_driver_motor_2_in2
 };
 
 /*----------------------------------------------------------------------------*/
