@@ -147,11 +147,20 @@ TEST(HalPwmTests, InitPwmSetTopFailureCallsRuntimeError)
     init_pwm_at32uc3l0256();
 }
 
-TEST(HalPwmTests, SetPwnDutyCycleCallsFunctions)
+TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
 {
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));
     
     set_pwm_duty_cycle_percent_at32uc3l0256(
         &wheel_motor_1, 10);
+}
+
+TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCauseErrors)
+{
+    mock().expectOneCall("pwma_set_multiple_values")
+        .andReturnValue(static_cast<bool>(PASS));
+    
+    set_pwm_duty_cycle_percent_at32uc3l0256(
+        &wheel_motor_1, 9000);
 }
