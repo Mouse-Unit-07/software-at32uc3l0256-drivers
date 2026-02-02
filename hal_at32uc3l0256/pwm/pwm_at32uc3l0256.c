@@ -30,6 +30,15 @@ enum
     VACUUM_MOTOR_PIN_FUNCTION = AVR32_PWMA_31_FUNCTION
 };
 
+/* avoiding enums to prevent casting errors */
+const unsigned int GCLK_ID = AVR32_SCIF_GCLK_PWMA;
+const uint32_t GCLK_FREQUENCY = 48000000;
+
+enum
+{
+    GCLK_SOURCE = AVR32_SCIF_GC_USES_CLK_PBA
+};
+
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
@@ -52,6 +61,9 @@ void init_pwm_at32uc3l0256(void)
     };
     gpio_enable_module(PWMA_GPIO_MAP, 
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
+
+    uint32_t div = div_ceil((sysclk_get_pba_hz()), GCLK_FREQUENCY);
+    genclk_enable_config(GCLK_ID, GCLK_SOURCE, div);
 }
 
 void deinit_pwm_at32uc3l0256(void)
