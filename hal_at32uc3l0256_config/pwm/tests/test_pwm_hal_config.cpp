@@ -46,13 +46,13 @@ TEST_GROUP(PwmHalConfigTest)
 /*============================================================================*/
 TEST(PwmHalConfigTest, PwmHandlerIsNotNull)
 {
-    struct pwm_hal_handler *pwm_handler = get_pwm_hal_handler();
+    const struct pwm_hal_handler *pwm_handler = get_pwm_hal_handler();
     CHECK(pwm_handler != NULL);
 }
 
 TEST(PwmHalConfigTest, PwmHandlerElementsAreNotNull)
 {
-    struct pwm_hal_handler *pwm_handler = get_pwm_hal_handler();
+    const struct pwm_hal_handler *pwm_handler = get_pwm_hal_handler();
     CHECK(pwm_handler->init_pwm != NULL);
     CHECK(pwm_handler->deinit_pwm != NULL);
     CHECK(pwm_handler->set_pwm_duty_cycle_percent != NULL);

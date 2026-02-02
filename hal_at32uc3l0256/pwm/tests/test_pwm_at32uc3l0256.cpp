@@ -161,7 +161,7 @@ TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
         &wheel_motor_1, 10);
 }
 
-TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCauseErrors)
+TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCallRuntimeErrors)
 {
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));

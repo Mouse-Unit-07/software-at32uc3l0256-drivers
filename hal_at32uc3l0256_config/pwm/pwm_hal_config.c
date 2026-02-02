@@ -22,7 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-struct pwm_hal_handler pwm_handler = 
+const struct pwm_hal_handler pwm_handler = 
 {
     .init_pwm = init_pwm_at32uc3l0256,
     .deinit_pwm = deinit_pwm_at32uc3l0256,
@@ -42,7 +42,7 @@ struct pwm_hal_handler pwm_handler =
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-struct pwm_hal_handler *get_pwm_hal_handler(void)
+const struct pwm_hal_handler *get_pwm_hal_handler(void)
 {
     return &pwm_handler;
 }
