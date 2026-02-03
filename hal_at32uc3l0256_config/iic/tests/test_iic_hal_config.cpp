@@ -10,7 +10,7 @@
 /*============================================================================*/
 extern "C" {
 #include <stdint.h>
-#include "internal_interrupt_controller_hal.h"
+#include "iic_hal.h"
 #include "iic_hal_config.h"
 }
 
@@ -52,8 +52,8 @@ TEST(IicHalConfigTest, TimerCounterHandlerIsNotNull)
 TEST(IicHalConfigTest, TimerCounterHandlerElementsAreNotNull)
 {
     const struct iic_hal_handler *iic_handler = get_iic_hal_handler();
-    CHECK(iic_handler->init_internal_interrupt_controller != NULL);
-    CHECK(iic_handler->deinit_internal_interrupt_controller != NULL);
+    CHECK(iic_handler->init_iic != NULL);
+    CHECK(iic_handler->deinit_iic != NULL);
     CHECK(iic_handler->enable_global_interrupts != NULL);
     CHECK(iic_handler->disable_global_interrupts != NULL);
 }

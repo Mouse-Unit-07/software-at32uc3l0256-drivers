@@ -16,8 +16,8 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-void init_internal_interrupt_controller_at32uc3l0256(void);
-void deinit_internal_interrupt_controller_at32uc3l0256(void);
+void init_iic_at32uc3l0256(void);
+void deinit_iic_at32uc3l0256(void);
 void enable_global_interrupts_at32uc3l0256(void);
 void disable_global_interrupts_at32uc3l0256(void);
 
