@@ -1,18 +1,12 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : iic_at32uc3l0256.h                                    */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for internal interrupt           */
+/* controller HAL                                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
+#ifndef IIC_AT32UC3L0256_H_
+#define IIC_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
@@ -22,6 +16,9 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_iic_at32uc3l0256(void);
+void deinit_iic_at32uc3l0256(void);
+void enable_global_interrupts_at32uc3l0256(void);
+void disable_global_interrupts_at32uc3l0256(void);
 
-#endif /* ASF_H_ */
+#endif /* IIC_AT32UC3L0256_H_ */
