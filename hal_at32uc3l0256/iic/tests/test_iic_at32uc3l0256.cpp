@@ -66,3 +66,12 @@ TEST(HalIicTests, DeinitIic)
     deinit_iic_at32uc3l0256();
 }
 
+TEST(HalIicTests, EnableGlobalInterrupts)
+{
+    enable_global_interrupts_at32uc3l0256();
+}
+
+TEST(HalIicTests, DisableGlobalInterrupts)
+{
+    disable_global_interrupts_at32uc3l0256();
+}

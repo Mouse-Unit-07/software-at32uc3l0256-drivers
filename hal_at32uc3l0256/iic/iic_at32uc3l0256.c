@@ -48,12 +48,16 @@ void deinit_iic_at32uc3l0256(void)
 
 void enable_global_interrupts_at32uc3l0256(void)
 {
-
+#ifndef WINDOWS_BUILD
+cpu_irq_enable(); /* untestable macro */
+#endif
 }
 
 void disable_global_interrupts_at32uc3l0256(void)
 {
-
+#ifndef WINDOWS_BUILD
+cpu_irq_disable(); /* untestable macro */
+#endif
 }
 
 /*----------------------------------------------------------------------------*/
