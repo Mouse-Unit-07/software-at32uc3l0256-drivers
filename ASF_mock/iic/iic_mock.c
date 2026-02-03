@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : iic_at32uc3l0256.c                                    */
+/* Filename           : iic_mock.c                                            */
 /*                                                                            */
-/* AT32UC3L0256 implementation for internal interrupt controller HAL          */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,9 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include <stdbool.h>
-#include "asf.h"
-#include "iic_at32uc3l0256.h"
+#include "iic_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -36,24 +37,9 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_iic_at32uc3l0256(void)
+void INTC_init_interrupts(void)
 {
-    INTC_init_interrupts();
-}
-
-void deinit_iic_at32uc3l0256(void)
-{
-
-}
-
-void enable_global_interrupts_at32uc3l0256(void)
-{
-
-}
-
-void disable_global_interrupts_at32uc3l0256(void)
-{
-
+    /* emtpy */
 }
 
 /*----------------------------------------------------------------------------*/

@@ -1,27 +1,24 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : iic_mock.h                                            */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Bare minimum interface/definitions from ASF library to get internal        */
+/* interrupt controller hal implementation to build on Windows.               */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
+#ifndef IIC_MOCK_H_
+#define IIC_MOCK_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* none */
+/* ASF constants and struct definitions */
+
+/* untestable static inline functions in ASF headers */
+
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void INTC_init_interrupts(void);
 
-#endif /* ASF_H_ */
+#endif /* IIC_MOCK_H_ */

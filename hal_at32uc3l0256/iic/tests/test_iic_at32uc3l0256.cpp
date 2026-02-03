@@ -28,7 +28,10 @@ extern "C" {
 extern "C"
 {
 
-
+void INTC_init_interrupts(void)
+{
+    mock().actualCall("INTC_init_interrupts");
+}
 
 }
 
@@ -52,7 +55,8 @@ TEST_GROUP(HalIicTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalIicTests, DeleteMe)
+TEST(HalIicTests, InitIicCallsFunctions)
 {
-    
+    mock().expectOneCall("INTC_init_interrupts");
+    init_iic_at32uc3l0256();
 }
