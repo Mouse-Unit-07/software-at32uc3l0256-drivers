@@ -60,3 +60,9 @@ TEST(HalIicTests, InitIicCallsFunctions)
     mock().expectOneCall("INTC_init_interrupts");
     init_iic_at32uc3l0256();
 }
+
+TEST(HalIicTests, DeinitIic)
+{
+    deinit_iic_at32uc3l0256();
+}
+

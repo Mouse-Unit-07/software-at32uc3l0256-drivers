@@ -43,7 +43,7 @@ void init_iic_at32uc3l0256(void)
 
 void deinit_iic_at32uc3l0256(void)
 {
-
+    /* nothing to clear/reset */
 }
 
 void enable_global_interrupts_at32uc3l0256(void)
