@@ -53,7 +53,10 @@ void init_adc_at32uc3l0256(void)
         return;
     }
 
-    configure_adc();
+    if (configure_adc() != PASS) {
+        adc_runtime_error("adc init: configure_adc() failed", FAIL);
+        return;
+    }
 }
 
 void deinit_adc_at32uc3l0256(void)
