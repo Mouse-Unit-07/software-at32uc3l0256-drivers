@@ -81,6 +81,12 @@ bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
         .returnBoolValue();
 }
 
+bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
+{
+    return mock().actualCall("adcifb_is_drdy")
+        .returnBoolValue();
+}
+
 }
 
 /*============================================================================*/
@@ -159,12 +165,18 @@ TEST(HalAdcTests, InitAdcConfigTriggerFailureCallsRuntimeError)
 
 TEST(HalAdcTests, ReadAdcCallsFunctions)
 {
+    mock().ignoreOtherCalls();
+    init_adc_at32uc3l0256();
+    mock().clear();
+
     mock().expectOneCall("adcifb_is_ready")
         .andReturnValue(true);
     mock().expectOneCall("RUNTIME_TELEMETRY")
         .withUnsignedIntParameter("timestamp", 0)
         .withStringParameter("fail_message", "enable adc channel: adcifb_is_ready() passed watchdog")
         .withUnsignedIntParameter("fail_value", 0);
+    mock().expectOneCall("adcifb_is_drdy")
+        .andReturnValue(true);
     read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }
 

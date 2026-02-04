@@ -461,6 +461,8 @@ static inline void adcifb_channels_disable(volatile avr32_adcifb_t *adcifb,
     uint32_t channels_mask) {}
 static inline void adcifb_channels_enable(volatile avr32_adcifb_t *adcifb,
     uint32_t channels_mask) {}
+static inline void adcifb_start_conversion_sequence(
+    volatile avr32_adcifb_t *adcifb) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
@@ -471,5 +473,6 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
 int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
     uint8_t trgmod, uint32_t trgper);
 bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb);
+bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb);
 
 #endif /* ADC_MOCK_H_ */

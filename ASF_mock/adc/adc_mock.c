@@ -60,6 +60,11 @@ bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
     return true;
 }
 
+bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
+{
+    return true;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
