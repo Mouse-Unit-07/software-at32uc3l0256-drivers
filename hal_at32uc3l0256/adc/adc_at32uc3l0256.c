@@ -50,12 +50,12 @@ void init_adc_at32uc3l0256(void)
 
     asf_return_value = init_adc_pins();
     if (asf_return_value != GPIO_SUCCESS) {
-        adc_runtime_error("adc init: gpio_enable_module() failed", asf_return_value);
+        adc_runtime_error("adc init: init_adc_pins() failed", asf_return_value);
         return;
     }
 
     if (configure_adc_except_trigger() != PASS) {
-        adc_runtime_error("adc init: configure_adc() failed", FAIL);
+        adc_runtime_error("adc init: configure_adc_except_trigger() failed", FAIL);
         return;
     }
 

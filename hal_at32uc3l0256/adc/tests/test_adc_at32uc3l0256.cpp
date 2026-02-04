@@ -107,7 +107,7 @@ TEST(HalAdcTests, InitAdcGpioFailureCallsRuntimeError)
         .andReturnValue(GPIO_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
         .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "adc init: gpio_enable_module() failed")
+        .withStringParameter("fail_message", "adc init: init_adc_pins() failed")
         .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
     init_adc_at32uc3l0256();
 }
@@ -121,7 +121,7 @@ TEST(HalAdcTests, InitAdcConfigFailureCallsRuntimeError)
         .andReturnValue(FAIL);
     mock().expectOneCall("RUNTIME_ERROR")
         .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "adc init: configure_adc() failed")
+        .withStringParameter("fail_message", "adc init: configure_adc_except_trigger() failed")
         .withUnsignedIntParameter("fail_value", FAIL);
     init_adc_at32uc3l0256();
 }
