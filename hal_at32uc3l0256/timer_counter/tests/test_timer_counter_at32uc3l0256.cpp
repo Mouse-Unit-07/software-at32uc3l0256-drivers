@@ -20,17 +20,21 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
-void expect_successful_init_timer_counter_at32uc3l0256(void)
+void init_tc_without_cpputest_checks(void)
+{
+    mock().ignoreOtherCalls();
+    init_timer_counter_at32uc3l0256();
+    mock().clear();
+}
+
+void immediately_fail_init_tc(void)
 {
     mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_configure_interrupts")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_start")
-        .andReturnValue(1);
-
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
 
@@ -129,13 +133,7 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 
 TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(TC_INVALID_ARGUMENT);
-    mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_init_waveform call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
-    init_timer_counter_at32uc3l0256();
+    immediately_fail_init_tc();
 }
 
 TEST(HalTimerCounterTests, InitTimerCounterWriteRcFailureCallsRuntimeError)
@@ -185,14 +183,14 @@ TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
 
 TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
 {
-    expect_successful_init_timer_counter_at32uc3l0256();
+    init_tc_without_cpputest_checks();
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
 
 /* time consuming- turn on when needed */
 IGNORE_TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
 {
-    expect_successful_init_timer_counter_at32uc3l0256();
+    init_tc_without_cpputest_checks();
     call_tc_isr_to_uint32_max();
     CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
 }
@@ -200,15 +198,23 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
 /* time consuming- turn on when needed */
 IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
 {
-    expect_successful_init_timer_counter_at32uc3l0256();
+    init_tc_without_cpputest_checks();
     call_tc_isr_to_uint32_max();
+    tc_irq();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
+TEST(HalTimerCounterTests, NoIncrementsAfterInitTimerCounterFailure)
+{
+    immediately_fail_init_tc();
+    tc_irq();
     tc_irq();
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
 
 TEST(HalTimerCounterTests, DeinitResetsCount)
 {
-    expect_successful_init_timer_counter_at32uc3l0256();
+    init_tc_without_cpputest_checks();
     tc_irq();
     deinit_timer_counter_at32uc3l0256();
     CHECK(get_timer_count_at32uc3l0256() == 0);
@@ -216,7 +222,7 @@ TEST(HalTimerCounterTests, DeinitResetsCount)
 
 TEST(HalTimerCounterTests, RestartTimerResetsCount)
 {
-    expect_successful_init_timer_counter_at32uc3l0256();
+    init_tc_without_cpputest_checks();
     tc_irq();
     restart_timer_at32uc3l0256();
     CHECK(get_timer_count_at32uc3l0256() == 0);
