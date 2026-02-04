@@ -142,7 +142,11 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
         return 0;
     }
 
-    return (adcifb_get_last_data(&AVR32_ADCIFB) & 0xFFF);
+    uint32_t return_value = (adcifb_get_last_data(&AVR32_ADCIFB) & 0xFFF);
+
+    disable_adc_channel(handle->channel_mask);
+
+    return return_value;
 }
 
 /*----------------------------------------------------------------------------*/
