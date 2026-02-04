@@ -18,6 +18,12 @@ typedef struct {
 
 enum
 {
+    GPIO_SUCCESS = 0,
+    GPIO_INVALID_ARGUMENT = 1
+};
+
+enum
+{
     AVR32_PIN_PB11 = 43,
     AVR32_PIN_PB06 = 38,
     AVR32_PIN_PA22 = 22,
