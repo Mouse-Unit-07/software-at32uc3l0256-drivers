@@ -176,6 +176,20 @@ TEST(HalAdcTests, InitAdcConfigTriggerFailureCallsRuntimeError)
     init_adc_at32uc3l0256();
 }
 
+TEST(HalAdcTests, NothingCalledAfterInitAdcFailure)
+{
+    mock().expectOneCall("sysclk_init");
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "adc init: init_adc_pins() failed")
+        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+    init_adc_at32uc3l0256();
+
+    read_adc_channel_at32uc3l0256(&ir_sensor_1);
+}
+
 TEST(HalAdcTests, DeinitAdc)
 {
     deinit_adc_at32uc3l0256();
@@ -204,6 +218,8 @@ TEST(HalAdcTests, ReadAdcCallsFunctions)
 
 TEST(HalAdcTests, ReadAdcAdcifbIsReadyWatchdogFailureCallsRuntimeError)
 {
+    init_adc_without_cpputest_checks();
+
     mock().expectNCalls(WATCHDOG_MAX + 1, "adcifb_is_ready")
         .andReturnValue(false);
     mock().expectOneCall("RUNTIME_ERROR")
@@ -215,6 +231,8 @@ TEST(HalAdcTests, ReadAdcAdcifbIsReadyWatchdogFailureCallsRuntimeError)
 
 TEST(HalAdcTests, ReadAdcAdcifbIsDrdyWatchdogFailureCallsRuntimeError)
 {
+    init_adc_without_cpputest_checks();
+    
     mock().expectOneCall("adcifb_is_ready")
         .andReturnValue(true);
     mock().expectOneCall("RUNTIME_TELEMETRY")

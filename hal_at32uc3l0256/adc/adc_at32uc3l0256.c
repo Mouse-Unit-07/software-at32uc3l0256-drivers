@@ -132,6 +132,10 @@ void deinit_adc_at32uc3l0256(void)
 
 uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
 {
+    if (adc_failed) {
+        return 0;
+    }
+    
     enable_adc_channel(handle->channel_mask);
     if (adc_failed) {
         return 0;
