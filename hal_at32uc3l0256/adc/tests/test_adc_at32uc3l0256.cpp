@@ -176,6 +176,11 @@ TEST(HalAdcTests, InitAdcConfigTriggerFailureCallsRuntimeError)
     init_adc_at32uc3l0256();
 }
 
+TEST(HalAdcTests, DeinitAdc)
+{
+    deinit_adc_at32uc3l0256();
+}
+
 TEST(HalAdcTests, ReadAdcCallsFunctions)
 {
     init_adc_without_cpputest_checks();
