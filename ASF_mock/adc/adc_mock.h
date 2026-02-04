@@ -457,7 +457,8 @@ enum
 };
 
 /* untestable static inline functions in ASF headers */
-
+static inline void adcifb_channels_disable(volatile avr32_adcifb_t *adcifb,
+    uint32_t channels_mask) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

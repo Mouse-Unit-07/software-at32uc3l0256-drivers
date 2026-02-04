@@ -55,8 +55,6 @@ TEST(AdcHalConfigTest, AdcHandlerElementsAreNotNull)
     const struct adc_hal_handler *adc_handler = get_adc_hal_handler();
     CHECK(adc_handler->init_adc != NULL);
     CHECK(adc_handler->deinit_adc != NULL);
-    CHECK(adc_handler->enable_adc_channel != NULL);
-    CHECK(adc_handler->disable_adc_channel != NULL);
     CHECK(adc_handler->read_adc_channel != NULL);
 }
 

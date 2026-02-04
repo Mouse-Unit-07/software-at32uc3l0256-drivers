@@ -26,8 +26,6 @@ const struct adc_hal_handler adc_handler =
 {
     .init_adc = init_adc_at32uc3l0256,
     .deinit_adc = deinit_adc_at32uc3l0256,
-    .enable_adc_channel = enable_adc_channel_at32uc3l0256,
-    .disable_adc_channel = disable_adc_channel_at32uc3l0256,
     .read_adc_channel = read_adc_channel_at32uc3l0256
 };
 
