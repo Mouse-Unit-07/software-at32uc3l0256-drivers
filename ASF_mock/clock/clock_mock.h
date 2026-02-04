@@ -45,6 +45,7 @@ struct dfll_config {
 #endif
 
 /* untestable static inline functions in ASF headers */
+static inline uint32_t sysclk_get_pba_hz(void) { return 1; }
 static inline void dfll_config_init_open_loop_mode(struct dfll_config *cfg) {}
 static inline void dfll_config_tune_for_target_hz(struct dfll_config *cfg, 
                                                     uint32_t target_hz) {}

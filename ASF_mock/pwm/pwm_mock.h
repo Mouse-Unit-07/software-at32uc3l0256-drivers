@@ -238,7 +238,6 @@ enum
 };
 
 /* untestable static inline functions in ASF headers */
-static inline uint32_t sysclk_get_pba_hz(void) { return 1; }
 static inline void genclk_enable_config(unsigned int id, enum genclk_source src, unsigned int divider) {}
 
 /*----------------------------------------------------------------------------*/
