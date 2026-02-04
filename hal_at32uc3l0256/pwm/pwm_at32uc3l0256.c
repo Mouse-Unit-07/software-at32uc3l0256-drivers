@@ -33,6 +33,22 @@ enum
     VACUUM_MOTOR_1_INDEX
 };
 
+/* pin selection related globals */
+/* need unsigned constants for struct/array initializers (no enums or variables) */
+#define WHEEL_MOTOR_1_PIN (AVR32_PWMA_28_PIN)
+#define WHEEL_MOTOR_1_PIN_FUNCTION (AVR32_PWMA_28_FUNCTION)
+
+#define WHEEL_MOTOR_2_PIN (AVR32_PWMA_13_PIN)
+#define WHEEL_MOTOR_2_PIN_FUNCTION (AVR32_PWMA_13_FUNCTION)
+
+#define VACUUM_MOTOR_PIN (AVR32_PWMA_31_PIN)
+#define VACUUM_MOTOR_PIN_FUNCTION (AVR32_PWMA_31_FUNCTION)
+
+/* channel IDs come from pin numbers- can't find masks in ASF library */
+static const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
+static const uint32_t WHEEL_MOTOR_2_CHANNEL_ID = 13u;
+static const uint32_t VACUUM_MOTOR_CHANNEL_ID = 31u;
+
 /* avoiding enum to prevent casting errors */
 static const uint32_t GCLK_FREQUENCY = 48000000;
 
@@ -149,9 +165,9 @@ static void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
 static void init_pwm_pins(void)
 {
     const gpio_map_t PWMA_GPIO_MAP = {
-        {AVR32_PWMA_28_PIN, AVR32_PWMA_28_FUNCTION}, /* wheel motor 1 */
-        {AVR32_PWMA_13_PIN, AVR32_PWMA_13_FUNCTION}, /* wheel motor 2 */
-        {AVR32_PWMA_31_PIN, AVR32_PWMA_31_FUNCTION}, /* vacuum motor */
+        {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
+        {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
+        {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION}
     };
     gpio_enable_module(PWMA_GPIO_MAP, 
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
@@ -184,11 +200,6 @@ static bool configure_frequency_and_spread(void)
 
 static bool set_duty_cycles(void)
 {
-    /* channel IDs come from pin numbers- can't find masks in ASF library */
-    const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
-    const uint32_t WHEEL_MOTOR_2_CHANNEL_ID = 13u;
-    const uint32_t VACUUM_MOTOR_CHANNEL_ID = 31u;
-
     return pwma_set_multiple_values(
         pwma,
         ((WHEEL_MOTOR_1_CHANNEL_ID << 0) |
