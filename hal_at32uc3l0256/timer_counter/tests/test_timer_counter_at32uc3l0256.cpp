@@ -206,6 +206,21 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
     CHECK(get_timer_count_at32uc3l0256() == 0);
 }
 
+TEST(HalTimerCounterTests, NoIncrementsAfterInitTimerCounterFailure)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+
+    tc_irq();
+    tc_irq();
+    CHECK(get_timer_count_at32uc3l0256() == 0);
+}
+
 TEST(HalTimerCounterTests, DeinitResetsCount)
 {
     expect_successful_init_timer_counter_at32uc3l0256();

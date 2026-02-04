@@ -105,6 +105,9 @@ void deinit_timer_counter_at32uc3l0256(void)
 
 uint32_t get_timer_count_at32uc3l0256(void)
 {
+    if (timer_counter_failed) {
+        return 0;
+    }
     return timer_counter_count;
 }
 
