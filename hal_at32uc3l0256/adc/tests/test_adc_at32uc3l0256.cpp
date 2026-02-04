@@ -154,3 +154,15 @@ TEST(HalAdcTests, ReadAdcCallsFunctions)
         .andReturnValue(true);
     read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }
+
+TEST(HalAdcTests, ReadAdcAdcifbIsReadyWatchdogFailureCallsRuntimeError)
+{
+    constexpr int WATCHDOG_MAX{2000u};
+    mock().expectNCalls(WATCHDOG_MAX + 1, "adcifb_is_ready")
+        .andReturnValue(false);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "read adc: adcifb_is_ready() failed watchdog")
+        .withUnsignedIntParameter("fail_value", WATCHDOG_MAX);
+    read_adc_channel_at32uc3l0256(&ir_sensor_1);
+}
