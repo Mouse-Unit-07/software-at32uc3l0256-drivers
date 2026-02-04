@@ -33,6 +33,12 @@ void sysclk_init(void)
     mock().actualCall("sysclk_init");
 }
 
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+{
+    return mock().actualCall("gpio_enable_module")
+        .returnUnsignedIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -58,5 +64,7 @@ TEST_GROUP(HalClockTests)
 TEST(HalClockTests, InitAdcCallsFunctions)
 {
     mock().expectOneCall("sysclk_init");
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(1);
     init_adc_at32uc3l0256();
 }

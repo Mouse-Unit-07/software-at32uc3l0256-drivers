@@ -38,6 +38,11 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+{
+    return 1;
+}
+
 void gpio_configure_pin(uint32_t pin, uint32_t flags)
 {
     /* empty */

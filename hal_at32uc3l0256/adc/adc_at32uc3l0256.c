@@ -30,7 +30,7 @@
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* none */
+static uint32_t init_adc_pins(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -38,6 +38,8 @@
 void init_adc_at32uc3l0256(void)
 {
     sysclk_init();
+    
+    init_adc_pins();
 }
 
 void deinit_adc_at32uc3l0256(void)
@@ -63,4 +65,15 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-/* none */
+static uint32_t init_adc_pins(void)
+{
+    const gpio_map_t ADCIFB_GPIO_MAP = {
+        {AVR32_ADCIFB_AD_1_PIN, AVR32_ADCIFB_AD_1_FUNCTION}, /* IR 1*/
+        {AVR32_ADCIFB_AD_2_PIN, AVR32_ADCIFB_AD_2_FUNCTION}, /* IR 2*/
+        {AVR32_ADCIFB_AD_5_PIN, AVR32_ADCIFB_AD_5_FUNCTION}, /* IR 3*/
+        {AVR32_ADCIFB_AD_4_PIN, AVR32_ADCIFB_AD_4_FUNCTION}  /* IR 4*/
+    };
+
+    return gpio_enable_module(ADCIFB_GPIO_MAP,
+                        sizeof(ADCIFB_GPIO_MAP) / sizeof(ADCIFB_GPIO_MAP[0]));
+}

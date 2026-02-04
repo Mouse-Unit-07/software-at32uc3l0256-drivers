@@ -38,11 +38,6 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
-{
-    return 1;
-}
-
 bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
                         uint32_t gclk_freq_hz, uint16_t spread)
 {
