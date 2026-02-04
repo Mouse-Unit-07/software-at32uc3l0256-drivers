@@ -64,7 +64,7 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
 /*============================================================================*/
 /*                                 Test Group                                 */
 /*============================================================================*/
-TEST_GROUP(HalClockTests)
+TEST_GROUP(HalAdcTests)
 {
     void setup() override
     {
@@ -81,7 +81,7 @@ TEST_GROUP(HalClockTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTests, InitAdcCallsFunctions)
+TEST(HalAdcTests, InitAdcCallsFunctions)
 {
     mock().expectOneCall("sysclk_init");
     mock().expectOneCall("gpio_enable_module")
@@ -91,7 +91,7 @@ TEST(HalClockTests, InitAdcCallsFunctions)
     init_adc_at32uc3l0256();
 }
 
-TEST(HalClockTests, InitPwmGpioFailureCallsRuntimeError)
+TEST(HalAdcTests, InitAdcGpioFailureCallsRuntimeError)
 {
     mock().expectOneCall("sysclk_init");
     mock().expectOneCall("gpio_enable_module")
@@ -103,7 +103,7 @@ TEST(HalClockTests, InitPwmGpioFailureCallsRuntimeError)
     init_adc_at32uc3l0256();
 }
 
-TEST(HalClockTests, InitAdcConfigFailureCallsRuntimeError)
+TEST(HalAdcTests, InitAdcConfigFailureCallsRuntimeError)
 {
     mock().expectOneCall("sysclk_init");
     mock().expectOneCall("gpio_enable_module")
