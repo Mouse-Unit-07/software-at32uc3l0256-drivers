@@ -66,6 +66,7 @@ uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
 bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
                         uint32_t gclk_freq_hz, uint16_t spread)
 {
+    CHECK(pwma != NULL);
     return mock().actualCall("pwma_config_enable")
         .returnBoolValue();
 }
@@ -73,12 +74,15 @@ bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
 bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask,
                         uint16_t *channel_duty_cycles)
 {
+    CHECK(pwma != NULL);
+    CHECK(channel_duty_cycles != NULL);
     return mock().actualCall("pwma_set_multiple_values")
         .returnBoolValue();
 }
 
 bool pwma_write_top_value(volatile avr32_pwma_t *pwma, uint16_t top_value)
 {
+    CHECK(pwma != NULL);
     return mock().actualCall("pwma_write_top_value")
         .returnBoolValue();
 }
