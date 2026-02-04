@@ -234,12 +234,6 @@ enum
 
 enum
 {
-    FAIL = 1,
-    PASS = 0
-};
-
-enum
-{
     PWMA_MAXIMUM_TOP = 0xff
 };
 
