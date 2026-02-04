@@ -66,6 +66,12 @@ int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
         .returnIntValue();
 }
 
+bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
+{
+    return mock().actualCall("adcifb_is_ready")
+        .returnBoolValue();
+}
+
 }
 
 /*============================================================================*/
@@ -140,4 +146,11 @@ TEST(HalAdcTests, InitAdcConfigTriggerFailureCallsRuntimeError)
         .withStringParameter("fail_message", "adc init: configure_adc_trigger() failed")
         .withUnsignedIntParameter("fail_value", FAIL);
     init_adc_at32uc3l0256();
+}
+
+TEST(HalAdcTests, ReadAdcCallsFunctions)
+{
+    mock().expectOneCall("adcifb_is_ready")
+        .andReturnValue(true);
+    read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }

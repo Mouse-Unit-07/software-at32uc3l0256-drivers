@@ -459,6 +459,8 @@ enum
 /* untestable static inline functions in ASF headers */
 static inline void adcifb_channels_disable(volatile avr32_adcifb_t *adcifb,
     uint32_t channels_mask) {}
+static inline void adcifb_channels_enable(volatile avr32_adcifb_t *adcifb,
+    uint32_t channels_mask) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
@@ -468,5 +470,6 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
     const adcifb_opt_t *p_adcifb_opt);
 int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
     uint8_t trgmod, uint32_t trgper);
+bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb);
 
 #endif /* ADC_MOCK_H_ */

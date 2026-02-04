@@ -55,6 +55,11 @@ int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
     return 1;
 }
 
+bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
+{
+    return true;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

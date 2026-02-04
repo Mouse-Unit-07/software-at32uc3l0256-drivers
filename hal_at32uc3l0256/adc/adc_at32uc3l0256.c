@@ -126,7 +126,16 @@ void deinit_adc_at32uc3l0256(void)
 
 uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
 {
-    return 1;
+    const uint32_t WATCHDOG_MAX = 50000000u;
+    uint32_t watchdog_count = 0u;
+
+    adcifb_channels_enable(&AVR32_ADCIFB, handle->channel_mask);
+    while ((adcifb_is_ready(&AVR32_ADCIFB) != true) && 
+        (watchdog_count < WATCHDOG_MAX) ) {
+        watchdog_count++;
+    }
+
+    return 0;
 }
 
 /*----------------------------------------------------------------------------*/
