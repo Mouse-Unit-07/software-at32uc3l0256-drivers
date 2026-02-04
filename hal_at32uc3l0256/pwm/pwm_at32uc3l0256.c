@@ -148,7 +148,7 @@ static void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
 
 static void init_pwm_pins(void)
 {
-    static const gpio_map_t PWMA_GPIO_MAP = {
+    const gpio_map_t PWMA_GPIO_MAP = {
         {AVR32_PWMA_28_PIN, AVR32_PWMA_28_FUNCTION}, /* wheel motor 1 */
         {AVR32_PWMA_13_PIN, AVR32_PWMA_13_FUNCTION}, /* wheel motor 2 */
         {AVR32_PWMA_31_PIN, AVR32_PWMA_31_FUNCTION}, /* vacuum motor */

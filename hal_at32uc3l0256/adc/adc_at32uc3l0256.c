@@ -23,14 +23,14 @@
 /*----------------------------------------------------------------------------*/
 static bool adc_failed = false;
 
-const uint32_t WATCHDOG_MAX = 2000u;
+static const uint32_t WATCHDOG_MAX = 2000u;
 
 enum
 {
     ADC_COUNT = 4
 };
 
-const struct adc_handle *const adc_handles[ADC_COUNT] = {
+static const struct adc_handle *const adc_handles[ADC_COUNT] = {
     &ir_sensor_1,
     &ir_sensor_2,
     &ir_sensor_3,
