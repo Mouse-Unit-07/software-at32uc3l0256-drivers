@@ -71,6 +71,8 @@ uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
 int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
     const adcifb_opt_t *p_adcifb_opt)
 {
+    CHECK(adcifb != NULL);
+    CHECK(p_adcifb_opt != NULL);
     return mock().actualCall("adcifb_configure")
         .returnIntValue();
 }
@@ -78,24 +80,28 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
 int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
     uint8_t trgmod, uint32_t trgper)
 {
+    CHECK(adcifb != NULL);
     return mock().actualCall("adcifb_configure_trigger")
         .returnIntValue();
 }
 
 bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
 {
+    CHECK(adcifb != NULL);
     return mock().actualCall("adcifb_is_ready")
         .returnBoolValue();
 }
 
 bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
 {
+    CHECK(adcifb != NULL);
     return mock().actualCall("adcifb_is_drdy")
         .returnBoolValue();
 }
 
 uint32_t adcifb_get_last_data(volatile avr32_adcifb_t *adcifb)
 {
+    CHECK(adcifb != NULL);
     return mock().actualCall("adcifb_get_last_data")
         .returnUnsignedIntValue();
 }
