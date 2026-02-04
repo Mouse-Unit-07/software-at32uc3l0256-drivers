@@ -28,23 +28,23 @@ enum
     AVR32_SCIF_GC_USES_CLK_PBA = 7
 };
 
-#define div_ceil(a, b)	(((a) + (b) - 1) / (b))
+#define div_ceil(a, b)    (((a) + (b) - 1) / (b))
 
 enum genclk_source {
-	GENCLK_SRC_RCSYS        = 0,    //!< System RC oscillator
-	GENCLK_SRC_OSC32K       = 1,    //!< 32 kHz oscillator
-	GENCLK_SRC_DFLL         = 2,    //!< DFLL
-	GENCLK_SRC_OSC0         = 3,    //!< Oscillator 0
-	GENCLK_SRC_RC120M       = 4,    //!< 120 MHz RC oscillator
-	GENCLK_SRC_CLK_CPU      = 5,    //!< CPU clock
-	GENCLK_SRC_CLK_HSB      = 6,    //!< High Speed Bus clock
-	GENCLK_SRC_CLK_PBA      = 7,    //!< Peripheral Bus A clock
-	GENCLK_SRC_CLK_PBB      = 8,    //!< Peripheral Bus B clock
-	GENCLK_SRC_RC32K        = 9,    //!< 32 kHz RC oscillator
-	GENCLK_SRC_CLK_1K       = 11,   //!< 1 kHz output from OSC32K
+    GENCLK_SRC_RCSYS        = 0,    //!< System RC oscillator
+    GENCLK_SRC_OSC32K       = 1,    //!< 32 kHz oscillator
+    GENCLK_SRC_DFLL         = 2,    //!< DFLL
+    GENCLK_SRC_OSC0         = 3,    //!< Oscillator 0
+    GENCLK_SRC_RC120M       = 4,    //!< 120 MHz RC oscillator
+    GENCLK_SRC_CLK_CPU      = 5,    //!< CPU clock
+    GENCLK_SRC_CLK_HSB      = 6,    //!< High Speed Bus clock
+    GENCLK_SRC_CLK_PBA      = 7,    //!< Peripheral Bus A clock
+    GENCLK_SRC_CLK_PBB      = 8,    //!< Peripheral Bus B clock
+    GENCLK_SRC_RC32K        = 9,    //!< 32 kHz RC oscillator
+    GENCLK_SRC_CLK_1K       = 11,   //!< 1 kHz output from OSC32K
 
 #if ( UC3L0128 || UC3L0256 || UC3L3_L4 )
-	GENCLK_SRC_PLL0         = 12    //!< PLL0
+    GENCLK_SRC_PLL0         = 12    //!< PLL0
 #endif
 };
 
