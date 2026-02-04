@@ -182,6 +182,10 @@ TEST(HalAdcTests, ReadAdcCallsFunctions)
         .withUnsignedIntParameter("fail_value", 0);
     mock().expectOneCall("adcifb_is_drdy")
         .andReturnValue(true);
+    mock().expectOneCall("RUNTIME_TELEMETRY")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "start adc conversion: adcifb_is_drdy() passed watchdog")
+        .withUnsignedIntParameter("fail_value", 0);
     read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }
 

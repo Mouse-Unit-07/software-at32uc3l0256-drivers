@@ -146,6 +146,7 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
         adc_runtime_error("start adc conversion: adcifb_is_drdy() failed watchdog", watchdog_count);
         return 0;
     }
+    adc_runtime_telemetry("start adc conversion: adcifb_is_drdy() passed watchdog", watchdog_count);
 
     return 0;
 }
