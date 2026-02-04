@@ -20,7 +20,23 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
-/* none */
+void init_pwm_without_cpputest_checks(void)
+{
+    mock().ignoreOtherCalls();
+    init_pwm_at32uc3l0256();
+    mock().clear();
+}
+
+void immediately_fail_pwm_init(void)
+{
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "pwm init: init_pwm_pins() failed")
+        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+    init_pwm_at32uc3l0256();
+}
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -92,7 +108,7 @@ TEST_GROUP(HalPwmTests)
 TEST(HalPwmTests, InitPwmCallsFunctions)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")
@@ -102,10 +118,15 @@ TEST(HalPwmTests, InitPwmCallsFunctions)
     init_pwm_at32uc3l0256();
 }
 
+TEST(HalPwmTests, InitPwmGpioFailureCallsRuntimeError)
+{
+    immediately_fail_pwm_init();
+}
+
 TEST(HalPwmTests, InitPwmFreqAndSpreadConfigFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(FAIL));
     mock().expectOneCall("RUNTIME_ERROR")
@@ -118,7 +139,7 @@ TEST(HalPwmTests, InitPwmFreqAndSpreadConfigFailureCallsRuntimeError)
 TEST(HalPwmTests, InitPwmSetDutyCyclesFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")
@@ -133,7 +154,7 @@ TEST(HalPwmTests, InitPwmSetDutyCyclesFailureCallsRuntimeError)
 TEST(HalPwmTests, InitPwmSetTopFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")
@@ -154,6 +175,8 @@ TEST(HalPwmTests, DeinitPwm)
 
 TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
 {
+    init_pwm_without_cpputest_checks();
+
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));
     
@@ -163,6 +186,8 @@ TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
 
 TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCallRuntimeErrors)
 {
+    init_pwm_without_cpputest_checks();
+    
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));
     
@@ -172,6 +197,8 @@ TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCallRuntimeErrors)
 
 TEST(HalPwmTests, SetPwmDutyCycleSetDutyCyclesFailureCallsRuntimeError)
 {
+    init_pwm_without_cpputest_checks();
+    
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(FAIL));
     mock().expectOneCall("RUNTIME_ERROR")
@@ -179,6 +206,14 @@ TEST(HalPwmTests, SetPwmDutyCycleSetDutyCyclesFailureCallsRuntimeError)
         .withStringParameter("fail_message", "pwm set duty cycle: set_duty_cycles() failed")
         .withUnsignedIntParameter("fail_value", FAIL);
     
+    set_pwm_duty_cycle_percent_at32uc3l0256(
+        &wheel_motor_1, 0);
+}
+
+TEST(HalPwmTests, NothingCalledAfterInitPwmFailure)
+{
+    immediately_fail_pwm_init();
+
     set_pwm_duty_cycle_percent_at32uc3l0256(
         &wheel_motor_1, 0);
 }
