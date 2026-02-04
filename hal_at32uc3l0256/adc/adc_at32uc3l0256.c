@@ -88,6 +88,7 @@ static uint32_t init_adc_pins(void);
 static int32_t configure_adc_except_trigger(void);
 static int32_t configure_adc_trigger(void);
 static void disable_adc_channel(uint32_t channel_mask);
+static void enable_adc_channel(uint32_t channel_mask);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -128,19 +129,7 @@ void deinit_adc_at32uc3l0256(void)
 
 uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
 {
-    const uint32_t WATCHDOG_MAX = 2000u;
-    
-    uint32_t watchdog_count = 0u;
-    adcifb_channels_enable(&AVR32_ADCIFB, handle->channel_mask);
-    while ((adcifb_is_ready(&AVR32_ADCIFB) != true) \
-            && (watchdog_count < WATCHDOG_MAX)) {
-        watchdog_count++;
-    }
-    if (watchdog_count == WATCHDOG_MAX) {
-        adc_runtime_error("read adc: adcifb_is_ready() failed watchdog", watchdog_count);
-        return 0;
-    }
-    adc_runtime_telemetry("read adc: adcifb_is_ready() passed watchdog", watchdog_count);
+    enable_adc_channel(handle->channel_mask);
 
     return 0;
 }
@@ -201,4 +190,21 @@ static int32_t configure_adc_trigger(void)
 static void disable_adc_channel(uint32_t channel_mask)
 {
     adcifb_channels_disable(&AVR32_ADCIFB, channel_mask);
+}
+
+static void enable_adc_channel(uint32_t channel_mask)
+{
+    const uint32_t WATCHDOG_MAX = 2000u;
+    
+    uint32_t watchdog_count = 0u;
+    adcifb_channels_enable(&AVR32_ADCIFB, channel_mask);
+    while ((adcifb_is_ready(&AVR32_ADCIFB) != true) \
+            && (watchdog_count < WATCHDOG_MAX)) {
+        watchdog_count++;
+    }
+    if (watchdog_count == WATCHDOG_MAX) {
+        adc_runtime_error("enable adc channel: adcifb_is_ready() failed watchdog", watchdog_count);
+        return;
+    }
+    adc_runtime_telemetry("enable adc channel: adcifb_is_ready() passed watchdog", watchdog_count);
 }
