@@ -17,4 +17,4 @@
 /*----------------------------------------------------------------------------*/
 const struct clock_hal_handler *get_clock_hal_handler(void);
 
-#endif /* CLOCK_HAL_CONFIG */
+#endif /* CLOCK_HAL_CONFIG_H_ */

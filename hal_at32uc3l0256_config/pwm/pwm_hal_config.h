@@ -21,4 +21,4 @@ const struct pwm_handle *get_wheel_motor_1_handle(void);
 const struct pwm_handle *get_wheel_motor_2_handle(void);
 const struct pwm_handle *get_vacuum_motor_handle(void);
 
-#endif /* PWM_HAL_CONFIG */
+#endif /* PWM_HAL_CONFIG_H_ */
