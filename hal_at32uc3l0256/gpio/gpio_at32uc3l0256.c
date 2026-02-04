@@ -27,21 +27,21 @@ enum
     OUTPUT_COUNT = 10
 };
 
-const struct gpio_handle *const input_handles[INPUT_COUNT] = {
+static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
     &battery_comparator,
     &wheel_driver_cld,
     &wheel_encoder_motor_1_b_channel,
     &wheel_encoder_motor_2_b_channel
 };
 
-const uint32_t pull_up_configs[INPUT_COUNT] = {
+static const uint32_t pull_up_configs[INPUT_COUNT] = {
     0,
     0,
     GPIO_PULL_UP,
     GPIO_PULL_UP
 };
 
-const struct gpio_handle *const output_handles[OUTPUT_COUNT] = {
+static const struct gpio_handle *const output_handles[OUTPUT_COUNT] = {
     &regulators_enable,
     &led_d1,
     &led_d2,

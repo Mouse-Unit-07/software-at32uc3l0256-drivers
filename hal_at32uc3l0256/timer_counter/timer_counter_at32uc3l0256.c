@@ -128,7 +128,7 @@ static void tc_runtime_error(const char *fail_message, uint32_t fail_value)
 static int init_waveform(void)
 {
     /* Options for waveform generation */
-    static const tc_waveform_opt_t waveform_opt = {
+    const tc_waveform_opt_t waveform_opt = {
         .channel  = TIMER_COUNTER_CHANNEL,           /* Channel selection */
         .bswtrg   = TC_EVT_EFFECT_NOOP,                 /* Software trigger effect on TIOB */
         .beevt    = TC_EVT_EFFECT_NOOP,                 /* External event effect on TIOB */
@@ -168,7 +168,7 @@ static int init_compare_trigger(void)
 static int configure_interrupts(void)
 {
     /* Options for enabling TC interrupts */
-    static const tc_interrupt_t tc_interrupt = {
+    const tc_interrupt_t tc_interrupt = {
         .etrgs = 0,
         .ldrbs = 0,
         .ldras = 0,

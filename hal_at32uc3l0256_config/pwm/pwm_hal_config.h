@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : pwm_hal_config.h                                      */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for pulse width modulation HAL   */
+/* Interface for AT32UC3L0256 implementation for pulse width modulation HAL   */
 /* handler                                                                    */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
@@ -21,4 +21,4 @@ const struct pwm_handle *get_wheel_motor_1_handle(void);
 const struct pwm_handle *get_wheel_motor_2_handle(void);
 const struct pwm_handle *get_vacuum_motor_handle(void);
 
-#endif /* PWM_HAL_CONFIG */
+#endif /* PWM_HAL_CONFIG_H_ */

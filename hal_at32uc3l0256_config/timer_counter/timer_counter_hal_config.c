@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : timer_counter_hal_config.c                            */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for timer counter HAL handler                  */
+/* AT32UC3L0256 implementation for timer counter HAL handler                  */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 

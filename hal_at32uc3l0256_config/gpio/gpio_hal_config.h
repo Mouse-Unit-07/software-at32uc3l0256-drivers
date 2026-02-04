@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : gpio_hal_config.h                                     */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for GPIO HAL handler             */
+/* Interface for AT32UC3L0256 implementation for GPIO HAL handler             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #ifndef GPIO_HAL_CONFIG_H_
@@ -31,4 +31,4 @@ const struct gpio_handle *get_wheel_driver_motor_2_in2_handle(void);
 const struct gpio_handle *get_wheel_encoder_motor_1_b_channel_handle(void);
 const struct gpio_handle *get_wheel_encoder_motor_2_b_channel_handle(void);
 
-#endif /* GPIO_HAL_CONFIG */
+#endif /* GPIO_HAL_CONFIG_H_ */
