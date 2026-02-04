@@ -39,6 +39,15 @@ void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_v
         .withUnsignedIntParameter("fail_value", fail_value);
 }
 
+void RUNTIME_TELEMETRY(uint32_t timestamp, const char *fail_message, uint32_t fail_value)
+{
+    CHECK(fail_message != NULL);
+    mock().actualCall("RUNTIME_TELEMETRY")
+        .withUnsignedIntParameter("timestamp", timestamp)
+        .withStringParameter("fail_message", fail_message)
+        .withUnsignedIntParameter("fail_value", fail_value);
+}
+
 /* ---------------------------------------------------------------------------*/
 /* Analog to Digital Conversion */
 void sysclk_init(void)
@@ -152,6 +161,10 @@ TEST(HalAdcTests, ReadAdcCallsFunctions)
 {
     mock().expectOneCall("adcifb_is_ready")
         .andReturnValue(true);
+    mock().expectOneCall("RUNTIME_TELEMETRY")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "read adc: adcifb_is_ready() passed watchdog")
+        .withUnsignedIntParameter("fail_value", 0);
     read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }
 

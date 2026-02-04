@@ -82,6 +82,8 @@ const struct adc_handle ir_sensor_4 = {
 /*----------------------------------------------------------------------------*/
 static void reset_adc_flags(void);
 static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
+static void adc_runtime_telemetry(const char *telemetry_message,
+    uint32_t telemetry_value);
 static uint32_t init_adc_pins(void);
 static int32_t configure_adc_except_trigger(void);
 static int32_t configure_adc_trigger(void);
@@ -134,11 +136,11 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
             && (watchdog_count < WATCHDOG_MAX)) {
         watchdog_count++;
     }
-
     if (watchdog_count == WATCHDOG_MAX) {
         adc_runtime_error("read adc: adcifb_is_ready() failed watchdog", watchdog_count);
         return 0;
     }
+    adc_runtime_telemetry("read adc: adcifb_is_ready() passed watchdog", watchdog_count);
 
     return 0;
 }
@@ -155,6 +157,12 @@ static void adc_runtime_error(const char *fail_message, uint32_t fail_value)
 {
     RUNTIME_ERROR(0, fail_message, fail_value);
     adc_failed = true;
+}
+
+static void adc_runtime_telemetry(const char *telemetry_message,
+    uint32_t telemetry_value)
+{
+    RUNTIME_TELEMETRY(0, telemetry_message, telemetry_value);
 }
 
 static uint32_t init_adc_pins(void)
