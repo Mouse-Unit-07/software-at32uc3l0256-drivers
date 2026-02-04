@@ -142,6 +142,10 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
             && (watchdog_count < WATCHDOG_MAX)) {
         watchdog_count++;
     }
+    if (watchdog_count == WATCHDOG_MAX) {
+        adc_runtime_error("start adc conversion: adcifb_is_drdy() failed watchdog", watchdog_count);
+        return 0;
+    }
 
     return 0;
 }
