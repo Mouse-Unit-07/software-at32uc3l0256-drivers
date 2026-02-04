@@ -27,6 +27,17 @@ void init_tc_without_cpputest_checks(void)
     mock().clear();
 }
 
+void immediately_fail_init_tc(void)
+{
+    mock().expectOneCall("tc_init_waveform")
+        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "tc_init_waveform call failed")
+        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+    init_timer_counter_at32uc3l0256();
+}
+
 /* this call takes 9 seconds to run */
 void call_tc_isr_to_uint32_max(void)
 {
@@ -122,13 +133,7 @@ TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 
 TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(TC_INVALID_ARGUMENT);
-    mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_init_waveform call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
-    init_timer_counter_at32uc3l0256();
+    immediately_fail_init_tc();
 }
 
 TEST(HalTimerCounterTests, InitTimerCounterWriteRcFailureCallsRuntimeError)
@@ -201,14 +206,7 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
 
 TEST(HalTimerCounterTests, NoIncrementsAfterInitTimerCounterFailure)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(TC_INVALID_ARGUMENT);
-    mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_init_waveform call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
-    init_timer_counter_at32uc3l0256();
-
+    immediately_fail_init_tc();
     tc_irq();
     tc_irq();
     CHECK(get_timer_count_at32uc3l0256() == 0);
