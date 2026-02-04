@@ -127,7 +127,7 @@ void init_adc_at32uc3l0256(void)
 
 void deinit_adc_at32uc3l0256(void)
 {
-
+    /* nothing to reset/clear */
 }
 
 uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
