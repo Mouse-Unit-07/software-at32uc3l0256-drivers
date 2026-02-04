@@ -24,6 +24,12 @@ enum
     AVR32_ADCIFB_AD_4_FUNCTION = 0
 };
 
+enum
+{
+    GPIO_SUCCESS = 0,
+    GPIO_INVALID_ARGUMENT = 1
+};
+
 /* untestable static inline functions in ASF headers */
 
 

@@ -10,6 +10,7 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "asf.h"
+#include "runtime_diagnostics.h"
 #include "adc_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
@@ -20,7 +21,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-/* none */
+static bool adc_failed = false;
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -30,6 +31,8 @@
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
+static void reset_adc_flags(void);
+static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
 static uint32_t init_adc_pins(void);
 
 /*----------------------------------------------------------------------------*/
@@ -37,9 +40,17 @@ static uint32_t init_adc_pins(void);
 /*----------------------------------------------------------------------------*/
 void init_adc_at32uc3l0256(void)
 {
+    reset_adc_flags();
+
     sysclk_init();
-    
-    init_adc_pins();
+
+    uint32_t asf_return_value = GPIO_INVALID_ARGUMENT;
+
+    asf_return_value = init_adc_pins();
+    if (asf_return_value != GPIO_SUCCESS) {
+        adc_runtime_error("adc init: gpio_enable_module() failed", asf_return_value);
+        return;
+    }
 }
 
 void deinit_adc_at32uc3l0256(void)
@@ -65,6 +76,17 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+static void reset_adc_flags(void)
+{
+    adc_failed = false;
+}
+
+static void adc_runtime_error(const char *fail_message, uint32_t fail_value)
+{
+    RUNTIME_ERROR(0, fail_message, fail_value);
+    adc_failed = true;
+}
+
 static uint32_t init_adc_pins(void)
 {
     const gpio_map_t ADCIFB_GPIO_MAP = {

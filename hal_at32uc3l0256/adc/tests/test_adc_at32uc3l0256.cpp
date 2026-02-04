@@ -28,6 +28,19 @@ extern "C" {
 extern "C"
 {
 
+/* ---------------------------------------------------------------------------*/
+/* Runtime Diagnostics */
+void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_value)
+{
+    CHECK(fail_message != NULL);
+    mock().actualCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", timestamp)
+        .withStringParameter("fail_message", fail_message)
+        .withUnsignedIntParameter("fail_value", fail_value);
+}
+
+/* ---------------------------------------------------------------------------*/
+/* Analog to Digital Conversion */
 void sysclk_init(void)
 {
     mock().actualCall("sysclk_init");
@@ -65,6 +78,18 @@ TEST(HalClockTests, InitAdcCallsFunctions)
 {
     mock().expectOneCall("sysclk_init");
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
+    init_adc_at32uc3l0256();
+}
+
+TEST(HalClockTests, InitPwmGpioFailureCallsRuntimeError)
+{
+    mock().expectOneCall("sysclk_init");
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "adc init: gpio_enable_module() failed")
+        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
     init_adc_at32uc3l0256();
 }
