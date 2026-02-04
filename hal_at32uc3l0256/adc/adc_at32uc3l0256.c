@@ -91,6 +91,7 @@ static int32_t configure_adc_except_trigger(void);
 static int32_t configure_adc_trigger(void);
 static void disable_adc_channel(uint32_t channel_mask);
 static void enable_adc_channel(uint32_t channel_mask);
+static void start_adc_conversion(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -136,17 +137,10 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
         return 0;
     }
 
-    uint32_t watchdog_count = 0u;
-    adcifb_start_conversion_sequence(&AVR32_ADCIFB);
-    while ((adcifb_is_drdy(&AVR32_ADCIFB) != true) \
-            && (watchdog_count < WATCHDOG_MAX)) {
-        watchdog_count++;
-    }
-    if (watchdog_count == WATCHDOG_MAX) {
-        adc_runtime_error("start adc conversion: adcifb_is_drdy() failed watchdog", watchdog_count);
+    start_adc_conversion();
+    if (adc_failed) {
         return 0;
     }
-    adc_runtime_telemetry("start adc conversion: adcifb_is_drdy() passed watchdog", watchdog_count);
 
     return 0;
 }
@@ -222,4 +216,19 @@ static void enable_adc_channel(uint32_t channel_mask)
         return;
     }
     adc_runtime_telemetry("enable adc channel: adcifb_is_ready() passed watchdog", watchdog_count);
+}
+
+static void start_adc_conversion(void)
+{
+    uint32_t watchdog_count = 0u;
+    adcifb_start_conversion_sequence(&AVR32_ADCIFB);
+    while ((adcifb_is_drdy(&AVR32_ADCIFB) != true) \
+            && (watchdog_count < WATCHDOG_MAX)) {
+        watchdog_count++;
+    }
+    if (watchdog_count == WATCHDOG_MAX) {
+        adc_runtime_error("start adc conversion: adcifb_is_drdy() failed watchdog", watchdog_count);
+        return;
+    }
+    adc_runtime_telemetry("start adc conversion: adcifb_is_drdy() passed watchdog", watchdog_count);
 }
