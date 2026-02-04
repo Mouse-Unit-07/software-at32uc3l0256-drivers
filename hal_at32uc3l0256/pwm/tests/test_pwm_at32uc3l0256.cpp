@@ -92,7 +92,7 @@ TEST_GROUP(HalPwmTests)
 TEST(HalPwmTests, InitPwmCallsFunctions)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")
@@ -102,10 +102,21 @@ TEST(HalPwmTests, InitPwmCallsFunctions)
     init_pwm_at32uc3l0256();
 }
 
+TEST(HalPwmTests, InitPwmGpioFailureCallsRuntimeError)
+{
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "pwm init: init_pwm_pins() failed")
+        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+    init_pwm_at32uc3l0256();
+}
+
 TEST(HalPwmTests, InitPwmFreqAndSpreadConfigFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(FAIL));
     mock().expectOneCall("RUNTIME_ERROR")
@@ -118,7 +129,7 @@ TEST(HalPwmTests, InitPwmFreqAndSpreadConfigFailureCallsRuntimeError)
 TEST(HalPwmTests, InitPwmSetDutyCyclesFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")
@@ -133,7 +144,7 @@ TEST(HalPwmTests, InitPwmSetDutyCyclesFailureCallsRuntimeError)
 TEST(HalPwmTests, InitPwmSetTopFailureCallsRuntimeError)
 {
     mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(1);
+        .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("pwma_config_enable")
         .andReturnValue(static_cast<bool>(PASS));
     mock().expectOneCall("pwma_set_multiple_values")

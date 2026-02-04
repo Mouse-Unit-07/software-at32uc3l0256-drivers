@@ -85,7 +85,7 @@ ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
 /*----------------------------------------------------------------------------*/
 static void reset_pwm_flags(void);
 static void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
-static void init_pwm_pins(void);
+static uint32_t init_pwm_pins(void);
 static void init_pwm_clock_source(void);
 static bool configure_frequency_and_spread(void);
 static bool set_duty_cycles(void);
@@ -98,27 +98,32 @@ static uint32_t percent_to_duty_cycle(uint32_t percent);
 /*----------------------------------------------------------------------------*/
 void init_pwm_at32uc3l0256(void)
 {
-    bool asf_return_value = FAIL;
-
     reset_pwm_flags();
+    
+    uint32_t uint_return_value = GPIO_INVALID_ARGUMENT;
+    uint_return_value = init_pwm_pins();
+    if (uint_return_value != GPIO_SUCCESS) {
+        pwm_runtime_error("pwm init: init_pwm_pins() failed", uint_return_value);
+        return;
+    }
 
-    init_pwm_pins();
     init_pwm_clock_source();
-
-    asf_return_value = configure_frequency_and_spread();
-    if (asf_return_value == FAIL) {
+    
+    bool bool_return_value = FAIL;
+    bool_return_value = configure_frequency_and_spread();
+    if (bool_return_value == FAIL) {
         pwm_runtime_error("pwm init: configure_frequency_and_spread() failed", FAIL);
         return;
     }
 
-    asf_return_value = set_duty_cycles();
-    if (asf_return_value == FAIL) {
+    bool_return_value = set_duty_cycles();
+    if (bool_return_value == FAIL) {
         pwm_runtime_error("pwm init: set_duty_cycles() failed", FAIL);
         return;
     }
 
-    asf_return_value = set_pwm_top();
-    if (asf_return_value == FAIL) {
+    bool_return_value = set_pwm_top();
+    if (bool_return_value == FAIL) {
         pwm_runtime_error("pwm init: set_pwm_top() failed", FAIL);
         return;
     }
@@ -162,14 +167,14 @@ static void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
     pwm_failed = true;
 }
 
-static void init_pwm_pins(void)
+static uint32_t init_pwm_pins(void)
 {
     const gpio_map_t PWMA_GPIO_MAP = {
         {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
         {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
         {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION}
     };
-    gpio_enable_module(PWMA_GPIO_MAP, 
+    return gpio_enable_module(PWMA_GPIO_MAP, 
         sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
 }
 
