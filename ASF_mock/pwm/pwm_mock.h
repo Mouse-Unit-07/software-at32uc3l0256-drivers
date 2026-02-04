@@ -12,11 +12,6 @@
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
 /* ASF constants and struct definitions */
-typedef struct {
-	uint32_t pin;      /**< Module pin. */
-	uint32_t function; /**< Module function. */
-} gpio_map_t[];
-
 enum
 {
     AVR32_PWMA_28_PIN = 37,
@@ -239,23 +234,15 @@ enum
 
 enum
 {
-    FAIL = 1,
-    PASS = 0
-};
-
-enum
-{
     PWMA_MAXIMUM_TOP = 0xff
 };
 
 /* untestable static inline functions in ASF headers */
-static inline uint32_t sysclk_get_pba_hz(void) { return 1; }
 static inline void genclk_enable_config(unsigned int id, enum genclk_source src, unsigned int divider) {}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size);
 bool pwma_config_enable(volatile avr32_pwma_t *pwma, uint32_t pwma_freq_hz,
                         uint32_t gclk_freq_hz, uint16_t spread);
 bool pwma_set_multiple_values(volatile avr32_pwma_t *pwma, uint32_t channel_mask,

@@ -11,6 +11,7 @@ if (TARGET_WINDOWS)
         ${CMAKE_CURRENT_LIST_DIR}/timer_counter/timer_counter_mock.c
         ${CMAKE_CURRENT_LIST_DIR}/pwm/pwm_mock.c
         ${CMAKE_CURRENT_LIST_DIR}/iic/iic_mock.c
+        ${CMAKE_CURRENT_LIST_DIR}/adc/adc_mock.c
     )
     
     target_include_directories(asf_mock_lib PUBLIC
@@ -20,5 +21,6 @@ if (TARGET_WINDOWS)
         ${CMAKE_CURRENT_LIST_DIR}/timer_counter
         ${CMAKE_CURRENT_LIST_DIR}/pwm
         ${CMAKE_CURRENT_LIST_DIR}/iic
+        ${CMAKE_CURRENT_LIST_DIR}/adc
     )
 endif()

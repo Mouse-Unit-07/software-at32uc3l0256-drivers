@@ -1,32 +1,21 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : adc_hal_config.h                                      */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 Implementation for analog to digital conversion */
+/* HAL handler                                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
+#ifndef ADC_HAL_CONFIG_H_
+#define ADC_HAL_CONFIG_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    PASS = 0,
-    FAIL = 1
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+const struct adc_hal_handler *get_adc_hal_handler(void);
 
-#endif /* ASF_H_ */
+#endif /* ADC_HAL_CONFIG_H_ */

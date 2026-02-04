@@ -1,10 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : gpio_mock.c                                           */
+/* Filename           : adc_hal_config.c                                      */
 /*                                                                            */
-/* Empty implementations of functions to be mocked w/ CppUTest.               */
-/* Needed for the config translation unit- compilation errors are thrown      */
-/* when function pointers point to functions that are defined w/ calls to     */
-/* functions that aren't defined.                                             */
+/* AT32UC3L0256 Implementation for analog to digital conversion HAL handler   */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -12,8 +9,10 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include <stdbool.h>
-#include "gpio_mock.h"
+#include "adc_hal.h"
+#include "asf.h"
+#include "adc_at32uc3l0256.h"
+#include "adc_hal_config.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -23,7 +22,12 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-/* none */
+const struct adc_hal_handler adc_handler = 
+{
+    .init_adc = init_adc_at32uc3l0256,
+    .deinit_adc = deinit_adc_at32uc3l0256,
+    .read_adc_channel = read_adc_channel_at32uc3l0256
+};
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -38,34 +42,9 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+const struct adc_hal_handler *get_adc_hal_handler(void)
 {
-    return 1;
-}
-
-void gpio_configure_pin(uint32_t pin, uint32_t flags)
-{
-    /* empty */
-}
-
-bool gpio_get_pin_value(uint32_t pin)
-{
-    return true;
-}
-
-void gpio_set_gpio_pin(uint32_t pin)
-{
-    /* empty */
-}
-
-void gpio_clr_gpio_pin(uint32_t pin)
-{
-    /* empty */
-}
-
-void gpio_tgl_gpio_pin(uint32_t pin)
-{
-    /* empty */
+    return &adc_handler;
 }
 
 /*----------------------------------------------------------------------------*/

@@ -1,5 +1,5 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : gpio_mock.c                                           */
+/* Filename           : adc_mock.c                                            */
 /*                                                                            */
 /* Empty implementations of functions to be mocked w/ CppUTest.               */
 /* Needed for the config translation unit- compilation errors are thrown      */
@@ -13,7 +13,7 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include <stdbool.h>
-#include "gpio_mock.h"
+#include "adc_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -38,34 +38,36 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+void sysclk_init(void)
+{
+    /* emtpy */
+}
+
+int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
+    const adcifb_opt_t *p_adcifb_opt)
 {
     return 1;
 }
 
-void gpio_configure_pin(uint32_t pin, uint32_t flags)
+int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
+    uint8_t trgmod, uint32_t trgper)
 {
-    /* empty */
+    return 1;
 }
 
-bool gpio_get_pin_value(uint32_t pin)
+bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb)
 {
     return true;
 }
 
-void gpio_set_gpio_pin(uint32_t pin)
+bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
 {
-    /* empty */
+    return true;
 }
 
-void gpio_clr_gpio_pin(uint32_t pin)
+uint32_t adcifb_get_last_data(volatile avr32_adcifb_t *adcifb)
 {
-    /* empty */
-}
-
-void gpio_tgl_gpio_pin(uint32_t pin)
-{
-    /* empty */
+    return 1;
 }
 
 /*----------------------------------------------------------------------------*/

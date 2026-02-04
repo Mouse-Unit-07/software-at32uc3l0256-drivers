@@ -1,32 +1,30 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : adc_at32uc3l0256.h                                    */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for analog to digital conversion */
+/* HAL                                                                        */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
+#ifndef ADC_AT32UC3L0256_H_
+#define ADC_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    PASS = 0,
-    FAIL = 1
+struct adc_handle {
+    uint32_t channel_mask;
 };
+
+extern const struct adc_handle ir_sensor_1;
+extern const struct adc_handle ir_sensor_2;
+extern const struct adc_handle ir_sensor_3;
+extern const struct adc_handle ir_sensor_4;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_adc_at32uc3l0256(void);
+void deinit_adc_at32uc3l0256(void);
+uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle);
 
-#endif /* ASF_H_ */
+#endif /* ADC_AT32UC3L0256_H_ */

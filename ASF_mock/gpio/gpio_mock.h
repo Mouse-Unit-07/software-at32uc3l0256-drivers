@@ -11,6 +11,17 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
+typedef struct {
+    uint32_t pin;      /**< Module pin. */
+    uint32_t function; /**< Module function. */
+} gpio_map_t[];
+
+enum
+{
+    GPIO_SUCCESS = 0,
+    GPIO_INVALID_ARGUMENT = 1
+};
+
 enum
 {
     AVR32_PIN_PB11 = 43,
@@ -40,6 +51,7 @@ enum
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size);
 void gpio_configure_pin(uint32_t pin, uint32_t flags);
 bool gpio_get_pin_value(uint32_t pin);
 void gpio_set_gpio_pin(uint32_t pin);
