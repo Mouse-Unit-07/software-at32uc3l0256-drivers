@@ -40,6 +40,9 @@ __attribute__((__interrupt__))
 #endif
 void tc_irq(void)
 {
+#ifndef WINDOWS_BUILD /* can't test- AVR32 defined type parameter */
+    tc_read_sr(TIMER_COUNTER_BASE_ADDRESS, TIMER_COUNTER_CHANNEL); /* clear interrupt flag */
+#endif
     timer_counter_count++;
 }
 
@@ -89,7 +92,7 @@ void init_timer_counter_at32uc3l0256(void)
     sysclk_enable_peripheral_clock(TIMER_COUNTER_BASE_ADDRESS);
     
 #ifndef WINDOWS_BUILD
-    /* can't build for testing- takes an AVR32 defined type as a parameter */
+    /* can't test- AVR32 defined type parameter */
     /* parameters are ISR, IRQ, and IRQ priority respectively */
     INTC_register_interrupt(&tc_irq, AVR32_TC1_IRQ0, AVR32_INTC_INT0);
 #endif
