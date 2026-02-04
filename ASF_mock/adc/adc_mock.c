@@ -65,6 +65,11 @@ bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
     return true;
 }
 
+uint32_t adcifb_get_last_data(volatile avr32_adcifb_t *adcifb)
+{
+    return 1;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

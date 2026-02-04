@@ -474,5 +474,6 @@ int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
     uint8_t trgmod, uint32_t trgper);
 bool adcifb_is_ready(volatile avr32_adcifb_t *adcifb);
 bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb);
+uint32_t adcifb_get_last_data(volatile avr32_adcifb_t *adcifb);
 
 #endif /* ADC_MOCK_H_ */

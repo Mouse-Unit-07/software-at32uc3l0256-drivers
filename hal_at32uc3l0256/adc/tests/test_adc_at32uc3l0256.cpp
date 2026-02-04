@@ -94,6 +94,12 @@ bool adcifb_is_drdy(volatile avr32_adcifb_t *adcifb)
         .returnBoolValue();
 }
 
+uint32_t adcifb_get_last_data(volatile avr32_adcifb_t *adcifb)
+{
+    return mock().actualCall("adcifb_get_last_data")
+        .returnUnsignedIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -186,6 +192,8 @@ TEST(HalAdcTests, ReadAdcCallsFunctions)
         .withUnsignedIntParameter("timestamp", 0)
         .withStringParameter("fail_message", "start adc conversion: adcifb_is_drdy() passed watchdog")
         .withUnsignedIntParameter("fail_value", 0);
+    mock().expectOneCall("adcifb_get_last_data")
+        .andReturnValue(1023);
     read_adc_channel_at32uc3l0256(&ir_sensor_1);
 }
 
