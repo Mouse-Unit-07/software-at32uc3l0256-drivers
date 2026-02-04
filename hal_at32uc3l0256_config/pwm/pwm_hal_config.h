@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : pwm_hal_config.h                                      */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for pulse width modulation HAL   */
+/* Interface for AT32UC3L0256 implementation for pulse width modulation HAL   */
 /* handler                                                                    */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/

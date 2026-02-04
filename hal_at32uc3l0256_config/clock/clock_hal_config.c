@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : clock_hal_config.c                                    */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for clock HAL handler                          */
+/* AT32UC3L0256 implementation for clock HAL handler                          */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 

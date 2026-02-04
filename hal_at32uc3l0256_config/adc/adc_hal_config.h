@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : adc_hal_config.h                                      */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for analog to digital conversion */
+/* Interface for AT32UC3L0256 implementation for analog to digital conversion */
 /* HAL handler                                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/

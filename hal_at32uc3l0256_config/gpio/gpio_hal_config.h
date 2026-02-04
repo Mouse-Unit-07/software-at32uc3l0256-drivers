@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : gpio_hal_config.h                                     */
 /*                                                                            */
-/* Interface for AT32UC3L0256 Implementation for GPIO HAL handler             */
+/* Interface for AT32UC3L0256 implementation for GPIO HAL handler             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #ifndef GPIO_HAL_CONFIG_H_

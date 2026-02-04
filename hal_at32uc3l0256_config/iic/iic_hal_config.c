@@ -1,7 +1,7 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
 /* Filename           : iic_hal_config.c                                      */
 /*                                                                            */
-/* AT32UC3L0256 Implementation for internal interrupt controller HAL handler  */
+/* AT32UC3L0256 implementation for internal interrupt controller HAL handler  */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
