@@ -34,7 +34,8 @@ static bool adc_failed = false;
 static void reset_adc_flags(void);
 static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
 static uint32_t init_adc_pins(void);
-static int32_t configure_adc(void);
+static int32_t configure_adc_except_trigger(void);
+static int32_t configure_adc_trigger(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -53,10 +54,12 @@ void init_adc_at32uc3l0256(void)
         return;
     }
 
-    if (configure_adc() != PASS) {
+    if (configure_adc_except_trigger() != PASS) {
         adc_runtime_error("adc init: configure_adc() failed", FAIL);
         return;
     }
+
+    configure_adc_trigger();
 }
 
 void deinit_adc_at32uc3l0256(void)
@@ -106,7 +109,7 @@ static uint32_t init_adc_pins(void)
                         sizeof(ADCIFB_GPIO_MAP) / sizeof(ADCIFB_GPIO_MAP[0]));
 }
 
-static int32_t configure_adc(void)
+static int32_t configure_adc_except_trigger(void)
 {
     const uint32_t ADC_CLK_FREQ_HZ = 1500000u;
     adcifb_opt_t adcifb_opt = {
@@ -119,4 +122,9 @@ static int32_t configure_adc(void)
     };
 
     return adcifb_configure(&AVR32_ADCIFB, &adcifb_opt);
+}
+
+static int32_t configure_adc_trigger(void)
+{
+    return adcifb_configure_trigger(&AVR32_ADCIFB, AVR32_ADCIFB_TRGMOD_NT, 0);
 }

@@ -49,6 +49,12 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
     return 1;
 }
 
+int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
+    uint8_t trgmod, uint32_t trgper)
+{
+    return 1;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

@@ -59,6 +59,13 @@ int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
         .returnIntValue();
 }
 
+int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
+    uint8_t trgmod, uint32_t trgper)
+{
+    return mock().actualCall("adcifb_configure_trigger")
+        .returnIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -87,6 +94,8 @@ TEST(HalAdcTests, InitAdcCallsFunctions)
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(GPIO_SUCCESS);
     mock().expectOneCall("adcifb_configure")
+        .andReturnValue(PASS);
+    mock().expectOneCall("adcifb_configure_trigger")
         .andReturnValue(PASS);
     init_adc_at32uc3l0256();
 }

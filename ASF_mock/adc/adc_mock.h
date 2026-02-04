@@ -451,6 +451,11 @@ enum
     AVR32_ADCIFB_ACR_RES_10BIT = 0x00000001
 };
 
+enum
+{
+    AVR32_ADCIFB_TRGMOD_NT = 0x00000000
+};
+
 /* untestable static inline functions in ASF headers */
 
 
@@ -460,5 +465,7 @@ enum
 void sysclk_init(void);
 int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
     const adcifb_opt_t *p_adcifb_opt);
+int32_t adcifb_configure_trigger(volatile avr32_adcifb_t *adcifb,
+    uint8_t trgmod, uint32_t trgper);
 
 #endif /* ADC_MOCK_H_ */
