@@ -12,6 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
+#include <stdbool.h>
 #include "adc_mock.h"
 
 /*----------------------------------------------------------------------------*/
@@ -40,6 +41,12 @@
 void sysclk_init(void)
 {
     /* emtpy */
+}
+
+int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
+    const adcifb_opt_t *p_adcifb_opt)
+{
+    return 1;
 }
 
 /*----------------------------------------------------------------------------*/

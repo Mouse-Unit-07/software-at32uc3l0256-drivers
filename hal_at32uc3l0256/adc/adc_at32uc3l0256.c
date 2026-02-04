@@ -34,6 +34,7 @@ static bool adc_failed = false;
 static void reset_adc_flags(void);
 static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
 static uint32_t init_adc_pins(void);
+static int32_t configure_adc(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -51,6 +52,8 @@ void init_adc_at32uc3l0256(void)
         adc_runtime_error("adc init: gpio_enable_module() failed", asf_return_value);
         return;
     }
+
+    configure_adc();
 }
 
 void deinit_adc_at32uc3l0256(void)
@@ -98,4 +101,19 @@ static uint32_t init_adc_pins(void)
 
     return gpio_enable_module(ADCIFB_GPIO_MAP,
                         sizeof(ADCIFB_GPIO_MAP) / sizeof(ADCIFB_GPIO_MAP[0]));
+}
+
+static int32_t configure_adc(void)
+{
+    const uint32_t ADC_CLK_FREQ_HZ = 1500000u;
+    adcifb_opt_t adcifb_opt = {
+        .resolution = AVR32_ADCIFB_ACR_RES_10BIT,
+        .shtim  = 15, /* Channels Sample & Hold Time in [0,15] */
+        .ratio_clkadcifb_clkadc = (sysclk_get_pba_hz() / ADC_CLK_FREQ_HZ),
+        .startup = 3, /* Startup time [0,127]; Tstartup = startup * 8 * Tclk_adc */
+                      /* (assuming Tstartup ~ 15us max) */
+        .sleep_mode_enable = false
+    };
+
+    return adcifb_configure(&AVR32_ADCIFB, &adcifb_opt);
 }

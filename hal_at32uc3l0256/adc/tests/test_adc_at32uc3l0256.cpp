@@ -52,6 +52,13 @@ uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
         .returnUnsignedIntValue();
 }
 
+int32_t adcifb_configure(volatile avr32_adcifb_t *adcifb,
+    const adcifb_opt_t *p_adcifb_opt)
+{
+    return mock().actualCall("adcifb_configure")
+        .returnIntValue();
+}
+
 }
 
 /*============================================================================*/
@@ -79,6 +86,8 @@ TEST(HalClockTests, InitAdcCallsFunctions)
     mock().expectOneCall("sysclk_init");
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(GPIO_SUCCESS);
+    mock().expectOneCall("adcifb_configure")
+        .andReturnValue(PASS);
     init_adc_at32uc3l0256();
 }
 
