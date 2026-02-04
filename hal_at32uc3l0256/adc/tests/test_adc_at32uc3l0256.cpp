@@ -20,7 +20,12 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
-/* none */
+void init_adc_without_cpputest_checks(void)
+{
+    mock().ignoreOtherCalls();
+    init_adc_at32uc3l0256();
+    mock().clear();
+}
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -165,9 +170,7 @@ TEST(HalAdcTests, InitAdcConfigTriggerFailureCallsRuntimeError)
 
 TEST(HalAdcTests, ReadAdcCallsFunctions)
 {
-    mock().ignoreOtherCalls();
-    init_adc_at32uc3l0256();
-    mock().clear();
+    init_adc_without_cpputest_checks();
 
     mock().expectOneCall("adcifb_is_ready")
         .andReturnValue(true);
