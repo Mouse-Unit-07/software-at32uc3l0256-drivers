@@ -46,12 +46,12 @@ void tc_irq(void)
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-void reset_tc_flags_and_count(void);
-void tc_runtime_error(const char *fail_message, uint32_t fail_value);
-int call_asf_tc_init_waveform(void);
-int call_asf_tc_write_rc(void);
-int call_asf_tc_configure_interrupts(void);
-int call_asf_tc_start(void);
+static void reset_tc_flags_and_count(void);
+static void tc_runtime_error(const char *fail_message, uint32_t fail_value);
+static int init_waveform(void);
+static int init_compare_trigger(void);
+static int configure_interrupts(void);
+static int start_timer_counter(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -62,25 +62,25 @@ void init_timer_counter_at32uc3l0256(void)
 
     int asf_return_value = 0;
 
-    asf_return_value = call_asf_tc_init_waveform();
+    asf_return_value = init_waveform();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
         tc_runtime_error("tc_init_waveform call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
-    asf_return_value = call_asf_tc_write_rc();
+    asf_return_value = init_compare_trigger();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
         tc_runtime_error("tc_write_rc call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
-    asf_return_value = call_asf_tc_configure_interrupts();
+    asf_return_value = configure_interrupts();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
         tc_runtime_error("tc_configure_interrupts call failed", TC_INVALID_ARGUMENT);
         return;
     }
 
-    asf_return_value = call_asf_tc_start();
+    asf_return_value = start_timer_counter();
     if (asf_return_value == TC_INVALID_ARGUMENT) {
         tc_runtime_error("tc_start call failed", TC_INVALID_ARGUMENT);
         return;
@@ -113,19 +113,19 @@ void restart_timer_at32uc3l0256(void)
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void reset_tc_flags_and_count(void)
+static void reset_tc_flags_and_count(void)
 {
     timer_counter_failed = false;
     timer_counter_count = 0u;
 }
 
-void tc_runtime_error(const char *fail_message, uint32_t fail_value)
+static void tc_runtime_error(const char *fail_message, uint32_t fail_value)
 {
     RUNTIME_ERROR(0, fail_message, fail_value);
     timer_counter_failed = true;
 }
 
-int call_asf_tc_init_waveform(void)
+static int init_waveform(void)
 {
     /* Options for waveform generation */
     static const tc_waveform_opt_t waveform_opt = {
@@ -152,7 +152,7 @@ int call_asf_tc_init_waveform(void)
     return tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
 }
 
-int call_asf_tc_write_rc(void)
+static int init_compare_trigger(void)
 {
     /* Set the compare triggers */
     /* We configure it to count every 1 milliseconds */
@@ -165,7 +165,7 @@ int call_asf_tc_write_rc(void)
     );
 }
 
-int call_asf_tc_configure_interrupts(void)
+static int configure_interrupts(void)
 {
     /* Options for enabling TC interrupts */
     static const tc_interrupt_t tc_interrupt = {
@@ -186,7 +186,7 @@ int call_asf_tc_configure_interrupts(void)
     );
 }
 
-int call_asf_tc_start(void)
+static int start_timer_counter(void)
 {
     return tc_start(
         TIMER_COUNTER_BASE_ADDRESS,
