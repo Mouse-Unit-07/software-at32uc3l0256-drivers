@@ -28,6 +28,11 @@ extern "C" {
 extern "C"
 {
 
+void sysclk_init(void)
+{
+    mock().actualCall("sysclk_init");
+}
+
 }
 
 /*============================================================================*/
@@ -50,7 +55,8 @@ TEST_GROUP(HalClockTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTests, DeleteMe)
+TEST(HalClockTests, InitAdcCallsFunctions)
 {
-
+    mock().expectOneCall("sysclk_init");
+    init_adc_at32uc3l0256();
 }

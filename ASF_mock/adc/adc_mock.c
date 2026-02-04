@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : adc_at32uc3l0256.c                                    */
+/* Filename           : adc_mock.c                                            */
 /*                                                                            */
-/* AT32UC3L0256 implementation for analog to digital conversion HAL           */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "adc_at32uc3l0256.h"
+#include "adc_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -35,29 +37,9 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_adc_at32uc3l0256(void)
+void sysclk_init(void)
 {
-    sysclk_init();
-}
-
-void deinit_adc_at32uc3l0256(void)
-{
-
-}
-
-void enable_adc_channel_at32uc3l0256(const struct adc_handle *handle)
-{
-
-}
-
-void disable_adc_channel_at32uc3l0256(const struct adc_handle *handle)
-{
-
-}
-
-uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
-{
-    return 1;
+    /* emtpy */
 }
 
 /*----------------------------------------------------------------------------*/

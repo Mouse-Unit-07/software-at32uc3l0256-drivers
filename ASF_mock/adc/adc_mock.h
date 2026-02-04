@@ -1,28 +1,25 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : adc_mock.h                                            */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Bare minimum interface/definitions from ASF library to get analog to       */
+/* digital conversion hal implementation to build on Windows.                 */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
+#ifndef ADC_MOCK_H_
+#define ADC_MOCK_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* none */
+/* ASF constants and struct definitions */
+
+
+/* untestable static inline functions in ASF headers */
+
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void sysclk_init(void);
 
-#endif /* ASF_H_ */
+#endif /* ADC_MOCK_H_ */
