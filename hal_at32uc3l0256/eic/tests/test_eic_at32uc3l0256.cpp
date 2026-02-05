@@ -47,6 +47,12 @@ void eic_init(volatile avr32_eic_t *eic, const eic_options_t *opt,
     mock().actualCall("eic_init");
 }
 
+void eic_enable_lines(volatile avr32_eic_t *eic, uint32_t mask_lines)
+{
+    CHECK(eic != NULL);
+    mock().actualCall("eic_enable_lines");
+}
+
 }
 
 /*============================================================================*/
@@ -74,6 +80,7 @@ TEST(HalEicTests, InitEicCallsFunctions)
     mock().expectNCalls(2, "gpio_enable_module")
         .andReturnValue(GPIO_SUCCESS);
     mock().expectNCalls(2, "eic_init");
+    mock().expectNCalls(2, "eic_enable_lines");
     init_eic_at32uc3l0256();
 }
 

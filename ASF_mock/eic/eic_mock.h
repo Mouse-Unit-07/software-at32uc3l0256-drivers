@@ -474,5 +474,6 @@ enum
 /*----------------------------------------------------------------------------*/
 void eic_clear_interrupt_line(volatile avr32_eic_t *eic, uint32_t line_number);
 void eic_init(volatile avr32_eic_t *eic, const eic_options_t *opt, uint32_t nb_lines);
+void eic_enable_lines(volatile avr32_eic_t *eic, uint32_t mask_lines);
 
 #endif /* EIC_MOCK_H_ */
