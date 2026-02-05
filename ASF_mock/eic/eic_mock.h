@@ -466,6 +466,18 @@ enum
     EIC_SYNCH_MODE = AVR32_EIC_SYNC,
 };
 
+enum
+{
+    AVR32_EIC_IRQ_1 = 352,
+    AVR32_EIC_IRQ_3 = 354,
+    AVR32_EIC_IRQ_2 = 353
+};
+
+enum
+{
+    AVR32_INTC_INT3 = 0x00000003
+};
+
 /* untestable static inline functions in ASF headers */
 
 

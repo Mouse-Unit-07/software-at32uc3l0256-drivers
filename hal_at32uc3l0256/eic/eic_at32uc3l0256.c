@@ -34,6 +34,12 @@ static const uint32_t MOTOR_2_ENCODER_EIC_LINE = AVR32_EIC_INT3;
 #define CONFIG_PUSHBUTTON_PIN_FUNCTION (5u) /* can't find ASF mask */
 static const uint32_t CONFIG_PUSHBUTTON_EIC_LINE = AVR32_EIC_INT2;
 
+#ifndef WINDOWS_BUILD /* not needed for testing */
+static const uint32_t CONFIG_PUSHBUTTON_EIC_IRQ_LINE = AVR32_EIC_IRQ_2;
+static const uint32_t MOTOR_2_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_3;
+static const uint32_t MOTOR_1_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_1;
+#endif
+
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
@@ -104,6 +110,16 @@ void init_eic_at32uc3l0256(void)
     eic_pushbutton_options[0].eic_edge  = CONFIG_PUSHBUTTON_EIC_EDGE;
     eic_pushbutton_options[0].eic_async = CONFIG_PUSHBUTTON_EIC_SYNC;
     eic_pushbutton_options[0].eic_line  = CONFIG_PUSHBUTTON_EIC_LINE;
+
+#ifndef WINDOWS_BUILD /* can't test- AVR32 defined type parameter */
+    const uint32_t INTC_LEVEL = AVR32_INTC_INT3;
+    INTC_register_interrupt(&motor_1_encoder_isr,
+        MOTOR_1_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
+    INTC_register_interrupt(&motor_2_encoder_isr,
+        MOTOR_2_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
+    INTC_register_interrupt(&config_pushbutton_isr,
+        CONFIG_PUSHBUTTON_EIC_IRQ_LINE, INTC_LEVEL);
+#endif
 
     eic_init(&AVR32_EIC, eic_encoder_options, 2);
     eic_init(&AVR32_EIC, eic_pushbutton_options, 1);
