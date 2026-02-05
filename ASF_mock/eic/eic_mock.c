@@ -53,6 +53,11 @@ void eic_enable_lines(volatile avr32_eic_t *eic, uint32_t mask_lines)
     /* empty */
 }
 
+void eic_enable_interrupt_lines(volatile avr32_eic_t *eic, uint32_t mask_lines)
+{
+    /* empty */
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

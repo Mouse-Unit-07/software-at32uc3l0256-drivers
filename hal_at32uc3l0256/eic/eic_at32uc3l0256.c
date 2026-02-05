@@ -111,6 +111,10 @@ void init_eic_at32uc3l0256(void)
     eic_enable_lines(&AVR32_EIC,
         (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
     eic_enable_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
+
+    eic_enable_interrupt_lines(&AVR32_EIC,
+        (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
+    eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
     
 }
 
