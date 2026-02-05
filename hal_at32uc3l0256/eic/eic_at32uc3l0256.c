@@ -72,6 +72,41 @@ void init_eic_pins(void);
 void init_eic_at32uc3l0256(void)
 {
     init_eic_pins();
+
+    eic_options_t eic_encoder_options[2] = {{0}};
+    eic_options_t eic_pushbutton_options[1] = {{0}};
+
+    const unsigned char MOTOR_1_ENCODER_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
+    const unsigned char MOTOR_1_ENCODER_EIC_EDGE = AVR32_EIC_RISING_EDGE;
+    const unsigned char MOTOR_1_ENCODER_EIC_SYNC = EIC_SYNCH_MODE;
+
+    const unsigned char MOTOR_2_ENCODER_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
+    const unsigned char MOTOR_2_ENCODER_EIC_EDGE = AVR32_EIC_RISING_EDGE;
+    const unsigned char MOTOR_2_ENCODER_EIC_SYNC = EIC_SYNCH_MODE;
+
+    const unsigned char CONFIG_PUSHBUTTON_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
+    const unsigned char CONFIG_PUSHBUTTON_EIC_EDGE = AVR32_EIC_FALLING_EDGE;
+    const unsigned char CONFIG_PUSHBUTTON_EIC_SYNC = EIC_SYNCH_MODE;
+
+    /* motor 1 */
+    eic_encoder_options[0].eic_mode  = MOTOR_1_ENCODER_EIC_MODE;
+    eic_encoder_options[0].eic_edge  = MOTOR_1_ENCODER_EIC_EDGE;
+    eic_encoder_options[0].eic_async = MOTOR_1_ENCODER_EIC_SYNC;
+    eic_encoder_options[0].eic_line  = MOTOR_1_ENCODER_EIC_LINE;
+    
+    /* motor 2 */
+    eic_encoder_options[1].eic_mode  = MOTOR_2_ENCODER_EIC_MODE;
+    eic_encoder_options[1].eic_edge  = MOTOR_2_ENCODER_EIC_EDGE;
+    eic_encoder_options[1].eic_async = MOTOR_2_ENCODER_EIC_SYNC;
+    eic_encoder_options[1].eic_line  = MOTOR_2_ENCODER_EIC_LINE;
+
+    eic_pushbutton_options[0].eic_mode  = CONFIG_PUSHBUTTON_EIC_MODE;
+    eic_pushbutton_options[0].eic_edge  = CONFIG_PUSHBUTTON_EIC_EDGE;
+    eic_pushbutton_options[0].eic_async = CONFIG_PUSHBUTTON_EIC_SYNC;
+    eic_pushbutton_options[0].eic_line  = CONFIG_PUSHBUTTON_EIC_LINE;
+
+    eic_init(&AVR32_EIC, eic_encoder_options, 2);
+    eic_init(&AVR32_EIC, eic_pushbutton_options, 1);
 }
 
 void deinit_eic_at32uc3l0256(void)

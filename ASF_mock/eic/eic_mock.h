@@ -434,6 +434,38 @@ enum
     AVR32_EIC_INT2 = 2
 };
 
+typedef struct
+{
+  //!Line
+  unsigned char eic_line;
+
+  //! Mode : EDGE_LEVEL or TRIGGER_LEVEL
+  unsigned char eic_mode;
+
+  //! Edge : FALLING_EDGE or RISING_EDGE
+  unsigned char eic_edge;
+
+  //! Level :  LOW_LEVEL or HIGH_LEVEL
+  unsigned char eic_level;
+
+  //! Filter:  NOT_FILTERED or FILTERED
+  unsigned char eic_filter;
+
+  //! Async:  SYNC mode or ASYNC
+  unsigned char eic_async;
+
+} eic_options_t;
+
+enum
+{
+    AVR32_EIC_EDGE_IRQ = 0x00000000,
+    EIC_MODE_EDGE_TRIGGERED = AVR32_EIC_EDGE_IRQ,
+    AVR32_EIC_RISING_EDGE = 0x00000001,
+    AVR32_EIC_FALLING_EDGE = 0x00000000,
+    AVR32_EIC_SYNC = 0x00000000,
+    EIC_SYNCH_MODE = AVR32_EIC_SYNC,
+};
+
 /* untestable static inline functions in ASF headers */
 
 
@@ -441,5 +473,6 @@ enum
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
 void eic_clear_interrupt_line(volatile avr32_eic_t *eic, uint32_t line_number);
+void eic_init(volatile avr32_eic_t *eic, const eic_options_t *opt, uint32_t nb_lines);
 
 #endif /* EIC_MOCK_H_ */
