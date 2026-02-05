@@ -64,7 +64,7 @@ TEST_GROUP(HalEicTests)
 /*============================================================================*/
 TEST(HalEicTests, InitEicCallsFunctions)
 {
-    mock().expectOneCall("gpio_enable_module")
+    mock().expectNCalls(2, "gpio_enable_module")
         .andReturnValue(GPIO_SUCCESS);
     init_eic_at32uc3l0256();
 }

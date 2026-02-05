@@ -71,13 +71,18 @@ void config_pushbutton_isr(void)
 /*----------------------------------------------------------------------------*/
 void init_eic_at32uc3l0256(void)
 {
-    static const gpio_map_t EIC_GPIO_MAP = {
+    static const gpio_map_t EIC_ENCODER_MAP = {
         {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
         {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
     };
-
-    gpio_enable_module(EIC_GPIO_MAP, 
-        sizeof(EIC_GPIO_MAP) / sizeof(EIC_GPIO_MAP[0]));
+    gpio_enable_module(EIC_ENCODER_MAP,
+        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
+    
+    static const gpio_map_t EIC_PUSHBUTTON_MAP = {
+        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
+    };
+    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
+        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
 }
 
 void deinit_eic_at32uc3l0256(void)
