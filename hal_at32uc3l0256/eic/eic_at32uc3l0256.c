@@ -10,6 +10,7 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "asf.h"
+#include "runtime_diagnostics.h"
 #include "eic_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
@@ -20,6 +21,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
+static bool eic_failed = false;
+
 /* pin selection related globals */
 /* need unsigned constants for struct/array initializers (no enums or variables) */
 #define MOTOR_1_ENCODER_PIN (AVR32_EIC_EXTINT_1_1_PIN)
@@ -70,6 +73,8 @@ void config_pushbutton_isr(void)
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
+static void reset_eic_flags(void);
+static void eic_runtime_error(const char *fail_message, uint32_t fail_value);
 void init_eic_pins(void);
 void configure_eic(void);
 
@@ -78,7 +83,13 @@ void configure_eic(void);
 /*----------------------------------------------------------------------------*/
 void init_eic_at32uc3l0256(void)
 {
+    reset_eic_flags();
+
     init_eic_pins();
+    if (eic_failed) {
+        return;
+    }
+
     configure_eic();
 }
 
@@ -96,20 +107,41 @@ void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
+static void reset_eic_flags(void)
+{
+    eic_failed = false;
+}
+
+static void eic_runtime_error(const char *fail_message, uint32_t fail_value)
+{
+    eic_failed = true;
+    RUNTIME_ERROR(0, fail_message, fail_value);
+}
+
 void init_eic_pins(void)
 {
+    uint32_t asf_return_value = GPIO_INVALID_ARGUMENT;
+
     static const gpio_map_t EIC_ENCODER_MAP = {
         {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
         {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
     };
-    gpio_enable_module(EIC_ENCODER_MAP,
+    asf_return_value = gpio_enable_module(EIC_ENCODER_MAP,
         sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
+    if (asf_return_value != GPIO_SUCCESS) {
+        eic_runtime_error("eic init pins: gpio_enable_module() on encoder pins failed", asf_return_value);
+        return;
+    }
     
     static const gpio_map_t EIC_PUSHBUTTON_MAP = {
         {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
     };
-    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
+    asf_return_value = gpio_enable_module(EIC_PUSHBUTTON_MAP, 
         sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
+    if (asf_return_value != GPIO_SUCCESS) {
+        eic_runtime_error("eic init pins: gpio_enable_module() on pushbutton pin failed", asf_return_value);
+        return;
+    }
 }
 
 void configure_eic(void)
