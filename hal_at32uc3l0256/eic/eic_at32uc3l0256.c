@@ -19,9 +19,33 @@
 /* keep empty */
 
 /*----------------------------------------------------------------------------*/
+/*                         Private Function Prototypes                        */
+/*----------------------------------------------------------------------------*/
+static void reset_eic_flags(void);
+static void reset_user_callbacks(void);
+static void eic_runtime_error(const char *fail_message, uint32_t fail_value);
+static void init_eic_pins(void);
+static void configure_eic(void);
+static void dummy_user_callback(void);
+
+/*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
 static bool eic_failed = false;
+
+enum
+{
+    MOTOR_1_ENCODER_INDEX = 0,
+    MOTOR_2_ENCODER_INDEX,
+    CONFIG_PUSHBUTTON_INDEX,
+    EXTERNAL_INTERRUPT_COUNT
+};
+
+static void (*user_isr_callbacks[EXTERNAL_INTERRUPT_COUNT])(void) = {
+    dummy_user_callback,
+    dummy_user_callback,
+    dummy_user_callback
+};
 
 /* pin selection related globals */
 /* need unsigned constants for struct/array initializers (no enums or variables) */
@@ -44,6 +68,21 @@ static const uint32_t MOTOR_1_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_1;
 #endif
 
 /*----------------------------------------------------------------------------*/
+/*                               Public Handles                               */
+/*----------------------------------------------------------------------------*/
+const struct eic_handle motor_1_encoder = {
+    .eic_index = MOTOR_1_ENCODER_INDEX
+};
+
+const struct eic_handle motor_2_encoder = {
+    .eic_index = MOTOR_2_ENCODER_INDEX
+};
+
+const struct eic_handle config_pushbutton = {
+    .eic_index = CONFIG_PUSHBUTTON_INDEX
+};
+
+/*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
 /*----------------------------------------------------------------------------*/
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
@@ -52,6 +91,8 @@ __attribute__((__interrupt__))
 void motor_1_encoder_isr(void)
 {
     eic_clear_interrupt_line(&AVR32_EIC, MOTOR_1_ENCODER_EIC_LINE);
+
+    user_isr_callbacks[MOTOR_1_ENCODER_INDEX]();
 }
 
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
@@ -60,6 +101,8 @@ __attribute__((__interrupt__))
 void motor_2_encoder_isr(void)
 {
     eic_clear_interrupt_line(&AVR32_EIC, MOTOR_2_ENCODER_EIC_LINE);
+
+    user_isr_callbacks[MOTOR_2_ENCODER_INDEX]();
 }
 
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
@@ -68,15 +111,9 @@ __attribute__((__interrupt__))
 void config_pushbutton_isr(void)
 {
     eic_clear_interrupt_line(&AVR32_EIC, CONFIG_PUSHBUTTON_EIC_LINE);
-}
 
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-static void reset_eic_flags(void);
-static void eic_runtime_error(const char *fail_message, uint32_t fail_value);
-static void init_eic_pins(void);
-static void configure_eic(void);
+    user_isr_callbacks[CONFIG_PUSHBUTTON_INDEX]();
+}
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -84,6 +121,7 @@ static void configure_eic(void);
 void init_eic_at32uc3l0256(void)
 {
     reset_eic_flags();
+    reset_user_callbacks();
 
     init_eic_pins();
     if (eic_failed) {
@@ -101,7 +139,7 @@ void deinit_eic_at32uc3l0256(void)
 void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
         void (*callback)(void))
 {
-    
+    user_isr_callbacks[handle->eic_index] = callback;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -110,6 +148,13 @@ void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
 static void reset_eic_flags(void)
 {
     eic_failed = false;
+}
+
+static void reset_user_callbacks(void)
+{
+    for (uint32_t i = 0u; i < EXTERNAL_INTERRUPT_COUNT; i++) {
+        user_isr_callbacks[i] = dummy_user_callback;
+    }
 }
 
 static void eic_runtime_error(const char *fail_message, uint32_t fail_value)
@@ -198,4 +243,9 @@ static void configure_eic(void)
     eic_enable_interrupt_lines(&AVR32_EIC,
         (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
     eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
+}
+
+static void dummy_user_callback(void)
+{
+    /* emtpy */
 }

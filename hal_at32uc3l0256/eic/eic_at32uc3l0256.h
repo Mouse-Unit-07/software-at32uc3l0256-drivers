@@ -11,7 +11,13 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-struct eic_handle;
+struct eic_handle {
+    uint32_t eic_index;
+};
+
+extern const struct eic_handle motor_1_encoder;
+extern const struct eic_handle motor_2_encoder;
+extern const struct eic_handle config_pushbutton;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

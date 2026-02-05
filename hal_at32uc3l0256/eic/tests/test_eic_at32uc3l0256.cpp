@@ -20,7 +20,38 @@ extern "C" {
 /*============================================================================*/
 /*                             Public Definitions                             */
 /*============================================================================*/
-/* none */
+bool my_user_callback_1_called = false;
+bool my_user_callback_2_called = false;
+bool my_user_callback_3_called = false;
+
+void reset_user_callback_flags(void)
+{
+    my_user_callback_1_called = false;
+    my_user_callback_2_called = false;
+    my_user_callback_3_called = false;
+}
+
+void my_user_callback_1(void)
+{
+    my_user_callback_1_called = true;
+}
+
+void my_user_callback_2(void)
+{
+    my_user_callback_2_called = true;
+}
+
+void my_user_callback_3(void)
+{
+    my_user_callback_3_called = true;
+}
+
+void init_eic_without_cpputest_checks(void)
+{
+    mock().ignoreOtherCalls();
+    init_eic_at32uc3l0256();
+    mock().clear();
+}
 
 /*============================================================================*/
 /*                            Mock Implementations                            */
@@ -81,6 +112,7 @@ TEST_GROUP(HalEicTests)
 {
     void setup() override
     {
+        reset_user_callback_flags();
         mock().clear();
     }
 
@@ -88,6 +120,7 @@ TEST_GROUP(HalEicTests)
     {
         mock().checkExpectations();
         mock().clear();
+        reset_user_callback_flags();
     }
 };
 
@@ -130,18 +163,49 @@ TEST(HalEicTests, InitEicInitPushbuttonPinsFailureCallsRuntimeError)
 
 TEST(HalEicTests, Motor1EncoderIsrCallsFunctions)
 {
+    init_eic_without_cpputest_checks();
     mock().expectOneCall("eic_clear_interrupt_line");
     motor_1_encoder_isr();
 }
 
 TEST(HalEicTests, Motor2EncoderIsrCallsFunctions)
 {
+    init_eic_without_cpputest_checks();
     mock().expectOneCall("eic_clear_interrupt_line");
     motor_2_encoder_isr();
 }
 
 TEST(HalEicTests, ConfigPushbuttonIsrCallsFunctions)
 {
+    init_eic_without_cpputest_checks();
     mock().expectOneCall("eic_clear_interrupt_line");
     config_pushbutton_isr();
 }
+
+TEST(HalEicTests, IsrsCallMyCallbacksWhenSet)
+{
+    init_eic_without_cpputest_checks();
+    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
+    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
+    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+    mock().expectNCalls(3, "eic_clear_interrupt_line");
+    motor_1_encoder_isr();
+    motor_2_encoder_isr();
+    config_pushbutton_isr();
+    CHECK(my_user_callback_1_called == true);
+    CHECK(my_user_callback_2_called == true);
+    CHECK(my_user_callback_3_called == true);
+}
+
+TEST(HalEicTests, IsrsDoNotCallMyCallbacksWhenNotSet)
+{
+    init_eic_without_cpputest_checks();
+    mock().expectNCalls(3, "eic_clear_interrupt_line");
+    motor_1_encoder_isr();
+    motor_2_encoder_isr();
+    config_pushbutton_isr();
+    CHECK(my_user_callback_1_called == false);
+    CHECK(my_user_callback_2_called == false);
+    CHECK(my_user_callback_3_called == false);
+}
+
