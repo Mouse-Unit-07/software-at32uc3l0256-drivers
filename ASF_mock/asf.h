@@ -14,6 +14,7 @@
 #include "pwm/pwm_mock.h"
 #include "iic/iic_mock.h"
 #include "adc/adc_mock.h"
+#include "usart/usart_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */

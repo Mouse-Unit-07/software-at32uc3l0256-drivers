@@ -52,7 +52,7 @@ TEST_GROUP(HalUsartTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalUsartTests, DeleteMe)
+TEST(HalUsartTests, InitUsart)
 {
-    
+    init_usart_at32uc3l0256();
 }

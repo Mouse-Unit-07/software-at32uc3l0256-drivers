@@ -1,8 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : usart_at32uc3l0256.c                                  */
+/* Filename           : usart_mock.c                                          */
 /*                                                                            */
-/* AT32UC3L0256 implementation for universal synchronous/asynchronous         */
-/* receiver/transmitter HAL                                                   */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -10,8 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "usart_at32uc3l0256.h"
+#include "usart_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -21,11 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-#define USART_SERIAL_BASE_ADDRESS (&AVR32_USART2)
-const unsigned long BAUDRATE = 115200u;
-const unsigned char CHAR_LENGTH = 8u;
-const unsigned char PARITY = AVR32_USART_MR_PAR_NONE;
-const unsigned short STOP_BIT = AVR32_USART_MR_NBSTOP_1;
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -40,22 +37,7 @@ const unsigned short STOP_BIT = AVR32_USART_MR_NBSTOP_1;
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_usart_at32uc3l0256(void)
-{
-    const usart_serial_options_t usart_serial_options = {
-        .baudrate     = BAUDRATE,
-        .charlength   = CHAR_LENGTH,
-        .paritytype   = PARITY,
-        .stopbits     = STOP_BIT
-    };
-
-    stdio_serial_init(USART_SERIAL_BASE_ADDRESS, &usart_serial_options);
-}
-
-void deinit_usart_at32uc3l0256(void)
-{
-    /* nothing to reset/clear */
-}
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
