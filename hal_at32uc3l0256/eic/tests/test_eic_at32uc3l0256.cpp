@@ -34,6 +34,12 @@ uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
         .returnIntValue();
 }
 
+void eic_clear_interrupt_line(volatile avr32_eic_t *eic, uint32_t line_number)
+{
+    CHECK(eic != NULL);
+    mock().actualCall("eic_clear_interrupt_line");
+}
+
 }
 
 /*============================================================================*/
@@ -61,4 +67,22 @@ TEST(HalEicTests, InitEicCallsFunctions)
     mock().expectOneCall("gpio_enable_module")
         .andReturnValue(GPIO_SUCCESS);
     init_eic_at32uc3l0256();
+}
+
+TEST(HalEicTests, Motor1EncoderIsrCallsFunctions)
+{
+    mock().expectOneCall("eic_clear_interrupt_line");
+    motor_1_encoder_isr();
+}
+
+TEST(HalEicTests, Motor2EncoderIsrCallsFunctions)
+{
+    mock().expectOneCall("eic_clear_interrupt_line");
+    motor_2_encoder_isr();
+}
+
+TEST(HalEicTests, ConfigPushbuttonIsrCallsFunctions)
+{
+    mock().expectOneCall("eic_clear_interrupt_line");
+    config_pushbutton_isr();
 }

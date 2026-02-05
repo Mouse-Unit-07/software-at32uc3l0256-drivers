@@ -21,4 +21,10 @@ void deinit_eic_at32uc3l0256(void);
 void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
         void (*callback)(void));
 
+#ifdef WINDOWS_BUILD /* ISRs exposed just when testing */
+void motor_1_encoder_isr(void);
+void motor_2_encoder_isr(void);
+void config_pushbutton_isr(void);
+#endif
+
 #endif /* EIC_AT32UC3L0256_H_ */
