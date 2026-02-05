@@ -71,6 +71,7 @@ void config_pushbutton_isr(void)
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
 void init_eic_pins(void);
+void configure_eic(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -78,7 +79,41 @@ void init_eic_pins(void);
 void init_eic_at32uc3l0256(void)
 {
     init_eic_pins();
+    configure_eic();
+}
 
+void deinit_eic_at32uc3l0256(void)
+{
+
+}
+
+void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
+        void (*callback)(void))
+{
+    
+}
+
+/*----------------------------------------------------------------------------*/
+/*                        Private Function Definitions                        */
+/*----------------------------------------------------------------------------*/
+void init_eic_pins(void)
+{
+    static const gpio_map_t EIC_ENCODER_MAP = {
+        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
+        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
+    };
+    gpio_enable_module(EIC_ENCODER_MAP,
+        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
+    
+    static const gpio_map_t EIC_PUSHBUTTON_MAP = {
+        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
+    };
+    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
+        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
+}
+
+void configure_eic(void)
+{
     eic_options_t eic_encoder_options[2] = {{0}};
     eic_options_t eic_pushbutton_options[1] = {{0}};
 
@@ -131,35 +166,4 @@ void init_eic_at32uc3l0256(void)
     eic_enable_interrupt_lines(&AVR32_EIC,
         (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
     eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
-    
-}
-
-void deinit_eic_at32uc3l0256(void)
-{
-
-}
-
-void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
-        void (*callback)(void))
-{
-    
-}
-
-/*----------------------------------------------------------------------------*/
-/*                        Private Function Definitions                        */
-/*----------------------------------------------------------------------------*/
-void init_eic_pins(void)
-{
-    static const gpio_map_t EIC_ENCODER_MAP = {
-        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
-        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
-    };
-    gpio_enable_module(EIC_ENCODER_MAP,
-        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
-    
-    static const gpio_map_t EIC_PUSHBUTTON_MAP = {
-        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
-    };
-    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
-        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
 }
