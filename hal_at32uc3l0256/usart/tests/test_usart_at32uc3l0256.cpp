@@ -56,3 +56,8 @@ TEST(HalUsartTests, InitUsart)
 {
     init_usart_at32uc3l0256();
 }
+
+TEST(HalUsartTests, DeinitUsart)
+{
+    deinit_usart_at32uc3l0256();
+}
