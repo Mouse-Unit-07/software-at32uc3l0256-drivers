@@ -62,6 +62,17 @@ void call_all_isrs_without_cpputest_checks(void)
     mock().clear();
 }
 
+void immediately_fail_eic_init(void)
+{
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("RUNTIME_ERROR")
+        .withUnsignedIntParameter("timestamp", 0)
+        .withStringParameter("fail_message", "eic init pins: gpio_enable_module() on encoder pins failed")
+        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+    init_eic_at32uc3l0256();
+}
+
 /*============================================================================*/
 /*                            Mock Implementations                            */
 /*============================================================================*/
@@ -148,13 +159,7 @@ TEST(HalEicTests, InitEicCallsFunctions)
 
 TEST(HalEicTests, InitEicEncoderInitPinsFailureCallsRuntimeError)
 {
-    mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(GPIO_INVALID_ARGUMENT);
-    mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "eic init pins: gpio_enable_module() on encoder pins failed")
-        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
-    init_eic_at32uc3l0256();
+    immediately_fail_eic_init();
 }
 
 TEST(HalEicTests, InitEicInitPushbuttonPinsFailureCallsRuntimeError)
@@ -212,3 +217,14 @@ TEST(HalEicTests, IsrsDoNotCallMyCallbacksWhenNotSet)
     CHECK(my_user_callback_3_called == false);
 }
 
+TEST(HalEicTests, UserCallbacksNotSetOnInitEicFailure)
+{
+    immediately_fail_eic_init();
+    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
+    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
+    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+    call_all_isrs_without_cpputest_checks();
+    CHECK(my_user_callback_1_called == false);
+    CHECK(my_user_callback_2_called == false);
+    CHECK(my_user_callback_3_called == false);
+}

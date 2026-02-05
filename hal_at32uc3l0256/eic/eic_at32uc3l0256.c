@@ -139,6 +139,10 @@ void deinit_eic_at32uc3l0256(void)
 void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
         void (*callback)(void))
 {
+    if (eic_failed) {
+        return;
+    }
+    
     user_isr_callbacks[handle->eic_index] = callback;
 }
 
