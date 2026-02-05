@@ -64,25 +64,14 @@ void config_pushbutton_isr(void)
 /*----------------------------------------------------------------------------*/
 /*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_eic_pins(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
 void init_eic_at32uc3l0256(void)
 {
-    static const gpio_map_t EIC_ENCODER_MAP = {
-        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
-        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
-    };
-    gpio_enable_module(EIC_ENCODER_MAP,
-        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
-    
-    static const gpio_map_t EIC_PUSHBUTTON_MAP = {
-        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
-    };
-    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
-        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
+    init_eic_pins();
 }
 
 void deinit_eic_at32uc3l0256(void)
@@ -99,4 +88,18 @@ void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_eic_pins(void)
+{
+    static const gpio_map_t EIC_ENCODER_MAP = {
+        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
+        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
+    };
+    gpio_enable_module(EIC_ENCODER_MAP,
+        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
+    
+    static const gpio_map_t EIC_PUSHBUTTON_MAP = {
+        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
+    };
+    gpio_enable_module(EIC_PUSHBUTTON_MAP, 
+        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
+}
