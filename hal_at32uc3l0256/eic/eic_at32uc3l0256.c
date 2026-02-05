@@ -75,8 +75,8 @@ void config_pushbutton_isr(void)
 /*----------------------------------------------------------------------------*/
 static void reset_eic_flags(void);
 static void eic_runtime_error(const char *fail_message, uint32_t fail_value);
-void init_eic_pins(void);
-void configure_eic(void);
+static void init_eic_pins(void);
+static void configure_eic(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -118,7 +118,7 @@ static void eic_runtime_error(const char *fail_message, uint32_t fail_value)
     RUNTIME_ERROR(0, fail_message, fail_value);
 }
 
-void init_eic_pins(void)
+static void init_eic_pins(void)
 {
     uint32_t asf_return_value = GPIO_INVALID_ARGUMENT;
 
@@ -144,7 +144,7 @@ void init_eic_pins(void)
     }
 }
 
-void configure_eic(void)
+static void configure_eic(void)
 {
     eic_options_t eic_encoder_options[2] = {{0}};
     eic_options_t eic_pushbutton_options[1] = {{0}};
