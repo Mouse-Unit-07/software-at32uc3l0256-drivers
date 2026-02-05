@@ -1,33 +1,22 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : usart_at32uc3l0256.h                                  */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for universal synchronous/       */
+/* asynchronous reciver/transmitter HAL                                       */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
-#include "usart/usart_mock.h"
+#ifndef USART_AT32UC3L0256_H_
+#define USART_AT32UC3L0256_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    PASS = 0,
-    FAIL = 1
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+void init_usart_at32uc3l0256(void);
+void deinit_usart_at32uc3l0256(void);
 
-#endif /* ASF_H_ */
+#endif /* USART_AT32UC3L0256_H_ */

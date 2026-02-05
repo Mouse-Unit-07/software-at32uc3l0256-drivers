@@ -1,33 +1,21 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : usart_hal_config.h                                    */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Interface for AT32UC3L0256 implementation for universal synchronous/       */
+/* asynchronous receiver/transmitter HAL handler                              */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
-#include "usart/usart_mock.h"
+#ifndef USART_HAL_CONFIG_H_
+#define USART_HAL_CONFIG_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-enum
-{
-    PASS = 0,
-    FAIL = 1
-};
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+const struct usart_hal_handler *get_usart_hal_handler(void);
 
-#endif /* ASF_H_ */
+#endif /* USART_HAL_CONFIG_H_ */
