@@ -1,34 +1,32 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : asf.h                                                 */
+/* Filename           : eic_mock.h                                            */
 /*                                                                            */
-/* Header to include all other bare minimum interfaces/definitions to get     */
-/* hal implementations to build on Windows                                    */
+/* Bare minimum interface/definitions from ASF library to get universal       */
+/* synchronous/asynchronous receiver/transmitter hal implementation to build  */
+/* on Windows.                                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#ifndef ASF_H_
-#define ASF_H_
-
-#include "clock/clock_mock.h"
-#include "gpio/gpio_mock.h"
-#include "timer_counter/timer_counter_mock.h"
-#include "pwm/pwm_mock.h"
-#include "iic/iic_mock.h"
-#include "adc/adc_mock.h"
-#include "usart/usart_mock.h"
-#include "eic/eic_mock.h"
+#ifndef EIC_MOCK_H_
+#define EIC_MOCK_H_
 
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
+/* ASF constants and struct definitions */
 enum
 {
-    PASS = 0,
-    FAIL = 1
+    AVR32_EIC_EXTINT_1_1_PIN = 39,
+    AVR32_EIC_EXTINT_1_1_FUNCTION = 6,
+    AVR32_EIC_EXTINT_3_1_PIN = 41,
+    AVR32_EIC_EXTINT_3_1_FUNCTION = 6
 };
+
+/* untestable static inline functions in ASF headers */
+
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
 /* none */
 
-#endif /* ASF_H_ */
+#endif /* EIC_MOCK_H_ */

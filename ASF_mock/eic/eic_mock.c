@@ -1,7 +1,10 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : eic_at32uc3l0256.c                                    */
+/* Filename           : eic_mock.c                                          */
 /*                                                                            */
-/* AT32UC3L0256 implementation for external interrupt controller HAL          */
+/* Empty implementations of functions to be mocked w/ CppUTest.               */
+/* Needed for the config translation unit- compilation errors are thrown      */
+/* when function pointers point to functions that are defined w/ calls to     */
+/* functions that aren't defined.                                             */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -9,8 +12,7 @@
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
-#include "asf.h"
-#include "eic_at32uc3l0256.h"
+#include "eic_mock.h"
 
 /*----------------------------------------------------------------------------*/
 /*                                 Debug Space                                */
@@ -20,13 +22,7 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-/* pin selection related globals */
-/* need unsigned constants for struct/array initializers (no enums or variables) */
-#define MOTOR_1_ENCODER_PIN (AVR32_EIC_EXTINT_1_1_PIN)
-#define MOTOR_1_ENCODER_PIN_FUNCTION (AVR32_EIC_EXTINT_1_1_FUNCTION)
-
-#define MOTOR_2_ENCODER_PIN (AVR32_EIC_EXTINT_3_1_PIN)
-#define MOTOR_2_ENCODER_PIN_FUNCTION (AVR32_EIC_EXTINT_3_1_FUNCTION)
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -41,27 +37,7 @@
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
 /*----------------------------------------------------------------------------*/
-void init_eic_at32uc3l0256(void)
-{
-    static const gpio_map_t EIC_GPIO_MAP = {
-        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
-        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
-    };
-
-    gpio_enable_module(EIC_GPIO_MAP, 
-        sizeof(EIC_GPIO_MAP) / sizeof(EIC_GPIO_MAP[0]));
-}
-
-void deinit_eic_at32uc3l0256(void)
-{
-
-}
-
-void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
-        void (*callback)(void))
-{
-    
-}
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */

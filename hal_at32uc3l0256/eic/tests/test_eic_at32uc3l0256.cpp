@@ -28,7 +28,11 @@ extern "C" {
 extern "C"
 {
 
-
+uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
+{
+    return mock().actualCall("gpio_enable_module")
+        .returnIntValue();
+}
 
 }
 
@@ -52,7 +56,9 @@ TEST_GROUP(HalEicTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalEicTests, DeleteMe)
+TEST(HalEicTests, InitEicCallsFunctions)
 {
-    
+    mock().expectOneCall("gpio_enable_module")
+        .andReturnValue(GPIO_SUCCESS);
+    init_eic_at32uc3l0256();
 }
