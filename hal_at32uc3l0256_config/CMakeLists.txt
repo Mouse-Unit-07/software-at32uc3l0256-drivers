@@ -12,6 +12,7 @@ add_library(hal_at32uc3l0256_config_lib STATIC
     ${CMAKE_CURRENT_LIST_DIR}/iic/iic_hal_config.c
     ${CMAKE_CURRENT_LIST_DIR}/adc/adc_hal_config.c
     ${CMAKE_CURRENT_LIST_DIR}/usart/usart_hal_config.c
+    ${CMAKE_CURRENT_LIST_DIR}/eic/eic_hal_config.c
 )
 
 target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
@@ -23,6 +24,7 @@ target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/iic
     ${CMAKE_CURRENT_LIST_DIR}/adc
     ${CMAKE_CURRENT_LIST_DIR}/usart
+    ${CMAKE_CURRENT_LIST_DIR}/eic
 )
 
 target_link_libraries(hal_at32uc3l0256_config_lib PUBLIC
