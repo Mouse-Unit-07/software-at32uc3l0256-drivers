@@ -21,7 +21,10 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
+/* can't be enum/variable- resolves to a macro w/ a custom type */
 #define USART_SERIAL_BASE_ADDRESS (&AVR32_USART2)
+
+/* avoiding enum for implicit casting */
 const unsigned long BAUDRATE = 115200u;
 const unsigned char CHAR_LENGTH = 8u;
 const unsigned char PARITY = AVR32_USART_MR_PAR_NONE;
