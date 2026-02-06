@@ -53,3 +53,10 @@ TEST(EicHalConfigTest, EicHandlerElementsAreNotNull)
     CHECK(eic_handler->deinit_eic != NULL);
     CHECK(eic_handler->set_external_callback != NULL);
 }
+
+TEST(EicHalConfigTest, EicHandlesAreNotNull)
+{
+    CHECK(get_motor_1_encoder_handle() != NULL);
+    CHECK(get_motor_2_encoder_handle() != NULL);
+    CHECK(get_config_pushbutton_handle() != NULL);
+}
