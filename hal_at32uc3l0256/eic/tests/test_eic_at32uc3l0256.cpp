@@ -73,6 +73,20 @@ void immediately_fail_eic_init(void)
     init_eic_at32uc3l0256();
 }
 
+void set_all_callbacks(void)
+{
+    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
+    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
+    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+}
+
+void check_all_callback_flags(bool check_value)
+{
+    CHECK(my_user_callback_1_called == check_value);
+    CHECK(my_user_callback_2_called == check_value);
+    CHECK(my_user_callback_3_called == check_value);
+}
+
 /*============================================================================*/
 /*                            Mock Implementations                            */
 /*============================================================================*/
@@ -199,32 +213,31 @@ TEST(HalEicTests, ConfigPushbuttonIsrCallsFunctions)
 TEST(HalEicTests, IsrsCallMyCallbacksWhenSet)
 {
     init_eic_without_cpputest_checks();
-    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
-    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
-    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+    set_all_callbacks();
     call_all_isrs_without_cpputest_checks();
-    CHECK(my_user_callback_1_called == true);
-    CHECK(my_user_callback_2_called == true);
-    CHECK(my_user_callback_3_called == true);
+    check_all_callback_flags(true);
 }
 
 TEST(HalEicTests, IsrsDoNotCallMyCallbacksWhenNotSet)
 {
     init_eic_without_cpputest_checks();
     call_all_isrs_without_cpputest_checks();
-    CHECK(my_user_callback_1_called == false);
-    CHECK(my_user_callback_2_called == false);
-    CHECK(my_user_callback_3_called == false);
+    check_all_callback_flags(false);
 }
 
 TEST(HalEicTests, UserCallbacksNotSetOnInitEicFailure)
 {
     immediately_fail_eic_init();
-    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
-    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
-    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+    set_all_callbacks();
     call_all_isrs_without_cpputest_checks();
-    CHECK(my_user_callback_1_called == false);
-    CHECK(my_user_callback_2_called == false);
-    CHECK(my_user_callback_3_called == false);
+    check_all_callback_flags(false);
+}
+
+TEST(HalEicTests, DeinitEicResetsCallbacks)
+{
+    init_eic_without_cpputest_checks();
+    set_all_callbacks();
+    deinit_eic_at32uc3l0256();
+    call_all_isrs_without_cpputest_checks();
+    check_all_callback_flags(false);
 }
