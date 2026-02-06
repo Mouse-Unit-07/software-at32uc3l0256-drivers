@@ -16,9 +16,14 @@
 #include "timer_counter_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
-/*                                 Debug Space                                */
+/*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* keep empty */
+static void reset_tc_flags_and_count(void);
+static void tc_runtime_error(const char *fail_message, uint32_t fail_value);
+static int init_waveform(void);
+static int init_compare_trigger(void);
+static int configure_interrupts(void);
+static int start_timer_counter(void);
 
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
@@ -45,16 +50,6 @@ void tc_irq(void)
 #endif
     timer_counter_count++;
 }
-
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-static void reset_tc_flags_and_count(void);
-static void tc_runtime_error(const char *fail_message, uint32_t fail_value);
-static int init_waveform(void);
-static int init_compare_trigger(void);
-static int configure_interrupts(void);
-static int start_timer_counter(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

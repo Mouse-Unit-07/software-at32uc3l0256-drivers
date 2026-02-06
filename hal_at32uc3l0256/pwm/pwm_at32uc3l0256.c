@@ -14,9 +14,17 @@
 #include "pwm_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
-/*                                 Debug Space                                */
+/*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* keep empty */
+static void reset_pwm_flags(void);
+static void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
+static uint32_t init_pwm_pins(void);
+static void init_pwm_clock_source(void);
+static bool configure_frequency_and_spread(void);
+static bool set_duty_cycles(void);
+static bool set_pwm_top(void);
+static void enable_pwm_interrupts(void);
+static uint32_t percent_to_duty_cycle(uint32_t percent);
 
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
@@ -79,19 +87,6 @@ ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
     pwma->scr=AVR32_PWMA_SCR_TOFL_MASK;
 }
 #endif
-
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-static void reset_pwm_flags(void);
-static void pwm_runtime_error(const char *fail_message, uint32_t fail_value);
-static uint32_t init_pwm_pins(void);
-static void init_pwm_clock_source(void);
-static bool configure_frequency_and_spread(void);
-static bool set_duty_cycles(void);
-static bool set_pwm_top(void);
-static void enable_pwm_interrupts(void);
-static uint32_t percent_to_duty_cycle(uint32_t percent);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
