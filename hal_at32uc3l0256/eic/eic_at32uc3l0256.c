@@ -128,7 +128,8 @@ void init_eic_at32uc3l0256(void)
 
 void deinit_eic_at32uc3l0256(void)
 {
-
+    reset_eic_flags();
+    reset_user_callbacks();
 }
 
 void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
