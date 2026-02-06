@@ -14,9 +14,18 @@
 #include "adc_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
-/*                                 Debug Space                                */
+/*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* keep empty */
+static void reset_adc_flags(void);
+static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
+static void adc_runtime_telemetry(const char *telemetry_message,
+    uint32_t telemetry_value);
+static uint32_t init_adc_pins(void);
+static int32_t configure_adc_except_trigger(void);
+static int32_t configure_adc_trigger(void);
+static void disable_adc_channel(uint32_t channel_mask);
+static void enable_adc_channel(uint32_t channel_mask);
+static void start_adc_conversion(void);
 
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
@@ -73,25 +82,6 @@ const struct adc_handle ir_sensor_3 = {
 const struct adc_handle ir_sensor_4 = {
     .channel_mask = IR_SENSOR_4_CHANNEL_MASK
 };
-
-/*----------------------------------------------------------------------------*/
-/*                         Interrupt Service Routines                         */
-/*----------------------------------------------------------------------------*/
-/* none */
-
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-static void reset_adc_flags(void);
-static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
-static void adc_runtime_telemetry(const char *telemetry_message,
-    uint32_t telemetry_value);
-static uint32_t init_adc_pins(void);
-static int32_t configure_adc_except_trigger(void);
-static int32_t configure_adc_trigger(void);
-static void disable_adc_channel(uint32_t channel_mask);
-static void enable_adc_channel(uint32_t channel_mask);
-static void start_adc_conversion(void);
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

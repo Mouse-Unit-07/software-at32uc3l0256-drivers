@@ -1,5 +1,5 @@
 /*================================ FILE INFO =================================*/
-/* Filename           : test_usart_hal_config.cpp                     */
+/* Filename           : test_usart_hal_config.cpp                             */
 /*                                                                            */
 /* Test implementation for hal_at32uc3l0256_config library                    */
 /*                                                                            */
@@ -8,7 +8,6 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-
 extern "C" {
 #include <stdint.h>
 #include "usart_hal.h"
@@ -18,12 +17,9 @@ extern "C" {
 #include <CppUTest/TestHarness.h>
 
 /*============================================================================*/
-/*                             Private Definitions                            */
+/*                             Public Definitions                             */
 /*============================================================================*/
-namespace
-{
-
-}
+/* none */
 
 /*============================================================================*/
 /*                                 Test Group                                 */
@@ -44,13 +40,13 @@ TEST_GROUP(UsartHalConfigTest)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(UsartHalConfigTest, TimerCounterHandlerIsNotNull)
+TEST(UsartHalConfigTest, UsartHandlerIsNotNull)
 {
     const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
     CHECK(usart_handler != NULL);
 }
 
-TEST(UsartHalConfigTest, TimerCounterHandlerElementsAreNotNull)
+TEST(UsartHalConfigTest, UsartHandlerElementsAreNotNull)
 {
     const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
     CHECK(usart_handler->init_usart != NULL);

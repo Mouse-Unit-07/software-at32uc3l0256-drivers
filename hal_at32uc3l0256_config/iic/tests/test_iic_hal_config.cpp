@@ -17,12 +17,9 @@ extern "C" {
 #include <CppUTest/TestHarness.h>
 
 /*============================================================================*/
-/*                             Private Definitions                            */
+/*                             Public Definitions                             */
 /*============================================================================*/
-namespace
-{
-
-}
+/* none */
 
 /*============================================================================*/
 /*                                 Test Group                                 */
@@ -43,13 +40,13 @@ TEST_GROUP(IicHalConfigTest)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(IicHalConfigTest, TimerCounterHandlerIsNotNull)
+TEST(IicHalConfigTest, IicHandlerIsNotNull)
 {
     const struct iic_hal_handler *iic_handler = get_iic_hal_handler();
     CHECK(iic_handler != NULL);
 }
 
-TEST(IicHalConfigTest, TimerCounterHandlerElementsAreNotNull)
+TEST(IicHalConfigTest, IicHandlerElementsAreNotNull)
 {
     const struct iic_hal_handler *iic_handler = get_iic_hal_handler();
     CHECK(iic_handler->init_iic != NULL);

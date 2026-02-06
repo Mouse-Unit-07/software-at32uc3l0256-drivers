@@ -14,28 +14,21 @@
 #include "usart_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/
-/*                                 Debug Space                                */
+/*                         Private Function Prototypes                        */
 /*----------------------------------------------------------------------------*/
-/* keep empty */
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
+/* can't be enum/variable- resolves to a macro w/ a custom type */
 #define USART_SERIAL_BASE_ADDRESS (&AVR32_USART2)
+
+/* avoiding enum for implicit casting */
 const unsigned long BAUDRATE = 115200u;
 const unsigned char CHAR_LENGTH = 8u;
 const unsigned char PARITY = AVR32_USART_MR_PAR_NONE;
 const unsigned short STOP_BIT = AVR32_USART_MR_NBSTOP_1;
-
-/*----------------------------------------------------------------------------*/
-/*                         Interrupt Service Routines                         */
-/*----------------------------------------------------------------------------*/
-/* none */
-
-/*----------------------------------------------------------------------------*/
-/*                         Private Function Prototypes                        */
-/*----------------------------------------------------------------------------*/
-/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
