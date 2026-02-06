@@ -37,6 +37,26 @@ const struct adc_hal_handler *get_adc_hal_handler(void)
     return &adc_handler;
 }
 
+const struct adc_handle *get_ir_sensor_1_handle(void)
+{
+    return &ir_sensor_1;
+}
+
+const struct adc_handle *get_ir_sensor_2_handle(void)
+{
+    return &ir_sensor_2;
+}
+
+const struct adc_handle *get_ir_sensor_3_handle(void)
+{
+    return &ir_sensor_3;
+}
+
+const struct adc_handle *get_ir_sensor_4_handle(void)
+{
+    return &ir_sensor_4;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

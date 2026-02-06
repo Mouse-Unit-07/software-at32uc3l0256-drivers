@@ -53,3 +53,11 @@ TEST(AdcHalConfigTest, AdcHandlerElementsAreNotNull)
     CHECK(adc_handler->deinit_adc != NULL);
     CHECK(adc_handler->read_adc_channel != NULL);
 }
+
+TEST(AdcHalConfigTest, AdcHandlesAreNotNull)
+{
+    CHECK(get_ir_sensor_1_handle() != NULL);
+    CHECK(get_ir_sensor_2_handle() != NULL);
+    CHECK(get_ir_sensor_3_handle() != NULL);
+    CHECK(get_ir_sensor_4_handle() != NULL);
+}
