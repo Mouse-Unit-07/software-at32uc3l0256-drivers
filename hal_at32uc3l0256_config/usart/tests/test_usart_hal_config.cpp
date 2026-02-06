@@ -1,5 +1,5 @@
 /*================================ FILE INFO =================================*/
-/* Filename           : test_usart_hal_config.cpp                     */
+/* Filename           : test_usart_hal_config.cpp                             */
 /*                                                                            */
 /* Test implementation for hal_at32uc3l0256_config library                    */
 /*                                                                            */
