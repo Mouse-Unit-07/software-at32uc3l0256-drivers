@@ -8,7 +8,6 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-
 extern "C" {
 #include <stdint.h>
 #include "adc_hal.h"
@@ -18,12 +17,9 @@ extern "C" {
 #include <CppUTest/TestHarness.h>
 
 /*============================================================================*/
-/*                             Private Definitions                            */
+/*                             Public Definitions                             */
 /*============================================================================*/
-namespace
-{
-
-}
+/* none */
 
 /*============================================================================*/
 /*                                 Test Group                                 */
@@ -57,7 +53,3 @@ TEST(AdcHalConfigTest, AdcHandlerElementsAreNotNull)
     CHECK(adc_handler->deinit_adc != NULL);
     CHECK(adc_handler->read_adc_channel != NULL);
 }
-
-
-
-
