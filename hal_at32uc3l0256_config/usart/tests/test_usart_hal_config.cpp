@@ -44,13 +44,13 @@ TEST_GROUP(UsartHalConfigTest)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(UsartHalConfigTest, TimerCounterHandlerIsNotNull)
+TEST(UsartHalConfigTest, UsartHandlerIsNotNull)
 {
     const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
     CHECK(usart_handler != NULL);
 }
 
-TEST(UsartHalConfigTest, TimerCounterHandlerElementsAreNotNull)
+TEST(UsartHalConfigTest, UsartHandlerElementsAreNotNull)
 {
     const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
     CHECK(usart_handler->init_usart != NULL);
