@@ -10,7 +10,6 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "adc_hal.h"
-#include "asf.h"
 #include "adc_at32uc3l0256.h"
 #include "adc_hal_config.h"
 

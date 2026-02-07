@@ -11,7 +11,6 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "usart_hal.h"
-#include "asf.h"
 #include "usart_at32uc3l0256.h"
 #include "usart_hal_config.h"
 

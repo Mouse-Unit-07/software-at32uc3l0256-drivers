@@ -10,7 +10,6 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "timer_counter_hal.h"
-#include "asf.h"
 #include "timer_counter_at32uc3l0256.h"
 #include "timer_counter_hal_config.h"
 

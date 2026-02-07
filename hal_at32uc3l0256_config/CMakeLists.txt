@@ -27,19 +27,13 @@ target_include_directories(hal_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/eic
 )
 
+# libraries that link to hal_at32uc3l0256_config_lib need hal_contracts_lib
+# for hal_at32uc3l0256_config_lib to make any sense
 target_link_libraries(hal_at32uc3l0256_config_lib PUBLIC
     hal_contracts_lib
-    hal_at32uc3l0256_lib
 )
 
-if (TARGET_AVR32)
-    target_link_libraries(hal_at32uc3l0256_lib PUBLIC
-        asf_lib
-    )
-endif()
-
-if (TARGET_WINDOWS)
-    target_link_libraries(hal_at32uc3l0256_lib PUBLIC
-        asf_mock_lib
-    )
-endif()
+# ...but they don't need the implementation
+target_link_libraries(hal_at32uc3l0256_config_lib PRIVATE
+    hal_at32uc3l0256_lib
+)
