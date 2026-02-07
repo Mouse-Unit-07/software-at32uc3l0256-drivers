@@ -18,7 +18,7 @@ add_executable(test_pwm_hal_config
 )
 
 target_link_libraries(test_pwm_hal_config PRIVATE
-    asf_mock_lib
+    hal_contracts_lib
     hal_at32uc3l0256_config_lib
     CppUTest::CppUTest
     CppUTestExt

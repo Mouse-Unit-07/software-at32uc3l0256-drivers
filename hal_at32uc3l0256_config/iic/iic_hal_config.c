@@ -10,7 +10,6 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "iic_hal.h"
-#include "asf.h"
 #include "iic_at32uc3l0256.h"
 #include "iic_hal_config.h"
 

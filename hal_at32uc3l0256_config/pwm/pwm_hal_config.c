@@ -10,7 +10,6 @@
 /*----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "pwm_hal.h"
-#include "asf.h"
 #include "pwm_at32uc3l0256.h"
 #include "pwm_hal_config.h"
 
