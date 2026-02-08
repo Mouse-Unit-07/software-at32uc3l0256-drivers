@@ -34,7 +34,7 @@ extern const struct gpio_handle wheel_encoder_motor_2_b_channel;
 /*----------------------------------------------------------------------------*/
 void init_gpio_at32uc3l0256(void);
 void deinit_gpio_at32uc3l0256(void);
-uint32_t read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle);
+bool read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle);
 void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value);
 void toggle_gpio_pin_at32uc3l0256(const struct gpio_handle *handle);
 

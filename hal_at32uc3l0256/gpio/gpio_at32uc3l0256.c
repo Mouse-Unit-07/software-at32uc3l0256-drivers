@@ -135,9 +135,9 @@ void deinit_gpio_at32uc3l0256(void)
     /* nothing to clear/reset */
 }
 
-uint32_t read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
+bool read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
 {
-    return gpio_get_pin_value(handle->gpio_pin_address);
+    return (bool)gpio_get_pin_value(handle->gpio_pin_address);
 }
 
 void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value)
