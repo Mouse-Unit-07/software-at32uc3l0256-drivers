@@ -1,0 +1,43 @@
+/*-------------------------------- FILE INFO ---------------------------------*/
+/* Filename           : timer_counter_hal_config.c                            */
+/*                                                                            */
+/* AT32UC3L0256 implementation for timer counter HAL handler                  */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+/*                               Include Files                                */
+/*----------------------------------------------------------------------------*/
+#include <stdint.h>
+#include "timer_counter_hal.h"
+#include "timer_counter_at32uc3l0256.h"
+#include "timer_counter_hal_config.h"
+
+/*----------------------------------------------------------------------------*/
+/*                         Private Function Prototypes                        */
+/*----------------------------------------------------------------------------*/
+/* none */
+
+/*----------------------------------------------------------------------------*/
+/*                               Private Globals                              */
+/*----------------------------------------------------------------------------*/
+const struct tc_hal_handler tc_handler = 
+{
+    .init_timer_counter = init_timer_counter_at32uc3l0256,
+    .deinit_timer_counter = deinit_timer_counter_at32uc3l0256,
+    .get_timer_count = get_timer_count_at32uc3l0256,
+    .restart_timer = restart_timer_at32uc3l0256
+};
+
+/*----------------------------------------------------------------------------*/
+/*                         Public Function Definitions                        */
+/*----------------------------------------------------------------------------*/
+const struct tc_hal_handler *get_tc_hal_handler(void)
+{
+    return &tc_handler;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                        Private Function Definitions                        */
+/*----------------------------------------------------------------------------*/
+/* none */
