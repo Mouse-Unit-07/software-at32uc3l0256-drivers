@@ -30,8 +30,8 @@ static bool eic_failed = false;
 
 enum
 {
-    MOTOR_1_ENCODER_INDEX = 0,
-    MOTOR_2_ENCODER_INDEX,
+    ENCODER_1_INDEX = 0,
+    ENCODER_2_INDEX,
     CONFIG_PUSHBUTTON_INDEX,
     EXTERNAL_INTERRUPT_COUNT
 };
@@ -44,33 +44,33 @@ static void (*user_isr_callbacks[EXTERNAL_INTERRUPT_COUNT])(void) = {
 
 /* pin selection related globals */
 /* need unsigned constants for struct/array initializers (no enums or variables) */
-#define MOTOR_1_ENCODER_PIN (AVR32_EIC_EXTINT_1_1_PIN)
-#define MOTOR_1_ENCODER_PIN_FUNCTION (AVR32_EIC_EXTINT_1_1_FUNCTION)
-static const uint32_t MOTOR_1_ENCODER_EIC_LINE = AVR32_EIC_INT1;
+#define ENCODER_1_CHANNEL_A_PIN (AVR32_EIC_EXTINT_1_1_PIN)
+#define ENCODER_1_CHANNEL_A_PIN_FUNCTION (AVR32_EIC_EXTINT_1_1_FUNCTION)
+static const uint32_t ENCODER_1_EIC_LINE = AVR32_EIC_INT1;
 
-#define MOTOR_2_ENCODER_PIN (AVR32_EIC_EXTINT_3_1_PIN)
-#define MOTOR_2_ENCODER_PIN_FUNCTION (AVR32_EIC_EXTINT_3_1_FUNCTION)
-static const uint32_t MOTOR_2_ENCODER_EIC_LINE = AVR32_EIC_INT3;
+#define ENCODER_2_CHANNEL_A_PIN (AVR32_EIC_EXTINT_3_1_PIN)
+#define ENCODER_2_CHANNEL_A_PIN_FUNCTION (AVR32_EIC_EXTINT_3_1_FUNCTION)
+static const uint32_t ENCODER_2_EIC_LINE = AVR32_EIC_INT3;
 
 #define CONFIG_PUSHBUTTON_PIN (6u) /* can't find ASF mask */
 #define CONFIG_PUSHBUTTON_PIN_FUNCTION (5u) /* can't find ASF mask */
 static const uint32_t CONFIG_PUSHBUTTON_EIC_LINE = AVR32_EIC_INT2;
 
 #ifndef WINDOWS_BUILD /* not needed for testing */
+static const uint32_t ENCODER_1_EIC_IRQ_LINE = AVR32_EIC_IRQ_1;
+static const uint32_t ENCODER_2_EIC_IRQ_LINE = AVR32_EIC_IRQ_3;
 static const uint32_t CONFIG_PUSHBUTTON_EIC_IRQ_LINE = AVR32_EIC_IRQ_2;
-static const uint32_t MOTOR_2_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_3;
-static const uint32_t MOTOR_1_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_1;
 #endif
 
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
 const struct eic_handle encoder_1_channel_a = {
-    .eic_index = MOTOR_1_ENCODER_INDEX
+    .eic_index = ENCODER_1_INDEX
 };
 
 const struct eic_handle encoder_2_channel_a = {
-    .eic_index = MOTOR_2_ENCODER_INDEX
+    .eic_index = ENCODER_2_INDEX
 };
 
 const struct eic_handle config_pushbutton = {
@@ -85,9 +85,9 @@ __attribute__((__interrupt__))
 #endif
 void encoder_1_channel_a_isr(void)
 {
-    eic_clear_interrupt_line(&AVR32_EIC, MOTOR_1_ENCODER_EIC_LINE);
+    eic_clear_interrupt_line(&AVR32_EIC, ENCODER_1_EIC_LINE);
 
-    user_isr_callbacks[MOTOR_1_ENCODER_INDEX]();
+    user_isr_callbacks[ENCODER_1_INDEX]();
 }
 
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
@@ -95,9 +95,9 @@ __attribute__((__interrupt__))
 #endif
 void encoder_2_channel_a_isr(void)
 {
-    eic_clear_interrupt_line(&AVR32_EIC, MOTOR_2_ENCODER_EIC_LINE);
+    eic_clear_interrupt_line(&AVR32_EIC, ENCODER_2_EIC_LINE);
 
-    user_isr_callbacks[MOTOR_2_ENCODER_INDEX]();
+    user_isr_callbacks[ENCODER_2_INDEX]();
 }
 
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
@@ -168,8 +168,8 @@ static void init_eic_pins(void)
     uint32_t asf_return_value = GPIO_INVALID_ARGUMENT;
 
     static const gpio_map_t EIC_ENCODER_MAP = {
-        {MOTOR_1_ENCODER_PIN, MOTOR_1_ENCODER_PIN_FUNCTION},
-        {MOTOR_2_ENCODER_PIN, MOTOR_2_ENCODER_PIN_FUNCTION}
+        {ENCODER_1_CHANNEL_A_PIN, ENCODER_1_CHANNEL_A_PIN_FUNCTION},
+        {ENCODER_2_CHANNEL_A_PIN, ENCODER_2_CHANNEL_A_PIN_FUNCTION}
     };
     asf_return_value = gpio_enable_module(EIC_ENCODER_MAP,
         sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
@@ -194,29 +194,29 @@ static void configure_eic(void)
     eic_options_t eic_encoder_options[2] = {{0}};
     eic_options_t eic_pushbutton_options[1] = {{0}};
 
-    const unsigned char MOTOR_1_ENCODER_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
-    const unsigned char MOTOR_1_ENCODER_EIC_EDGE = AVR32_EIC_RISING_EDGE;
-    const unsigned char MOTOR_1_ENCODER_EIC_SYNC = EIC_SYNCH_MODE;
+    const unsigned char ENCODER_1_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
+    const unsigned char ENCODER_1_EIC_EDGE = AVR32_EIC_RISING_EDGE;
+    const unsigned char ENCODER_1_EIC_SYNC = EIC_SYNCH_MODE;
 
-    const unsigned char MOTOR_2_ENCODER_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
-    const unsigned char MOTOR_2_ENCODER_EIC_EDGE = AVR32_EIC_RISING_EDGE;
-    const unsigned char MOTOR_2_ENCODER_EIC_SYNC = EIC_SYNCH_MODE;
+    const unsigned char ENCODER_2_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
+    const unsigned char ENCODER_2_EIC_EDGE = AVR32_EIC_RISING_EDGE;
+    const unsigned char ENCODER_2_EIC_SYNC = EIC_SYNCH_MODE;
 
     const unsigned char CONFIG_PUSHBUTTON_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
     const unsigned char CONFIG_PUSHBUTTON_EIC_EDGE = AVR32_EIC_FALLING_EDGE;
     const unsigned char CONFIG_PUSHBUTTON_EIC_SYNC = EIC_SYNCH_MODE;
 
     /* motor 1 */
-    eic_encoder_options[0].eic_mode  = MOTOR_1_ENCODER_EIC_MODE;
-    eic_encoder_options[0].eic_edge  = MOTOR_1_ENCODER_EIC_EDGE;
-    eic_encoder_options[0].eic_async = MOTOR_1_ENCODER_EIC_SYNC;
-    eic_encoder_options[0].eic_line  = MOTOR_1_ENCODER_EIC_LINE;
+    eic_encoder_options[0].eic_mode  = ENCODER_1_EIC_MODE;
+    eic_encoder_options[0].eic_edge  = ENCODER_1_EIC_EDGE;
+    eic_encoder_options[0].eic_async = ENCODER_1_EIC_SYNC;
+    eic_encoder_options[0].eic_line  = ENCODER_1_EIC_LINE;
     
     /* motor 2 */
-    eic_encoder_options[1].eic_mode  = MOTOR_2_ENCODER_EIC_MODE;
-    eic_encoder_options[1].eic_edge  = MOTOR_2_ENCODER_EIC_EDGE;
-    eic_encoder_options[1].eic_async = MOTOR_2_ENCODER_EIC_SYNC;
-    eic_encoder_options[1].eic_line  = MOTOR_2_ENCODER_EIC_LINE;
+    eic_encoder_options[1].eic_mode  = ENCODER_2_EIC_MODE;
+    eic_encoder_options[1].eic_edge  = ENCODER_2_EIC_EDGE;
+    eic_encoder_options[1].eic_async = ENCODER_2_EIC_SYNC;
+    eic_encoder_options[1].eic_line  = ENCODER_2_EIC_LINE;
 
     eic_pushbutton_options[0].eic_mode  = CONFIG_PUSHBUTTON_EIC_MODE;
     eic_pushbutton_options[0].eic_edge  = CONFIG_PUSHBUTTON_EIC_EDGE;
@@ -226,9 +226,9 @@ static void configure_eic(void)
 #ifndef WINDOWS_BUILD /* can't test- AVR32 defined type parameter */
     const uint32_t INTC_LEVEL = AVR32_INTC_INT3;
     INTC_register_interrupt(&encoder_1_channel_a_isr,
-        MOTOR_1_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
+        ENCODER_1_EIC_IRQ_LINE, INTC_LEVEL);
     INTC_register_interrupt(&encoder_2_channel_a_isr,
-        MOTOR_2_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
+        ENCODER_2_EIC_IRQ_LINE, INTC_LEVEL);
     INTC_register_interrupt(&config_pushbutton_isr,
         CONFIG_PUSHBUTTON_EIC_IRQ_LINE, INTC_LEVEL);
 #endif
