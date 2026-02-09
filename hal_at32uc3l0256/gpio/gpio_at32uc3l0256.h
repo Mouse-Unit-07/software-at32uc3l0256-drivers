@@ -26,8 +26,8 @@ extern const struct gpio_handle wheel_driver_motor_1_in1;
 extern const struct gpio_handle wheel_driver_motor_1_in2;
 extern const struct gpio_handle wheel_driver_motor_2_in1;
 extern const struct gpio_handle wheel_driver_motor_2_in2;
-extern const struct gpio_handle wheel_encoder_motor_1_b_channel;
-extern const struct gpio_handle wheel_encoder_motor_2_b_channel;
+extern const struct gpio_handle encoder_1_channel_b;
+extern const struct gpio_handle encoder_2_channel_b;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

@@ -101,12 +101,12 @@ const struct gpio_handle *get_wheel_driver_motor_2_in2_handle(void)
 
 const struct gpio_handle *get_encoder_1_channel_b_handle(void)
 {
-    return &wheel_encoder_motor_1_b_channel;
+    return &encoder_1_channel_b;
 }
 
 const struct gpio_handle *get_encoder_2_channel_b_handle(void)
 {
-    return &wheel_encoder_motor_2_b_channel;
+    return &encoder_2_channel_b;
 }
 
 /*----------------------------------------------------------------------------*/

@@ -30,8 +30,8 @@ enum
 static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
     &battery_comparator,
     &wheel_driver_cld,
-    &wheel_encoder_motor_1_b_channel,
-    &wheel_encoder_motor_2_b_channel
+    &encoder_1_channel_b,
+    &encoder_2_channel_b
 };
 
 static const uint32_t pull_up_configs[INPUT_COUNT] = {
@@ -105,11 +105,11 @@ const struct gpio_handle wheel_driver_motor_2_in2 = {
     .gpio_pin_address = AVR32_PIN_PA20
 };
 
-const struct gpio_handle wheel_encoder_motor_1_b_channel = {
+const struct gpio_handle encoder_1_channel_b = {
     .gpio_pin_address = AVR32_PIN_PA04
 };
 
-const struct gpio_handle wheel_encoder_motor_2_b_channel = {
+const struct gpio_handle encoder_2_channel_b = {
     .gpio_pin_address = AVR32_PIN_PA11
 };
 
