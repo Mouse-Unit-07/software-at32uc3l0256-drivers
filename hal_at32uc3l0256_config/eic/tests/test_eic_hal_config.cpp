@@ -56,7 +56,7 @@ TEST(EicHalConfigTest, EicHandlerElementsAreNotNull)
 
 TEST(EicHalConfigTest, EicHandlesAreNotNull)
 {
-    CHECK(get_motor_1_encoder_handle() != NULL);
-    CHECK(get_motor_2_encoder_handle() != NULL);
+    CHECK(get_encoder_1_channel_a_handle() != NULL);
+    CHECK(get_encoder_2_channel_a_handle() != NULL);
     CHECK(get_config_pushbutton_handle() != NULL);
 }
