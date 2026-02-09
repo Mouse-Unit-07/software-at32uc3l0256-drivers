@@ -56,8 +56,8 @@ void init_eic_without_cpputest_checks(void)
 void call_all_isrs_without_cpputest_checks(void)
 {
     mock().ignoreOtherCalls();
-    motor_1_encoder_isr();
-    motor_2_encoder_isr();
+    encoder_1_channel_a_isr();
+    encoder_2_channel_a_isr();
     config_pushbutton_isr();
     mock().clear();
 }
@@ -75,8 +75,8 @@ void immediately_fail_eic_init(void)
 
 void set_all_callbacks(void)
 {
-    set_external_callback_at32uc3l0256(&motor_1_encoder, my_user_callback_1);
-    set_external_callback_at32uc3l0256(&motor_2_encoder, my_user_callback_2);
+    set_external_callback_at32uc3l0256(&encoder_1_channel_a, my_user_callback_1);
+    set_external_callback_at32uc3l0256(&encoder_2_channel_a, my_user_callback_2);
     set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
 }
 
@@ -193,14 +193,14 @@ TEST(HalEicTests, Motor1EncoderIsrCallsFunctions)
 {
     init_eic_without_cpputest_checks();
     mock().expectOneCall("eic_clear_interrupt_line");
-    motor_1_encoder_isr();
+    encoder_1_channel_a_isr();
 }
 
 TEST(HalEicTests, Motor2EncoderIsrCallsFunctions)
 {
     init_eic_without_cpputest_checks();
     mock().expectOneCall("eic_clear_interrupt_line");
-    motor_2_encoder_isr();
+    encoder_2_channel_a_isr();
 }
 
 TEST(HalEicTests, ConfigPushbuttonIsrCallsFunctions)

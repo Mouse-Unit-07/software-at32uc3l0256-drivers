@@ -38,12 +38,12 @@ const struct eic_hal_handler *get_eic_hal_handler(void)
 
 const struct eic_handle *get_encoder_1_channel_a_handle(void)
 {
-    return &motor_1_encoder;
+    return &encoder_1_channel_a;
 }
 
 const struct eic_handle *get_encoder_2_channel_a_handle(void)
 {
-    return &motor_2_encoder;
+    return &encoder_2_channel_a;
 }
 
 const struct eic_handle *get_config_pushbutton_handle(void)

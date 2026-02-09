@@ -15,8 +15,8 @@ struct eic_handle {
     uint32_t eic_index;
 };
 
-extern const struct eic_handle motor_1_encoder;
-extern const struct eic_handle motor_2_encoder;
+extern const struct eic_handle encoder_1_channel_a;
+extern const struct eic_handle encoder_2_channel_a;
 extern const struct eic_handle config_pushbutton;
 
 /*----------------------------------------------------------------------------*/
@@ -28,8 +28,8 @@ void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
         void (*callback)(void));
 
 #ifdef WINDOWS_BUILD /* ISRs exposed just when testing */
-void motor_1_encoder_isr(void);
-void motor_2_encoder_isr(void);
+void encoder_1_channel_a_isr(void);
+void encoder_2_channel_a_isr(void);
 void config_pushbutton_isr(void);
 #endif
 

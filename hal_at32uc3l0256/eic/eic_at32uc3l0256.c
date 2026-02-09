@@ -65,11 +65,11 @@ static const uint32_t MOTOR_1_ENCODER_EIC_IRQ_LINE = AVR32_EIC_IRQ_1;
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
-const struct eic_handle motor_1_encoder = {
+const struct eic_handle encoder_1_channel_a = {
     .eic_index = MOTOR_1_ENCODER_INDEX
 };
 
-const struct eic_handle motor_2_encoder = {
+const struct eic_handle encoder_2_channel_a = {
     .eic_index = MOTOR_2_ENCODER_INDEX
 };
 
@@ -83,7 +83,7 @@ const struct eic_handle config_pushbutton = {
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
 __attribute__((__interrupt__))
 #endif
-void motor_1_encoder_isr(void)
+void encoder_1_channel_a_isr(void)
 {
     eic_clear_interrupt_line(&AVR32_EIC, MOTOR_1_ENCODER_EIC_LINE);
 
@@ -93,7 +93,7 @@ void motor_1_encoder_isr(void)
 #ifndef WINDOWS_BUILD /* need this ISR to build for testing */
 __attribute__((__interrupt__))
 #endif
-void motor_2_encoder_isr(void)
+void encoder_2_channel_a_isr(void)
 {
     eic_clear_interrupt_line(&AVR32_EIC, MOTOR_2_ENCODER_EIC_LINE);
 
@@ -225,9 +225,9 @@ static void configure_eic(void)
 
 #ifndef WINDOWS_BUILD /* can't test- AVR32 defined type parameter */
     const uint32_t INTC_LEVEL = AVR32_INTC_INT3;
-    INTC_register_interrupt(&motor_1_encoder_isr,
+    INTC_register_interrupt(&encoder_1_channel_a_isr,
         MOTOR_1_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
-    INTC_register_interrupt(&motor_2_encoder_isr,
+    INTC_register_interrupt(&encoder_2_channel_a_isr,
         MOTOR_2_ENCODER_EIC_IRQ_LINE, INTC_LEVEL);
     INTC_register_interrupt(&config_pushbutton_isr,
         CONFIG_PUSHBUTTON_EIC_IRQ_LINE, INTC_LEVEL);
