@@ -15,9 +15,9 @@ struct eic_handle {
     uint32_t eic_index;
 };
 
-extern const struct eic_handle encoder_1_channel_a;
-extern const struct eic_handle encoder_2_channel_a;
-extern const struct eic_handle config_pushbutton;
+extern const struct eic_handle encoder_1_channel_a_eic;
+extern const struct eic_handle encoder_2_channel_a_eic;
+extern const struct eic_handle config_pushbutton_eic;
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

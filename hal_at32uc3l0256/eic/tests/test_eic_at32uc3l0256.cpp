@@ -75,9 +75,9 @@ void immediately_fail_eic_init(void)
 
 void set_all_callbacks(void)
 {
-    set_external_callback_at32uc3l0256(&encoder_1_channel_a, my_user_callback_1);
-    set_external_callback_at32uc3l0256(&encoder_2_channel_a, my_user_callback_2);
-    set_external_callback_at32uc3l0256(&config_pushbutton, my_user_callback_3);
+    set_external_callback_at32uc3l0256(&encoder_1_channel_a_eic, my_user_callback_1);
+    set_external_callback_at32uc3l0256(&encoder_2_channel_a_eic, my_user_callback_2);
+    set_external_callback_at32uc3l0256(&config_pushbutton_eic, my_user_callback_3);
 }
 
 void check_all_callback_flags(bool check_value)
