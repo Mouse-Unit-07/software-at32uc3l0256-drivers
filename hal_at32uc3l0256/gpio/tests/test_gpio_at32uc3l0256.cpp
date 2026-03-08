@@ -26,7 +26,7 @@ extern "C"
 
 enum
 {
-    INPUT_COUNT = 4,
+    INPUT_COUNT = 7,
     OUTPUT_COUNT = 10
 };
 }
@@ -46,7 +46,10 @@ std::unordered_set<int> gpio_pins {
     AVR32_PIN_PA21,
     AVR32_PIN_PA20,
     AVR32_PIN_PA04,
-    AVR32_PIN_PA11
+    AVR32_PIN_PA11,
+    AVR32_PIN_PB07,
+    AVR32_PIN_PB09,
+    AVR32_PIN_PA06
 };
 
 /*============================================================================*/

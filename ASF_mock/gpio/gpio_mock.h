@@ -38,6 +38,9 @@ enum
     AVR32_PIN_PA20 = 20,
     AVR32_PIN_PA04 = 4,
     AVR32_PIN_PA11 = 11,
+    AVR32_PIN_PB07 = 39,
+    AVR32_PIN_PB09 = 41,
+    AVR32_PIN_PA06 = 6
 };
 
 enum
