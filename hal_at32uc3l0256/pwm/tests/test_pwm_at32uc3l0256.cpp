@@ -184,19 +184,8 @@ TEST(HalPwmTests, SetPwmDutyCycleCallsFunctions)
     mock().expectOneCall("pwma_set_multiple_values")
         .andReturnValue(static_cast<bool>(PASS));
     
-    set_pwm_duty_cycle_percent_at32uc3l0256(
+    set_pwm_duty_cycle_byte_at32uc3l0256(
         &wheel_motor_1, 10);
-}
-
-TEST(HalPwmTests, SetPwmDutyCycleBadPercentDoesNotCallRuntimeErrors)
-{
-    init_pwm_without_cpputest_checks();
-    
-    mock().expectOneCall("pwma_set_multiple_values")
-        .andReturnValue(static_cast<bool>(PASS));
-    
-    set_pwm_duty_cycle_percent_at32uc3l0256(
-        &wheel_motor_1, 9000);
 }
 
 TEST(HalPwmTests, SetPwmDutyCycleSetDutyCyclesFailureCallsRuntimeError)
@@ -210,7 +199,7 @@ TEST(HalPwmTests, SetPwmDutyCycleSetDutyCyclesFailureCallsRuntimeError)
         .withStringParameter("fail_message", "pwm set duty cycle: set_duty_cycles() failed")
         .withUnsignedIntParameter("fail_value", FAIL);
     
-    set_pwm_duty_cycle_percent_at32uc3l0256(
+    set_pwm_duty_cycle_byte_at32uc3l0256(
         &wheel_motor_1, 0);
 }
 
@@ -218,6 +207,6 @@ TEST(HalPwmTests, NothingCalledAfterInitPwmFailure)
 {
     immediately_fail_pwm_init();
 
-    set_pwm_duty_cycle_percent_at32uc3l0256(
+    set_pwm_duty_cycle_byte_at32uc3l0256(
         &wheel_motor_1, 0);
 }
