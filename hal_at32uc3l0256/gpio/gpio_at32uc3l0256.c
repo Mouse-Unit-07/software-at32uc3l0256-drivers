@@ -23,7 +23,7 @@
 /*----------------------------------------------------------------------------*/
 enum
 {
-    INPUT_COUNT = 4,
+    INPUT_COUNT = 7,
     OUTPUT_COUNT = 10
 };
 
@@ -31,12 +31,18 @@ static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
     &battery_comparator,
     &wheel_driver_cld,
     &encoder_1_channel_b,
-    &encoder_2_channel_b
+    &encoder_2_channel_b,
+    &encoder_1_channel_a_gpio,
+    &encoder_2_channel_a_gpio,
+    &config_pushbutton_gpio
 };
 
 static const uint32_t pull_up_configs[INPUT_COUNT] = {
     0,
     0,
+    GPIO_PULL_UP,
+    GPIO_PULL_UP,
+    GPIO_PULL_UP,
     GPIO_PULL_UP,
     GPIO_PULL_UP
 };
@@ -111,6 +117,19 @@ const struct gpio_handle encoder_1_channel_b = {
 
 const struct gpio_handle encoder_2_channel_b = {
     .gpio_pin_address = AVR32_PIN_PA11
+};
+
+/* below handles have "gpio" suffix to avoid overlap w/ eic handles */
+const struct gpio_handle encoder_1_channel_a_gpio = {
+    .gpio_pin_address = AVR32_PIN_PB07
+};
+
+const struct gpio_handle encoder_2_channel_a_gpio = {
+    .gpio_pin_address = AVR32_PIN_PB09
+};
+
+const struct gpio_handle config_pushbutton_gpio = {
+    .gpio_pin_address = AVR32_PIN_PA06
 };
 
 /*----------------------------------------------------------------------------*/

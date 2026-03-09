@@ -109,6 +109,22 @@ const struct gpio_handle *get_encoder_2_channel_b_handle(void)
     return &encoder_2_channel_b;
 }
 
+/* below accessors have "gpio" suffix to avoid overlap w/ eic accessors */
+const struct gpio_handle *get_encoder_1_channel_a_gpio_handle(void)
+{
+    return &encoder_1_channel_a_gpio;
+}
+
+const struct gpio_handle *get_encoder_2_channel_a_gpio_handle(void)
+{
+    return &encoder_2_channel_a_gpio;
+}
+
+const struct gpio_handle *get_config_pushbutton_gpio_handle(void)
+{
+    return &config_pushbutton_gpio;
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

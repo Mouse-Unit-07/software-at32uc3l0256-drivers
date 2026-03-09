@@ -36,19 +36,20 @@ const struct eic_hal_handler *get_eic_hal_handler(void)
     return &eic_handler;
 }
 
-const struct eic_handle *get_encoder_1_channel_a_handle(void)
+/* below accessors have "eic" suffix to avoid overlap w/ gpio accessors */
+const struct eic_handle *get_encoder_1_channel_a_eic_handle(void)
 {
-    return &encoder_1_channel_a;
+    return &encoder_1_channel_a_eic;
 }
 
-const struct eic_handle *get_encoder_2_channel_a_handle(void)
+const struct eic_handle *get_encoder_2_channel_a_eic_handle(void)
 {
-    return &encoder_2_channel_a;
+    return &encoder_2_channel_a_eic;
 }
 
-const struct eic_handle *get_config_pushbutton_handle(void)
+const struct eic_handle *get_config_pushbutton_eic_handle(void)
 {
-    return &config_pushbutton;
+    return &config_pushbutton_eic;
 }
 
 

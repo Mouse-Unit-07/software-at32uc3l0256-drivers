@@ -72,4 +72,7 @@ TEST(GpioHalConfigTest, GpioHandlesAreNotNull)
     CHECK(get_wheel_driver_motor_2_in2_handle() != NULL);
     CHECK(get_encoder_1_channel_b_handle() != NULL);
     CHECK(get_encoder_2_channel_b_handle() != NULL);
+    CHECK(get_encoder_1_channel_a_gpio_handle() != NULL);
+    CHECK(get_encoder_2_channel_a_gpio_handle() != NULL);
+    CHECK(get_config_pushbutton_gpio_handle() != NULL);
 }

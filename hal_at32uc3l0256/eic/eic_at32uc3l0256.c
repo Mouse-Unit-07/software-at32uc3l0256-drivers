@@ -65,15 +65,16 @@ static const uint32_t CONFIG_PUSHBUTTON_EIC_IRQ_LINE = AVR32_EIC_IRQ_2;
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
-const struct eic_handle encoder_1_channel_a = {
+/* below handles have "eic" suffix to avoid overlap w/ gpio handles */
+const struct eic_handle encoder_1_channel_a_eic = {
     .eic_index = ENCODER_1_INDEX
 };
 
-const struct eic_handle encoder_2_channel_a = {
+const struct eic_handle encoder_2_channel_a_eic = {
     .eic_index = ENCODER_2_INDEX
 };
 
-const struct eic_handle config_pushbutton = {
+const struct eic_handle config_pushbutton_eic = {
     .eic_index = CONFIG_PUSHBUTTON_INDEX
 };
 
