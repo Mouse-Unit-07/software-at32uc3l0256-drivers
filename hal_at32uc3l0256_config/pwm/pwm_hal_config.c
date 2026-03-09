@@ -25,7 +25,7 @@ const struct pwm_hal_handler pwm_handler =
 {
     .init_pwm = init_pwm_at32uc3l0256,
     .deinit_pwm = deinit_pwm_at32uc3l0256,
-    .set_pwm_duty_cycle_percent = set_pwm_duty_cycle_percent_at32uc3l0256,
+    .set_pwm_duty_cycle_byte = set_pwm_duty_cycle_byte_at32uc3l0256,
 };
 
 /*----------------------------------------------------------------------------*/

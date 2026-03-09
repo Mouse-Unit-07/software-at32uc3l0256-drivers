@@ -24,7 +24,6 @@ static bool configure_frequency_and_spread(void);
 static bool set_duty_cycles(void);
 static bool set_pwm_top(void);
 static void enable_pwm_interrupts(void);
-static uint32_t percent_to_duty_cycle(uint32_t percent);
 
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
@@ -131,19 +130,13 @@ void deinit_pwm_at32uc3l0256(void)
     reset_pwm_flags();
 }
 
-void set_pwm_duty_cycle_percent_at32uc3l0256(const struct pwm_handle *handle, uint32_t percent)
+void set_pwm_duty_cycle_byte_at32uc3l0256(const struct pwm_handle *handle, uint8_t duty_cycle)
 {
     if (pwm_failed) {
         return;
     }
     
-    /* assuming the caller checks preconditions, but silently truncate anyway */
-    if (percent > 100u) {
-        percent = 100; 
-    }
-
-    uint32_t new_dc = percent_to_duty_cycle(percent);
-    duty_cycles[handle->index] = new_dc;
+    duty_cycles[handle->index] = (uint16_t)duty_cycle;
 
     bool asf_return_value = set_duty_cycles();
     if (asf_return_value == FAIL) {
@@ -224,9 +217,4 @@ static void enable_pwm_interrupts(void)
     irq_register_handler(&tofl_irq, AVR32_PWMA_IRQ, PWMA_INTERRUPT_PRIORITY);
     pwma->ier = AVR32_PWMA_IER_TOFL_MASK;
 #endif
-}
-
-static uint32_t percent_to_duty_cycle(uint32_t percent)
-{
-    return (uint32_t)((percent * PWMA_MAXIMUM_TOP + 50u) / 100u);
 }
