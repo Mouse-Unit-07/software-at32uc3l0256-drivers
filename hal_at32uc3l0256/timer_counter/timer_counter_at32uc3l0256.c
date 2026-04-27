@@ -162,7 +162,7 @@ static int init_compare_trigger(void)
     return tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
-        (DFLL_CLK_FREQ_HZ >> DFLL_PBA_PRESCALER) / 8 / 1000 * 4
+        sysclk_get_pba_hz() / 8 / 1000 * 4
     );
 }
 
