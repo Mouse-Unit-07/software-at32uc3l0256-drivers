@@ -13,6 +13,14 @@
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
 /* ASF constants and struct definitions */
+enum
+{
+    AVR32_USART1_RXD_0_0_PIN = 9,
+    AVR32_USART1_TXD_0_0_PIN = 8,
+    AVR32_USART1_RXD_0_0_FUNCTION = 0,
+    AVR32_USART1_TXD_0_0_FUNCTION = 0
+};
+
 typedef struct
 {
   //! Set baud rate of the USART (unused in slave modes).
@@ -704,10 +712,10 @@ typedef struct avr32_usart_t {
 
 enum
 {
-    AVR32_USART2_ADDRESS = 0xFFFF3800
+    AVR32_USART1_ADDRESS = 0xFFFF3400
 };
 
-#define AVR32_USART2 (*((volatile avr32_usart_t*)AVR32_USART2_ADDRESS))
+#define AVR32_USART1 (*((volatile avr32_usart_t*)AVR32_USART1_ADDRESS))
 
 /* untestable static inline functions in ASF headers */
 static inline void stdio_serial_init(volatile void *usart, const usart_serial_options_t *opt) {}

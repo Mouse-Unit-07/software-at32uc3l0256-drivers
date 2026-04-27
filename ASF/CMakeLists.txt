@@ -18,6 +18,7 @@ if (TARGET_AVR32)
         ${CMAKE_CURRENT_LIST_DIR}/common/services/clock/uc3l/dfll.c
         ${CMAKE_CURRENT_LIST_DIR}/common/services/clock/uc3l/osc.c
         ${CMAKE_CURRENT_LIST_DIR}/common/services/clock/uc3l/pll.c
+        ${CMAKE_CURRENT_LIST_DIR}/common/services/clock/uc3l/sysclk.c
         ${CMAKE_CURRENT_LIST_DIR}/common/services/serial/usart_serial.c
         ${CMAKE_CURRENT_LIST_DIR}/common/utils/stdio/read.c
         ${CMAKE_CURRENT_LIST_DIR}/common/utils/stdio/write.c

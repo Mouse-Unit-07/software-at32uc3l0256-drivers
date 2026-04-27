@@ -10,12 +10,7 @@
 /*----------------------------------------------------------------------------*/
 /*                             Public Definitions                             */
 /*----------------------------------------------------------------------------*/
-/* can't use enums- shifting performed */
-/* can't use const variables- need multiple instances (timer counter) */
-#define DFLL_CLK_FREQ_HZ (130000000u)
-#define DFLL_FCPU_PRESCALER (2u) /* F_CPU = (DFLL base) / 2^2 = 35MHz */
-#define DFLL_PBA_PRESCALER (1u)  /* PBA = (DFLL base) / 2^1 = 70MHz */
-#define DFLL_PBB_PRESCALER (1u)   /* PBB = (DFLL base) / 2^1 = 70MHz */
+/* none */
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */

@@ -11,10 +11,13 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "asf.h"
 #include "clock_at32uc3l0256.h"
+
 }
 
 /*============================================================================*/
@@ -28,25 +31,9 @@ extern "C" {
 extern "C"
 {
 
-void dfll_enable_open_loop(const struct dfll_config *cfg, unsigned int dfll_id)
+void sysclk_init(void)
 {
-    CHECK(cfg != NULL);
-    mock().actualCall("dfll_enable_open_loop")
-        .withUnsignedIntParameter("dfll_id", dfll_id);
-}
-
-void sysclk_set_prescalers(unsigned int cpu_shift,
-                            unsigned int pba_shift, unsigned int pbb_shift)
-{
-    mock().actualCall("sysclk_set_prescalers")
-        .withUnsignedIntParameter("cpu_shift", cpu_shift)
-        .withUnsignedIntParameter("pba_shift", pba_shift)
-        .withUnsignedIntParameter("pbb_shift", pbb_shift);
-}
-
-void sysclk_set_source(uint_fast8_t src)
-{
-    mock().actualCall("sysclk_set_source");
+    mock().actualCall("sysclk_init");
 }
 
 }
@@ -71,15 +58,9 @@ TEST_GROUP(HalClockTests)
 /*============================================================================*/
 /*                                    Tests                                   */
 /*============================================================================*/
-TEST(HalClockTests, InitClockCallsFunctionsWithCorrectArguments)
+TEST(HalClockTests, InitClockCallsFunctions)
 {
-    mock().expectOneCall("dfll_enable_open_loop")
-        .withUnsignedIntParameter("dfll_id", 0);
-    mock().expectOneCall("sysclk_set_prescalers")
-        .withUnsignedIntParameter("cpu_shift", DFLL_FCPU_PRESCALER)
-        .withUnsignedIntParameter("pba_shift", DFLL_PBA_PRESCALER)
-        .withUnsignedIntParameter("pbb_shift", DFLL_PBB_PRESCALER);
-    mock().expectOneCall("sysclk_set_source");
+    mock().expectOneCall("sysclk_init");
     
     init_clock_at32uc3l0256();
 }
