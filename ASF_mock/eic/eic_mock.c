@@ -58,6 +58,11 @@ void eic_enable_interrupt_lines(volatile avr32_eic_t *eic, uint32_t mask_lines)
     /* empty */
 }
 
+void gpio_enable_pin_pull_up(uint32_t pin)
+{
+    /* empty */
+}
+
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */
 /*----------------------------------------------------------------------------*/

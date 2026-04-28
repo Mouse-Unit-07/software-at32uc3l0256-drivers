@@ -244,6 +244,10 @@ static void configure_eic(void)
     eic_enable_interrupt_lines(&AVR32_EIC,
         (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
     eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
+
+    gpio_enable_pin_pull_up(ENCODER_1_CHANNEL_A_PIN);
+    gpio_enable_pin_pull_up(ENCODER_2_CHANNEL_A_PIN);
+    gpio_enable_pin_pull_up(CONFIG_PUSHBUTTON_PIN);
 }
 
 static void dummy_user_callback(void)

@@ -23,7 +23,7 @@
 /*----------------------------------------------------------------------------*/
 enum
 {
-    INPUT_COUNT = 7,
+    INPUT_COUNT = 4,
     OUTPUT_COUNT = 10
 };
 
@@ -31,18 +31,15 @@ static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
     &battery_comparator,
     &wheel_driver_cld,
     &encoder_1_channel_b,
-    &encoder_2_channel_b,
-    &encoder_1_channel_a_gpio,
-    &encoder_2_channel_a_gpio,
-    &config_pushbutton_gpio
+    &encoder_2_channel_b
+/* external interrupt pins (encoder channel A's, pushbutton) can be */
+/* read just like regular GPIO pins, but can't be configured for */
+/* both interrupt and GPIO, so they're left out */
 };
 
 static const uint32_t pull_up_configs[INPUT_COUNT] = {
     0,
     0,
-    GPIO_PULL_UP,
-    GPIO_PULL_UP,
-    GPIO_PULL_UP,
     GPIO_PULL_UP,
     GPIO_PULL_UP
 };
