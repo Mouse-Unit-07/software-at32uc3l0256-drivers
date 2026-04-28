@@ -156,13 +156,12 @@ static int init_waveform(void)
 static int init_compare_trigger(void)
 {
     /* Set the compare triggers */
-    /* We configure it to count every 1 milliseconds */
-    /* We want: (1 / (fPBA / 8)) * RC = 1 ms; RC = (fPBA / 8) / 1000 */
-    /* to get an interrupt every 10 ms */
+    /* 3rd parameter of tc_write_rc() is inversely proportional to */
+    /* interrupt period, where fPBA / 8 / 1000 = 1ms period */
     return tc_write_rc(
         TIMER_COUNTER_BASE_ADDRESS, 
         TIMER_COUNTER_CHANNEL, 
-        sysclk_get_pba_hz() / 8 / 1000 * 4
+        sysclk_get_pba_hz() / 8 / 1000
     );
 }
 
