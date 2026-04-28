@@ -137,6 +137,11 @@ void eic_enable_interrupt_lines(volatile avr32_eic_t *eic, uint32_t mask_lines)
     mock().actualCall("eic_enable_interrupt_lines");
 }
 
+void gpio_enable_pin_pull_up(uint32_t pin)
+{
+    mock().actualCall("gpio_enable_pin_pull_up");
+}
+
 }
 
 /*============================================================================*/
@@ -168,6 +173,7 @@ TEST(HalEicTests, InitEicCallsFunctions)
     mock().expectNCalls(2, "eic_init");
     mock().expectNCalls(2, "eic_enable_lines");
     mock().expectNCalls(2, "eic_enable_interrupt_lines");
+    mock().expectNCalls(3, "gpio_enable_pin_pull_up");
     init_eic_at32uc3l0256();
 }
 
