@@ -229,4 +229,7 @@ static void start_adc_conversion(void)
         return;
     }
     adc_runtime_telemetry("start adc conversion: adcifb_is_drdy() passed watchdog", watchdog_count);
+
+    /* delay needed before ADC can be read */
+    delay_us(5);
 }
