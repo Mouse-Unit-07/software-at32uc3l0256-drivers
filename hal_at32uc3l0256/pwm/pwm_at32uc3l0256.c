@@ -48,13 +48,13 @@ enum
 #define WHEEL_MOTOR_2_PIN (AVR32_PWMA_13_PIN)
 #define WHEEL_MOTOR_2_PIN_FUNCTION (AVR32_PWMA_13_FUNCTION)
 
-#define VACUUM_MOTOR_PIN (AVR32_PWMA_31_PIN)
-#define VACUUM_MOTOR_PIN_FUNCTION (AVR32_PWMA_31_FUNCTION)
+#define VACUUM_MOTOR_PIN (AVR32_PWMA_14_PIN)
+#define VACUUM_MOTOR_PIN_FUNCTION (AVR32_PWMA_14_FUNCTION)
 
 /* channel IDs come from pin numbers- can't find masks in ASF library */
 static const uint32_t WHEEL_MOTOR_1_CHANNEL_ID = 28u;
 static const uint32_t WHEEL_MOTOR_2_CHANNEL_ID = 13u;
-static const uint32_t VACUUM_MOTOR_CHANNEL_ID = 31u;
+static const uint32_t VACUUM_MOTOR_CHANNEL_ID = 14u;
 
 /* avoiding enum to prevent casting errors */
 static const uint32_t GCLK_FREQUENCY = 48000000;
