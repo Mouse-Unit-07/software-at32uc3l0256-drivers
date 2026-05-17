@@ -28,8 +28,10 @@ add_subdirectory(ASF_mock)
 add_subdirectory(hal_at32uc3l0256)
 add_subdirectory(hal_at32uc3l0256_config)
 
-if(TARGET_WINDOWS)
-    if(SUPPORTS_WINDOWS)
+option(ENABLE_HAL_AT32UC3L0256_TESTS "Build/enable HAL AT32UC3L0256 tests" OFF)
+
+if(TARGET_WINDOWS AND SUPPORTS_WINDOWS)
+    if(ENABLE_HAL_AT32UC3L0256_TESTS)
         add_subdirectory(hal_at32uc3l0256/adc/tests)
         add_subdirectory(hal_at32uc3l0256/clock/tests)
         add_subdirectory(hal_at32uc3l0256/eic/tests)
