@@ -17,7 +17,7 @@ add_executable(test_usart_at32uc3l0256
 )
 
 target_link_libraries(test_usart_at32uc3l0256 PRIVATE
-    hal_at32uc3l0256_lib
+    usart_at32uc3l0256_lib
     CppUTest::CppUTest
     CppUTestExt
 )

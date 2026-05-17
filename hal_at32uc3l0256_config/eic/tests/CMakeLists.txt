@@ -18,7 +18,7 @@ add_executable(test_eic_hal_config
 
 target_link_libraries(test_eic_hal_config PRIVATE
     hal_contracts_lib
-    hal_at32uc3l0256_config_lib
+    eic_at32uc3l0256_config_lib
     CppUTest::CppUTest
     CppUTestExt
 )

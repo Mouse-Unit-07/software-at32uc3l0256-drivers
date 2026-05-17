@@ -22,7 +22,7 @@ target_compile_definitions(test_gpio_at32uc3l0256
 )
 
 target_link_libraries(test_gpio_at32uc3l0256 PRIVATE
-    hal_at32uc3l0256_lib
+    gpio_at32uc3l0256_lib
     CppUTest::CppUTest
     CppUTestExt
 )
