@@ -25,8 +25,22 @@ FetchContent_MakeAvailable(runtime_diagnostics)
 
 add_subdirectory(ASF)
 add_subdirectory(ASF_mock)
-add_subdirectory(hal_at32uc3l0256)
-add_subdirectory(hal_at32uc3l0256_config)
+add_subdirectory(hal_at32uc3l0256/adc)
+add_subdirectory(hal_at32uc3l0256/clock)
+add_subdirectory(hal_at32uc3l0256/eic)
+add_subdirectory(hal_at32uc3l0256/gpio)
+add_subdirectory(hal_at32uc3l0256/iic)
+add_subdirectory(hal_at32uc3l0256/pwm)
+add_subdirectory(hal_at32uc3l0256/timer_counter)
+add_subdirectory(hal_at32uc3l0256/usart)
+add_subdirectory(hal_at32uc3l0256_config/adc)
+add_subdirectory(hal_at32uc3l0256_config/clock)
+add_subdirectory(hal_at32uc3l0256_config/eic)
+add_subdirectory(hal_at32uc3l0256_config/gpio)
+add_subdirectory(hal_at32uc3l0256_config/iic)
+add_subdirectory(hal_at32uc3l0256_config/pwm)
+add_subdirectory(hal_at32uc3l0256_config/timer_counter)
+add_subdirectory(hal_at32uc3l0256_config/usart)
 
 option(ENABLE_HAL_AT32UC3L0256_TESTS "Build/enable HAL AT32UC3L0256 tests" OFF)
 
@@ -52,10 +66,15 @@ if(TARGET_WINDOWS AND SUPPORTS_WINDOWS)
     endif()
 endif()
 
-add_library(hal_lib INTERFACE)
+add_library(hal_config_lib INTERFACE)
 
-target_link_libraries(hal_lib INTERFACE
-    asf_lib
-    hal_at32uc3l0256_lib
-    hal_at32uc3l0256_config_lib
+target_link_libraries(hal_config_lib INTERFACE
+    adc_at32uc3l0256_config_lib
+    clock_at32uc3l0256_config_lib
+    eic_at32uc3l0256_config_lib
+    gpio_at32uc3l0256_config_lib
+    iic_at32uc3l0256_config_lib
+    pwm_at32uc3l0256_config_lib
+    timer_counter_at32uc3l0256_config_lib
+    usart_at32uc3l0256_config_lib
 )

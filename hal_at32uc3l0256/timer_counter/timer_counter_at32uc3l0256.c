@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include "asf.h"
 #include "runtime_diagnostics.h"
-#include "clock_at32uc3l0256.h"
 #include "timer_counter_at32uc3l0256.h"
 
 /*----------------------------------------------------------------------------*/

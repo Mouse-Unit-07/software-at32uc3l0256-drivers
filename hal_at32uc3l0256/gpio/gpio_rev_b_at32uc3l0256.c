@@ -1,5 +1,5 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : gpio_at32uc3l0256.c                                   */
+/* Filename           : gpio_rev_b_at32uc3l0256.c                             */
 /*                                                                            */
 /* AT32UC3L0256 implementation for GPIO HAL                                   */
 /*                                                                            */
@@ -38,7 +38,7 @@ static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
 };
 
 static const uint32_t pull_up_configs[INPUT_COUNT] = {
-    0,
+    GPIO_PULL_UP,
     0,
     GPIO_PULL_UP,
     GPIO_PULL_UP

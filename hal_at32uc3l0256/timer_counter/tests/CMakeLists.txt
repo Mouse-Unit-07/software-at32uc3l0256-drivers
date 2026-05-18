@@ -17,7 +17,7 @@ add_executable(test_timer_counter_at32uc3l0256
 )
 
 target_link_libraries(test_timer_counter_at32uc3l0256 PRIVATE
-    hal_at32uc3l0256_lib
+    timer_counter_at32uc3l0256_lib
     CppUTest::CppUTest
     CppUTestExt
 )

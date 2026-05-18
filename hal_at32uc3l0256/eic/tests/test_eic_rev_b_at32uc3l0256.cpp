@@ -1,5 +1,5 @@
 /*================================ FILE INFO =================================*/
-/* Filename           : test_eic_at32uc3l0256.cpp                             */
+/* Filename           : test_eic_rev_b_at32uc3l0256.cpp                       */
 /*                                                                            */
 /* Test implementation for hal_at32uc3l0256 library                           */
 /*                                                                            */
@@ -173,7 +173,7 @@ TEST(HalEicTests, InitEicCallsFunctions)
     mock().expectNCalls(2, "eic_init");
     mock().expectNCalls(2, "eic_enable_lines");
     mock().expectNCalls(2, "eic_enable_interrupt_lines");
-    mock().expectNCalls(3, "gpio_enable_pin_pull_up");
+    mock().expectNCalls(2, "gpio_enable_pin_pull_up");
     init_eic_at32uc3l0256();
 }
 
