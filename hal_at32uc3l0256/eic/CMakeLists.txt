@@ -5,8 +5,24 @@
 # files                                                                        #
 #                                                                              #
 #------------------------------------------------------------------------------#
+if(NOT DEFINED MOUSE_TARGET)
+    message(FATAL_ERROR "MOUSE_TARGET not specified")
+endif()
+
+if(MOUSE_TARGET STREQUAL "rev_a")
+    set(EIC_SOURCE
+        ${CMAKE_CURRENT_LIST_DIR}/eic_rev_a_at32uc3l0256.c
+    )
+elseif(MOUSE_TARGET STREQUAL "rev_b")
+    set(EIC_SOURCE
+        ${CMAKE_CURRENT_LIST_DIR}/eic_rev_b_at32uc3l0256.c
+    )
+else()
+    message(FATAL_ERROR "Unsupported MOUSE_TARGET: ${MOUSE_TARGET}")
+endif()
+
 add_library(eic_at32uc3l0256_lib STATIC
-    ${CMAKE_CURRENT_LIST_DIR}/eic_at32uc3l0256.c
+    ${EIC_SOURCE}
 )
 
 target_include_directories(eic_at32uc3l0256_lib PUBLIC

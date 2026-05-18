@@ -1,5 +1,5 @@
 /*-------------------------------- FILE INFO ---------------------------------*/
-/* Filename           : eic_at32uc3l0256.c                                    */
+/* Filename           : eic_rev_a_at32uc3l0256.c                              */
 /*                                                                            */
 /* AT32UC3L0256 implementation for external interrupt controller HAL          */
 /*                                                                            */
