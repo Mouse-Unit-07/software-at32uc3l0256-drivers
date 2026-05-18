@@ -7,7 +7,8 @@
 set_property(GLOBAL APPEND PROPERTY
     ALL_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/test_gpio_at32uc3l0256.cpp
-    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/gpio/gpio_at32uc3l0256.c
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/gpio/gpio_rev_a_at32uc3l0256.c
+    ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/gpio/gpio_rev_b_at32uc3l0256.c
     ${CMAKE_SOURCE_DIR}/src/hal_at32uc3l0256/gpio/gpio_at32uc3l0256.h
 )
 
