@@ -51,4 +51,8 @@ TEST(UsartHalConfigTest, UsartHandlerElementsAreNotNull)
     const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
     CHECK(usart_handler->init_usart != NULL);
     CHECK(usart_handler->deinit_usart != NULL);
+    CHECK(usart_handler->is_rx_buffer_empty != NULL);
+    CHECK(usart_handler->is_rx_buffer_full != NULL);
+    CHECK(usart_handler->pop_rx_buffer != NULL);
+    CHECK(usart_handler->clear_rx_buffer != NULL);
 }

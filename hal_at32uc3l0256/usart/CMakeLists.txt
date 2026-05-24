@@ -12,18 +12,18 @@ target_include_directories(usart_at32uc3l0256_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
-target_link_libraries(usart_at32uc3l0256_lib PUBLIC
+target_link_libraries(usart_at32uc3l0256_lib PRIVATE
     runtime_diagnostics_lib
 )
 
 if (TARGET_AVR32)
-    target_link_libraries(usart_at32uc3l0256_lib PUBLIC
+    target_link_libraries(usart_at32uc3l0256_lib PRIVATE
         asf_lib
     )
 endif()
 
 if (TARGET_WINDOWS)
-    target_link_libraries(usart_at32uc3l0256_lib PUBLIC
+    target_link_libraries(usart_at32uc3l0256_lib PRIVATE
         asf_mock_lib
     )
 endif()

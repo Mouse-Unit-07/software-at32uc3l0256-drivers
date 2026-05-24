@@ -720,9 +720,20 @@ enum
 /* untestable static inline functions in ASF headers */
 static inline void stdio_serial_init(volatile void *usart, const usart_serial_options_t *opt) {}
 
+enum
+{
+    AVR32_USART_IER_RXRDY_MASK = 0x00000001
+};
+
+enum
+{
+    USART_SUCCESS = 0,
+    USART_FAILURE = 1
+};
+
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Prototypes                         */
 /*----------------------------------------------------------------------------*/
-/* none */
+int usart_read_char(volatile avr32_usart_t *usart, int *c);
 
 #endif /* USART_MOCK_H_ */
