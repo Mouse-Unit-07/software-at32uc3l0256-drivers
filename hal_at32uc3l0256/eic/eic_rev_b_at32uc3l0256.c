@@ -204,7 +204,7 @@ static void configure_eic(void)
     const unsigned char ENCODER_2_EIC_SYNC = EIC_SYNCH_MODE;
 
     const unsigned char CONFIG_PUSHBUTTON_EIC_MODE = EIC_MODE_EDGE_TRIGGERED;
-    const unsigned char CONFIG_PUSHBUTTON_EIC_EDGE = AVR32_EIC_FALLING_EDGE;
+    const unsigned char CONFIG_PUSHBUTTON_EIC_EDGE = AVR32_EIC_RISING_EDGE;
     const unsigned char CONFIG_PUSHBUTTON_EIC_SYNC = EIC_SYNCH_MODE;
 
     /* motor 1 */
