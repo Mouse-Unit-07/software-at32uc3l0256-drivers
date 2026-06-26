@@ -17,7 +17,6 @@ add_executable(test_usart_hal_config
 )
 
 target_link_libraries(test_usart_hal_config PRIVATE
-    hal_contracts_lib
     usart_at32uc3l0256_config_lib
     CppUTest::CppUTest
     CppUTestExt
