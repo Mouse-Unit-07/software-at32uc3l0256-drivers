@@ -8,10 +8,13 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "iic_hal.h"
 #include "iic_hal_config.h"
+
 }
 
 #include <CppUTest/TestHarness.h>
@@ -42,13 +45,13 @@ TEST_GROUP(IicHalConfigTest)
 /*============================================================================*/
 TEST(IicHalConfigTest, IicHandlerIsNotNull)
 {
-    const struct iic_hal_handler *iic_handler = get_iic_hal_handler();
+    const struct iic_hal_handler *iic_handler{get_iic_hal_handler()};
     CHECK(iic_handler != NULL);
 }
 
 TEST(IicHalConfigTest, IicHandlerElementsAreNotNull)
 {
-    const struct iic_hal_handler *iic_handler = get_iic_hal_handler();
+    const struct iic_hal_handler *iic_handler{get_iic_hal_handler()};
     CHECK(iic_handler->init_iic != NULL);
     CHECK(iic_handler->deinit_iic != NULL);
     CHECK(iic_handler->enable_global_interrupts != NULL);

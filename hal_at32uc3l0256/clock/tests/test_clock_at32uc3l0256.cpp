@@ -61,7 +61,7 @@ TEST_GROUP(HalClockTests)
 TEST(HalClockTests, InitClockCallsFunctions)
 {
     mock().expectOneCall("sysclk_init");
-    
+
     init_clock_at32uc3l0256();
 }
 

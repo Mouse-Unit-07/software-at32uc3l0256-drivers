@@ -8,10 +8,13 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "clock_hal.h"
 #include "clock_hal_config.h"
+
 }
 
 #include <CppUTest/TestHarness.h>
@@ -42,13 +45,13 @@ TEST_GROUP(ClockHalConfigTest)
 /*============================================================================*/
 TEST(ClockHalConfigTest, ClockHandlerIsNotNull)
 {
-    const struct clock_hal_handler *clock_handler = get_clock_hal_handler();
+    const struct clock_hal_handler *clock_handler{get_clock_hal_handler()};
     CHECK(clock_handler != NULL);
 }
 
 TEST(ClockHalConfigTest, ClockHandlerElementsAreNotNull)
 {
-    const struct clock_hal_handler *clock_handler = get_clock_hal_handler();
+    const struct clock_hal_handler *clock_handler{get_clock_hal_handler()};
     CHECK(clock_handler->init_clock != NULL);
     CHECK(clock_handler->deinit_clock != NULL);
     CHECK(clock_handler->delay_ms != NULL);

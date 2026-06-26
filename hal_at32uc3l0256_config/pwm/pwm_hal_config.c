@@ -21,12 +21,10 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct pwm_hal_handler pwm_handler = 
-{
-    .init_pwm = init_pwm_at32uc3l0256,
-    .deinit_pwm = deinit_pwm_at32uc3l0256,
-    .set_pwm_duty_cycle_byte = set_pwm_duty_cycle_byte_at32uc3l0256,
-};
+const struct pwm_hal_handler pwm_handler = {
+        .init_pwm = init_pwm_at32uc3l0256,
+        .deinit_pwm = deinit_pwm_at32uc3l0256,
+        .set_pwm_duty_cycle_byte = set_pwm_duty_cycle_byte_at32uc3l0256};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -50,7 +48,6 @@ const struct pwm_handle *get_vacuum_motor_handle(void)
 {
     return &vacuum_motor;
 }
-
 
 /*----------------------------------------------------------------------------*/
 /*                        Private Function Definitions                        */

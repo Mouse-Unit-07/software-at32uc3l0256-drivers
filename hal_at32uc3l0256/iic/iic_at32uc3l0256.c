@@ -8,8 +8,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "asf.h"
 #include "iic_at32uc3l0256.h"
 
@@ -39,14 +39,14 @@ void deinit_iic_at32uc3l0256(void)
 void enable_global_interrupts_at32uc3l0256(void)
 {
 #ifndef WINDOWS_BUILD
-cpu_irq_enable(); /* untestable macro */
+    cpu_irq_enable(); /* untestable macro */
 #endif
 }
 
 void disable_global_interrupts_at32uc3l0256(void)
 {
 #ifndef WINDOWS_BUILD
-cpu_irq_disable(); /* untestable macro */
+    cpu_irq_disable(); /* untestable macro */
 #endif
 }
 

@@ -21,13 +21,11 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct iic_hal_handler iic_handler = 
-{
-    .init_iic = init_iic_at32uc3l0256,
-    .deinit_iic = deinit_iic_at32uc3l0256,
-    .enable_global_interrupts = enable_global_interrupts_at32uc3l0256,
-    .disable_global_interrupts = disable_global_interrupts_at32uc3l0256
-};
+const struct iic_hal_handler iic_handler = {
+        .init_iic = init_iic_at32uc3l0256,
+        .deinit_iic = deinit_iic_at32uc3l0256,
+        .enable_global_interrupts = enable_global_interrupts_at32uc3l0256,
+        .disable_global_interrupts = disable_global_interrupts_at32uc3l0256};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

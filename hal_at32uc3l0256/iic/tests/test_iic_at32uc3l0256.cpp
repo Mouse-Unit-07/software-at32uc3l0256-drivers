@@ -11,10 +11,13 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "asf.h"
 #include "iic_at32uc3l0256.h"
+
 }
 
 /*============================================================================*/

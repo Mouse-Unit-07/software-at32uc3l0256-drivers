@@ -18,8 +18,7 @@
 /*----------------------------------------------------------------------------*/
 static void reset_adc_flags(void);
 static void adc_runtime_error(const char *fail_message, uint32_t fail_value);
-static void adc_runtime_telemetry(const char *telemetry_message,
-    uint32_t telemetry_value);
+static void adc_runtime_telemetry(const char *telemetry_message, uint32_t telemetry_value);
 static uint32_t init_adc_pins(void);
 static int32_t configure_adc_except_trigger(void);
 static int32_t configure_adc_trigger(void);
@@ -40,11 +39,10 @@ enum
 };
 
 static const struct adc_handle *const adc_handles[ADC_COUNT] = {
-    &ir_sensor_1,
-    &ir_sensor_2,
-    &ir_sensor_3,
-    &ir_sensor_4
-};
+        &ir_sensor_1,
+        &ir_sensor_2,
+        &ir_sensor_3,
+        &ir_sensor_4};
 
 /* pin selection related globals */
 /* need unsigned constants for struct/array initializers (no enums or variables) */
@@ -67,21 +65,10 @@ static const struct adc_handle *const adc_handles[ADC_COUNT] = {
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
-const struct adc_handle ir_sensor_1 = {
-    .channel_mask = IR_SENSOR_1_CHANNEL_MASK
-};
-
-const struct adc_handle ir_sensor_2 = {
-    .channel_mask = IR_SENSOR_2_CHANNEL_MASK
-};
-
-const struct adc_handle ir_sensor_3 = {
-    .channel_mask = IR_SENSOR_3_CHANNEL_MASK
-};
-
-const struct adc_handle ir_sensor_4 = {
-    .channel_mask = IR_SENSOR_4_CHANNEL_MASK
-};
+const struct adc_handle ir_sensor_1 = {.channel_mask = IR_SENSOR_1_CHANNEL_MASK};
+const struct adc_handle ir_sensor_2 = {.channel_mask = IR_SENSOR_2_CHANNEL_MASK};
+const struct adc_handle ir_sensor_3 = {.channel_mask = IR_SENSOR_3_CHANNEL_MASK};
+const struct adc_handle ir_sensor_4 = {.channel_mask = IR_SENSOR_4_CHANNEL_MASK};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -125,7 +112,7 @@ uint32_t read_adc_channel_at32uc3l0256(const struct adc_handle *handle)
     if (adc_failed) {
         return 0;
     }
-    
+
     enable_adc_channel(handle->channel_mask);
     if (adc_failed) {
         return 0;
@@ -157,8 +144,7 @@ static void adc_runtime_error(const char *fail_message, uint32_t fail_value)
     adc_failed = true;
 }
 
-static void adc_runtime_telemetry(const char *telemetry_message,
-    uint32_t telemetry_value)
+static void adc_runtime_telemetry(const char *telemetry_message, uint32_t telemetry_value)
 {
     RUNTIME_TELEMETRY(0, telemetry_message, telemetry_value);
 }
@@ -166,27 +152,24 @@ static void adc_runtime_telemetry(const char *telemetry_message,
 static uint32_t init_adc_pins(void)
 {
     const gpio_map_t ADCIFB_GPIO_MAP = {
-        {IR_SENSOR_1_PIN, IR_SENSOR_1_PIN_FUNCTION},
-        {IR_SENSOR_2_PIN, IR_SENSOR_2_PIN_FUNCTION},
-        {IR_SENSOR_3_PIN, IR_SENSOR_3_PIN_FUNCTION},
-        {IR_SENSOR_4_PIN, IR_SENSOR_4_PIN_FUNCTION}
-    };
+            {IR_SENSOR_1_PIN, IR_SENSOR_1_PIN_FUNCTION},
+            {IR_SENSOR_2_PIN, IR_SENSOR_2_PIN_FUNCTION},
+            {IR_SENSOR_3_PIN, IR_SENSOR_3_PIN_FUNCTION},
+            {IR_SENSOR_4_PIN, IR_SENSOR_4_PIN_FUNCTION}};
 
     return gpio_enable_module(ADCIFB_GPIO_MAP,
-                        sizeof(ADCIFB_GPIO_MAP) / sizeof(ADCIFB_GPIO_MAP[0]));
+                              sizeof(ADCIFB_GPIO_MAP) / sizeof(ADCIFB_GPIO_MAP[0]));
 }
 
 static int32_t configure_adc_except_trigger(void)
 {
     const uint32_t ADC_CLK_FREQ_HZ = 1500000u;
     adcifb_opt_t adcifb_opt = {
-        .resolution = AVR32_ADCIFB_ACR_RES_10BIT,
-        .shtim  = 15, /* Channels Sample & Hold Time in [0,15] */
-        .ratio_clkadcifb_clkadc = (sysclk_get_pba_hz() / ADC_CLK_FREQ_HZ),
-        .startup = 3, /* Startup time [0,127]; Tstartup = startup * 8 * Tclk_adc */
-                      /* (assuming Tstartup ~ 15us max) */
-        .sleep_mode_enable = false
-    };
+            .resolution = AVR32_ADCIFB_ACR_RES_10BIT,
+            .shtim = 15, /* Channels Sample & Hold Time in [0,15] */
+            .ratio_clkadcifb_clkadc = (sysclk_get_pba_hz() / ADC_CLK_FREQ_HZ),
+            .startup = 3, /* Startup time [0,127], ~15us max; Tstartup = startup * 8 * Tclk_adc */
+            .sleep_mode_enable = false};
 
     return adcifb_configure(&AVR32_ADCIFB, &adcifb_opt);
 }
@@ -203,10 +186,10 @@ static void disable_adc_channel(uint32_t channel_mask)
 
 static void enable_adc_channel(uint32_t channel_mask)
 {
-    uint32_t watchdog_count = 0u;
     adcifb_channels_enable(&AVR32_ADCIFB, channel_mask);
-    while ((adcifb_is_ready(&AVR32_ADCIFB) != true) \
-            && (watchdog_count < WATCHDOG_MAX)) {
+
+    uint32_t watchdog_count = 0u;
+    while ((adcifb_is_ready(&AVR32_ADCIFB) != true) && (watchdog_count < WATCHDOG_MAX)) {
         watchdog_count++;
     }
     if (watchdog_count == WATCHDOG_MAX) {
@@ -218,10 +201,10 @@ static void enable_adc_channel(uint32_t channel_mask)
 
 static void start_adc_conversion(void)
 {
-    uint32_t watchdog_count = 0u;
     adcifb_start_conversion_sequence(&AVR32_ADCIFB);
-    while ((adcifb_is_drdy(&AVR32_ADCIFB) != true) \
-            && (watchdog_count < WATCHDOG_MAX)) {
+
+    uint32_t watchdog_count = 0u;
+    while ((adcifb_is_drdy(&AVR32_ADCIFB) != true) && (watchdog_count < WATCHDOG_MAX)) {
         watchdog_count++;
     }
     if (watchdog_count == WATCHDOG_MAX) {

@@ -8,10 +8,13 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "usart_hal.h"
 #include "usart_hal_config.h"
+
 }
 
 #include <CppUTest/TestHarness.h>
@@ -42,13 +45,13 @@ TEST_GROUP(UsartHalConfigTest)
 /*============================================================================*/
 TEST(UsartHalConfigTest, UsartHandlerIsNotNull)
 {
-    const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
+    const struct usart_hal_handler *usart_handler{get_usart_hal_handler()};
     CHECK(usart_handler != NULL);
 }
 
 TEST(UsartHalConfigTest, UsartHandlerElementsAreNotNull)
 {
-    const struct usart_hal_handler *usart_handler = get_usart_hal_handler();
+    const struct usart_hal_handler *usart_handler{get_usart_hal_handler()};
     CHECK(usart_handler->init_usart != NULL);
     CHECK(usart_handler->deinit_usart != NULL);
     CHECK(usart_handler->is_rx_buffer_empty != NULL);

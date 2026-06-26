@@ -21,13 +21,11 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct clock_hal_handler clock_handler = 
-{
-    .init_clock = init_clock_at32uc3l0256,
-    .deinit_clock = deinit_clock_at32uc3l0256,
-    .delay_ms = delay_ms_at32uc3l0256,
-    .delay_us = delay_us_at32uc3l0256
-};
+const struct clock_hal_handler clock_handler = {
+        .init_clock = init_clock_at32uc3l0256,
+        .deinit_clock = deinit_clock_at32uc3l0256,
+        .delay_ms = delay_ms_at32uc3l0256,
+        .delay_us = delay_us_at32uc3l0256};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

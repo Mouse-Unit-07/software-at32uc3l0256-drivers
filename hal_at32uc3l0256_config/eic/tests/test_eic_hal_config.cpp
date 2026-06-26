@@ -8,10 +8,13 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "eic_hal.h"
 #include "eic_hal_config.h"
+
 }
 
 #include <CppUTest/TestHarness.h>
@@ -42,13 +45,13 @@ TEST_GROUP(EicHalConfigTest)
 /*============================================================================*/
 TEST(EicHalConfigTest, EicHandlerIsNotNull)
 {
-    const struct eic_hal_handler *eic_handler = get_eic_hal_handler();
+    const struct eic_hal_handler *eic_handler{get_eic_hal_handler()};
     CHECK(eic_handler != NULL);
 }
 
 TEST(EicHalConfigTest, EicHandlerElementsAreNotNull)
 {
-    const struct eic_hal_handler *eic_handler = get_eic_hal_handler();
+    const struct eic_hal_handler *eic_handler{get_eic_hal_handler()};
     CHECK(eic_handler->init_eic != NULL);
     CHECK(eic_handler->deinit_eic != NULL);
     CHECK(eic_handler->set_external_callback != NULL);

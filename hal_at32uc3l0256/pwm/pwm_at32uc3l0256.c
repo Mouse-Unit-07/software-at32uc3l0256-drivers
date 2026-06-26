@@ -65,17 +65,9 @@ static const uint32_t GCLK_FREQUENCY = 48000000;
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
-const struct pwm_handle wheel_motor_1 = {
-    .index = WHEEL_MOTOR_1_INDEX
-};
-
-const struct pwm_handle wheel_motor_2 = {
-    .index = WHEEL_MOTOR_2_INDEX
-};
-
-const struct pwm_handle vacuum_motor = {
-    .index = VACUUM_MOTOR_1_INDEX
-};
+const struct pwm_handle wheel_motor_1 = {.index = WHEEL_MOTOR_1_INDEX};
+const struct pwm_handle wheel_motor_2 = {.index = WHEEL_MOTOR_2_INDEX};
+const struct pwm_handle vacuum_motor = {.index = VACUUM_MOTOR_1_INDEX};
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -83,7 +75,7 @@ const struct pwm_handle vacuum_motor = {
 #ifndef WINDOWS_BUILD /* untestable ISR*/
 ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
 {
-    pwma->scr=AVR32_PWMA_SCR_TOFL_MASK;
+    pwma->scr = AVR32_PWMA_SCR_TOFL_MASK;
 }
 #endif
 
@@ -93,7 +85,7 @@ ISR(tofl_irq, AVR32_PWMA_IRQ_GROUP, PWMA_INTERRUPT_PRIORITY)
 void init_pwm_at32uc3l0256(void)
 {
     reset_pwm_flags();
-    
+
     uint32_t uint_return_value = GPIO_INVALID_ARGUMENT;
     uint_return_value = init_pwm_pins();
     if (uint_return_value != GPIO_SUCCESS) {
@@ -102,7 +94,7 @@ void init_pwm_at32uc3l0256(void)
     }
 
     init_pwm_clock_source();
-    
+
     bool bool_return_value = FAIL;
     bool_return_value = configure_frequency_and_spread();
     if (bool_return_value == FAIL) {
@@ -135,7 +127,7 @@ void set_pwm_duty_cycle_byte_at32uc3l0256(const struct pwm_handle *handle, uint8
     if (pwm_failed) {
         return;
     }
-    
+
     duty_cycles[handle->index] = (uint16_t)duty_cycle;
 
     bool asf_return_value = set_duty_cycles();
@@ -161,13 +153,10 @@ static void pwm_runtime_error(const char *fail_message, uint32_t fail_value)
 
 static uint32_t init_pwm_pins(void)
 {
-    const gpio_map_t PWMA_GPIO_MAP = {
-        {WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
-        {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
-        {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION}
-    };
-    return gpio_enable_module(PWMA_GPIO_MAP, 
-        sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
+    const gpio_map_t PWMA_GPIO_MAP = {{WHEEL_MOTOR_1_PIN, WHEEL_MOTOR_1_PIN_FUNCTION},
+                                      {WHEEL_MOTOR_2_PIN, WHEEL_MOTOR_2_PIN_FUNCTION},
+                                      {VACUUM_MOTOR_PIN, VACUUM_MOTOR_PIN_FUNCTION}};
+    return gpio_enable_module(PWMA_GPIO_MAP, sizeof(PWMA_GPIO_MAP) / sizeof(PWMA_GPIO_MAP[0]));
 }
 
 static void init_pwm_clock_source(void)
@@ -197,12 +186,11 @@ static bool configure_frequency_and_spread(void)
 
 static bool set_duty_cycles(void)
 {
-    return pwma_set_multiple_values(
-        pwma,
-        ((WHEEL_MOTOR_1_CHANNEL_ID << 0) |
-        (WHEEL_MOTOR_2_CHANNEL_ID << 8) |
-        (VACUUM_MOTOR_CHANNEL_ID << 16)),
-        (uint16_t*)&duty_cycles);
+    return pwma_set_multiple_values(pwma,
+                                    ((WHEEL_MOTOR_1_CHANNEL_ID << 0)
+                                     | (WHEEL_MOTOR_2_CHANNEL_ID << 8)
+                                     | (VACUUM_MOTOR_CHANNEL_ID << 16)),
+                                    (uint16_t *)&duty_cycles);
 }
 
 static bool set_pwm_top(void)

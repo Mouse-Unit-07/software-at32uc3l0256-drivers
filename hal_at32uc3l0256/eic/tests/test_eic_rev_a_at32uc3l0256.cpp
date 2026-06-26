@@ -11,10 +11,13 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "asf.h"
 #include "eic_at32uc3l0256.h"
+
 }
 
 /*============================================================================*/
@@ -48,28 +51,28 @@ void my_user_callback_3(void)
 
 void init_eic_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_eic_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 void call_all_isrs_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     encoder_1_channel_a_isr();
     encoder_2_channel_a_isr();
     config_pushbutton_isr();
-    mock().clear();
+    mock().enable();
 }
 
 void immediately_fail_eic_init(void)
 {
-    mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("gpio_enable_module").andReturnValue(GPIO_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "eic init pins: gpio_enable_module() on encoder pins failed")
-        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message",
+                                 "eic init pins: gpio_enable_module() on encoder pins failed")
+            .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
     init_eic_at32uc3l0256();
 }
 
@@ -82,9 +85,9 @@ void set_all_callbacks(void)
 
 void check_all_callback_flags(bool check_value)
 {
-    CHECK(my_user_callback_1_called == check_value);
-    CHECK(my_user_callback_2_called == check_value);
-    CHECK(my_user_callback_3_called == check_value);
+    CHECK_EQUAL(check_value, my_user_callback_1_called);
+    CHECK_EQUAL(check_value, my_user_callback_2_called);
+    CHECK_EQUAL(check_value, my_user_callback_3_called);
 }
 
 /*============================================================================*/
@@ -99,17 +102,16 @@ void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_v
 {
     CHECK(fail_message != NULL);
     mock().actualCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", timestamp)
-        .withStringParameter("fail_message", fail_message)
-        .withUnsignedIntParameter("fail_value", fail_value);
+            .withUnsignedIntParameter("timestamp", timestamp)
+            .withStringParameter("fail_message", fail_message)
+            .withUnsignedIntParameter("fail_value", fail_value);
 }
 
 /* ---------------------------------------------------------------------------*/
 /* External Interrupt Controller */
 uint32_t gpio_enable_module(const gpio_map_t gpiomap, uint32_t size)
 {
-    return mock().actualCall("gpio_enable_module")
-        .returnIntValue();
+    return mock().actualCall("gpio_enable_module").returnIntValue();
 }
 
 void eic_clear_interrupt_line(volatile avr32_eic_t *eic, uint32_t line_number)
@@ -118,8 +120,7 @@ void eic_clear_interrupt_line(volatile avr32_eic_t *eic, uint32_t line_number)
     mock().actualCall("eic_clear_interrupt_line");
 }
 
-void eic_init(volatile avr32_eic_t *eic, const eic_options_t *opt,
-    uint32_t nb_lines)
+void eic_init(volatile avr32_eic_t *eic, const eic_options_t *opt, uint32_t nb_lines)
 {
     CHECK(eic != NULL);
     mock().actualCall("eic_init");
@@ -168,8 +169,7 @@ TEST_GROUP(HalEicTests)
 /*============================================================================*/
 TEST(HalEicTests, InitEicCallsFunctions)
 {
-    mock().expectNCalls(2, "gpio_enable_module")
-        .andReturnValue(GPIO_SUCCESS);
+    mock().expectNCalls(2, "gpio_enable_module").andReturnValue(GPIO_SUCCESS);
     mock().expectNCalls(2, "eic_init");
     mock().expectNCalls(2, "eic_enable_lines");
     mock().expectNCalls(2, "eic_enable_interrupt_lines");
@@ -184,14 +184,13 @@ TEST(HalEicTests, InitEicEncoderInitPinsFailureCallsRuntimeError)
 
 TEST(HalEicTests, InitEicInitPushbuttonPinsFailureCallsRuntimeError)
 {
-    mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(GPIO_SUCCESS);
-    mock().expectOneCall("gpio_enable_module")
-        .andReturnValue(GPIO_INVALID_ARGUMENT);
+    mock().expectOneCall("gpio_enable_module").andReturnValue(GPIO_SUCCESS);
+    mock().expectOneCall("gpio_enable_module").andReturnValue(GPIO_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "eic init pins: gpio_enable_module() on pushbutton pin failed")
-        .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message",
+                                 "eic init pins: gpio_enable_module() on pushbutton pin failed")
+            .withUnsignedIntParameter("fail_value", GPIO_INVALID_ARGUMENT);
     init_eic_at32uc3l0256();
 }
 

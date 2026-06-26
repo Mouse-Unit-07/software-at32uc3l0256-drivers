@@ -11,15 +11,11 @@ add_library(iic_at32uc3l0256_config_lib STATIC
 
 target_include_directories(iic_at32uc3l0256_config_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
+    $<TARGET_PROPERTY:hal_contracts_lib,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:iic_at32uc3l0256_lib,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
-# libraries that link to these config libraries need hal_contracts_lib
-# for the config libraries to make any sense
-target_link_libraries(iic_at32uc3l0256_config_lib PUBLIC
-    hal_contracts_lib
-)
-
-# ...but they don't need the implementation
 target_link_libraries(iic_at32uc3l0256_config_lib PRIVATE
+    hal_contracts_lib
     iic_at32uc3l0256_lib
 )

@@ -8,8 +8,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "asf.h"
 #include "runtime_diagnostics.h"
 #include "timer_counter_at32uc3l0256.h"
@@ -84,7 +84,7 @@ void init_timer_counter_at32uc3l0256(void)
     }
 
     sysclk_enable_peripheral_clock(TIMER_COUNTER_BASE_ADDRESS);
-    
+
 #ifndef WINDOWS_BUILD
     /* can't test- AVR32 defined type parameter */
     /* parameters are ISR, IRQ, and IRQ priority respectively */
@@ -129,24 +129,25 @@ static int init_waveform(void)
 {
     /* Options for waveform generation */
     const tc_waveform_opt_t waveform_opt = {
-        .channel  = TIMER_COUNTER_CHANNEL,           /* Channel selection */
-        .bswtrg   = TC_EVT_EFFECT_NOOP,                 /* Software trigger effect on TIOB */
-        .beevt    = TC_EVT_EFFECT_NOOP,                 /* External event effect on TIOB */
-        .bcpc     = TC_EVT_EFFECT_NOOP,                 /* RC compare effect on TIOB */
-        .bcpb     = TC_EVT_EFFECT_NOOP,                 /* RB compare effect on TIOB */
-        .aswtrg   = TC_EVT_EFFECT_NOOP,                 /* Software trigger effect on TIOA */
-        .aeevt    = TC_EVT_EFFECT_NOOP,                 /* External event effect on TIOA */
-        .acpc     = TC_EVT_EFFECT_NOOP,                 /* RC compare effect on TIOA */
-        .acpa     = TC_EVT_EFFECT_NOOP,                 /* RA compare effect on TIOA (none, set and clear) */
-        .wavsel   = TC_WAVEFORM_SEL_UP_MODE_RC_TRIGGER, /* Up mode w/ auto trigger(reset) on RC compare */
-        .enetrg   = false,                              /* External event trigger enable */
-        .eevt     = 0,                                  /* External event selection */
-        .eevtedg  = TC_SEL_NO_EDGE,                     /* External event edge selection */
-        .cpcdis   = false,                              /* Counter disable when RC compare */
-        .cpcstop  = false,                              /* Counter clock stopped with RC compare */
-        .burst    = false,                              /* Burst signal selection */
-        .clki     = false,                              /* Clock inversion */ 
-        .tcclks   = TC_CLOCK_SOURCE_TC3                 /* Internal source clock 3, connected to fPBA / 8 */
+            .channel = TIMER_COUNTER_CHANNEL, /* Channel selection */
+            .bswtrg = TC_EVT_EFFECT_NOOP, /* Software trigger effect on TIOB */
+            .beevt = TC_EVT_EFFECT_NOOP, /* External event effect on TIOB */
+            .bcpc = TC_EVT_EFFECT_NOOP, /* RC compare effect on TIOB */
+            .bcpb = TC_EVT_EFFECT_NOOP, /* RB compare effect on TIOB */
+            .aswtrg = TC_EVT_EFFECT_NOOP, /* Software trigger effect on TIOA */
+            .aeevt = TC_EVT_EFFECT_NOOP, /* External event effect on TIOA */
+            .acpc = TC_EVT_EFFECT_NOOP, /* RC compare effect on TIOA */
+            .acpa = TC_EVT_EFFECT_NOOP, /* RA compare effect on TIOA (none, set and clear) */
+            .wavsel =
+                    TC_WAVEFORM_SEL_UP_MODE_RC_TRIGGER, /* Up mode w/ auto trigger(reset) on RC compare */
+            .enetrg = false, /* External event trigger enable */
+            .eevt = 0, /* External event selection */
+            .eevtedg = TC_SEL_NO_EDGE, /* External event edge selection */
+            .cpcdis = false, /* Counter disable when RC compare */
+            .cpcstop = false, /* Counter clock stopped with RC compare */
+            .burst = false, /* Burst signal selection */
+            .clki = false, /* Clock inversion */
+            .tcclks = TC_CLOCK_SOURCE_TC3 /* Internal source clock 3, connected to fPBA / 8 */
     };
 
     return tc_init_waveform(TIMER_COUNTER_BASE_ADDRESS, &waveform_opt);
@@ -157,38 +158,28 @@ static int init_compare_trigger(void)
     /* Set the compare triggers */
     /* 3rd parameter of tc_write_rc() is inversely proportional to */
     /* interrupt period, where fPBA / 8 / 1000 = 1ms period */
-    return tc_write_rc(
-        TIMER_COUNTER_BASE_ADDRESS, 
-        TIMER_COUNTER_CHANNEL, 
-        sysclk_get_pba_hz() / 8 / 1000
-    );
+    return tc_write_rc(TIMER_COUNTER_BASE_ADDRESS, TIMER_COUNTER_CHANNEL,
+                       sysclk_get_pba_hz() / 8 / 1000);
 }
 
 static int configure_interrupts(void)
 {
     /* Options for enabling TC interrupts */
     const tc_interrupt_t tc_interrupt = {
-        .etrgs = 0,
-        .ldrbs = 0,
-        .ldras = 0,
-        .cpcs  = 1, /* Enable interrupt on RC compare alone */
-        .cpbs  = 0,
-        .cpas  = 0,
-        .lovrs = 0,
-        .covfs = 0
-    };
+            .etrgs = 0,
+            .ldrbs = 0,
+            .ldras = 0,
+            .cpcs  = 1, /* Enable interrupt on RC compare alone */
+            .cpbs  = 0,
+            .cpas  = 0,
+            .lovrs = 0,
+            .covfs = 0};
 
-    return tc_configure_interrupts(
-        TIMER_COUNTER_BASE_ADDRESS, 
-        TIMER_COUNTER_CHANNEL, 
-        &tc_interrupt
-    );
+    return tc_configure_interrupts(TIMER_COUNTER_BASE_ADDRESS, TIMER_COUNTER_CHANNEL,
+                                   &tc_interrupt);
 }
 
 static int start_timer_counter(void)
 {
-    return tc_start(
-        TIMER_COUNTER_BASE_ADDRESS,
-        TIMER_COUNTER_CHANNEL
-    );
+    return tc_start(TIMER_COUNTER_BASE_ADDRESS, TIMER_COUNTER_CHANNEL);
 }
