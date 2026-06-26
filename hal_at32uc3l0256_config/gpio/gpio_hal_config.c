@@ -8,8 +8,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "gpio_hal.h"
 #include "gpio_at32uc3l0256.h"
 #include "gpio_hal_config.h"
@@ -22,14 +22,12 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct gpio_hal_handler gpio_handler = 
-{
-    .init_gpio = init_gpio_at32uc3l0256,
-    .deinit_gpio = deinit_gpio_at32uc3l0256,
-    .read_gpio_pin = read_gpio_pin_at32uc3l0256,
-    .write_gpio_pin = write_gpio_pin_at32uc3l0256,
-    .toggle_gpio_pin = toggle_gpio_pin_at32uc3l0256
-};
+const struct gpio_hal_handler gpio_handler = {
+        .init_gpio = init_gpio_at32uc3l0256,
+        .deinit_gpio = deinit_gpio_at32uc3l0256,
+        .read_gpio_pin = read_gpio_pin_at32uc3l0256,
+        .write_gpio_pin = write_gpio_pin_at32uc3l0256,
+        .toggle_gpio_pin = toggle_gpio_pin_at32uc3l0256};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

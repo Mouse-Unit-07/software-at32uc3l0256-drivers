@@ -23,15 +23,13 @@
 /*----------------------------------------------------------------------------*/
 /*                               Private Globals                              */
 /*----------------------------------------------------------------------------*/
-const struct usart_hal_handler usart_handler = 
-{
-    .init_usart = init_usart_at32uc3l0256,
-    .deinit_usart = deinit_usart_at32uc3l0256,
-    .is_rx_buffer_empty = is_rx_buffer_empty_at32uc3l0256,
-    .is_rx_buffer_full = is_rx_buffer_full_at32uc3l0256,
-    .pop_rx_buffer = pop_rx_buffer_at32uc3l0256,
-    .clear_rx_buffer = clear_rx_buffer_at32uc3l0256 
-};
+const struct usart_hal_handler usart_handler = {
+        .init_usart = init_usart_at32uc3l0256,
+        .deinit_usart = deinit_usart_at32uc3l0256,
+        .is_rx_buffer_empty = is_rx_buffer_empty_at32uc3l0256,
+        .is_rx_buffer_full = is_rx_buffer_full_at32uc3l0256,
+        .pop_rx_buffer = pop_rx_buffer_at32uc3l0256,
+        .clear_rx_buffer = clear_rx_buffer_at32uc3l0256};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */

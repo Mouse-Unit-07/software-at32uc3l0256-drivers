@@ -24,8 +24,7 @@ extern const struct eic_handle config_pushbutton_eic;
 /*----------------------------------------------------------------------------*/
 void init_eic_at32uc3l0256(void);
 void deinit_eic_at32uc3l0256(void);
-void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
-        void (*callback)(void));
+void set_external_callback_at32uc3l0256(const struct eic_handle *handle, void (*callback)(void));
 
 #ifdef WINDOWS_BUILD /* ISRs exposed just when testing */
 void encoder_1_channel_a_isr(void);

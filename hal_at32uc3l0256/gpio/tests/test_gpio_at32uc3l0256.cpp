@@ -12,10 +12,13 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "asf.h"
 #include "gpio_at32uc3l0256.h"
+
 }
 
 /*============================================================================*/
@@ -63,8 +66,7 @@ void gpio_configure_pin(uint32_t pin, uint32_t flags)
 
 bool gpio_get_pin_value(uint32_t pin)
 {
-    return mock().actualCall("gpio_get_pin_value")
-        .returnBoolValue();
+    return mock().actualCall("gpio_get_pin_value").returnBoolValue();
 }
 
 void gpio_set_gpio_pin(uint32_t pin)
@@ -117,8 +119,7 @@ TEST(HalGpioTests, DeinitGpio)
 
 TEST(HalGpioTests, ReadPinCallsFunctions)
 {
-    mock().expectOneCall("gpio_get_pin_value")
-        .andReturnValue(true);
+    mock().expectOneCall("gpio_get_pin_value").andReturnValue(true);
     read_gpio_pin_at32uc3l0256(&regulators_enable);
 }
 

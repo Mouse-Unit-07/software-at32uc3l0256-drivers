@@ -8,8 +8,8 @@
 /*----------------------------------------------------------------------------*/
 /*                               Include Files                                */
 /*----------------------------------------------------------------------------*/
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "asf.h"
 #include "gpio_at32uc3l0256.h"
 
@@ -27,107 +27,55 @@ enum
     OUTPUT_COUNT = 10
 };
 
-static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
-    &battery_comparator,
-    &wheel_driver_cld,
-    &encoder_1_channel_b,
-    &encoder_2_channel_b
 /* external interrupt pins (encoder channel A's, pushbutton) can be */
 /* read just like regular GPIO pins, but can't be configured for */
 /* both interrupt and GPIO, so they're left out */
-};
+static const struct gpio_handle *const input_handles[INPUT_COUNT] = {
+        &battery_comparator,
+        &wheel_driver_cld,
+        &encoder_1_channel_b,
+        &encoder_2_channel_b};
 
 static const uint32_t pull_up_configs[INPUT_COUNT] = {
-    0,
-    0,
-    GPIO_PULL_UP,
-    GPIO_PULL_UP
-};
+        0,
+        0,
+        GPIO_PULL_UP,
+        GPIO_PULL_UP};
 
 static const struct gpio_handle *const output_handles[OUTPUT_COUNT] = {
-    &regulators_enable,
-    &led_d1,
-    &led_d2,
-    &led_d3,
-    &led_d4,
-    &wheel_driver_standby,
-    &wheel_driver_motor_1_in1,
-    &wheel_driver_motor_1_in2,
-    &wheel_driver_motor_2_in1,
-    &wheel_driver_motor_2_in2
-};
+        &regulators_enable,
+        &led_d1,
+        &led_d2,
+        &led_d3,
+        &led_d4,
+        &wheel_driver_standby,
+        &wheel_driver_motor_1_in1,
+        &wheel_driver_motor_1_in2,
+        &wheel_driver_motor_2_in1,
+        &wheel_driver_motor_2_in2};
 
 /*----------------------------------------------------------------------------*/
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
-const struct gpio_handle regulators_enable = {
-    .gpio_pin_address = AVR32_PIN_PB11
-};
-
-const struct gpio_handle battery_comparator = {
-    .gpio_pin_address = AVR32_PIN_PB06
-};
-
-const struct gpio_handle led_d1 = {
-    .gpio_pin_address = AVR32_PIN_PA22
-};
-
-const struct gpio_handle led_d2 = {
-    .gpio_pin_address = AVR32_PIN_PB03
-};
-
-const struct gpio_handle led_d3 = {
-    .gpio_pin_address = AVR32_PIN_PB02
-};
-
-const struct gpio_handle led_d4 = {
-    .gpio_pin_address = AVR32_PIN_PB00
-};
-
-const struct gpio_handle wheel_driver_standby = {
-    .gpio_pin_address = AVR32_PIN_PB04
-};
-
-const struct gpio_handle wheel_driver_cld = {
-    .gpio_pin_address = AVR32_PIN_PB10
-};
-
-const struct gpio_handle wheel_driver_motor_1_in1 = {
-    .gpio_pin_address = AVR32_PIN_PB01
-};
-
-const struct gpio_handle wheel_driver_motor_1_in2 = {
-    .gpio_pin_address = AVR32_PIN_PA07
-};
-
-const struct gpio_handle wheel_driver_motor_2_in1 = {
-    .gpio_pin_address = AVR32_PIN_PA21
-};
-
-const struct gpio_handle wheel_driver_motor_2_in2 = {
-    .gpio_pin_address = AVR32_PIN_PA20
-};
-
-const struct gpio_handle encoder_1_channel_b = {
-    .gpio_pin_address = AVR32_PIN_PA04
-};
-
-const struct gpio_handle encoder_2_channel_b = {
-    .gpio_pin_address = AVR32_PIN_PA11
-};
+const struct gpio_handle regulators_enable = {.gpio_pin_address = AVR32_PIN_PB11};
+const struct gpio_handle battery_comparator = {.gpio_pin_address = AVR32_PIN_PB06};
+const struct gpio_handle led_d1 = {.gpio_pin_address = AVR32_PIN_PA22};
+const struct gpio_handle led_d2 = {.gpio_pin_address = AVR32_PIN_PB03};
+const struct gpio_handle led_d3 = {.gpio_pin_address = AVR32_PIN_PB02};
+const struct gpio_handle led_d4 = {.gpio_pin_address = AVR32_PIN_PB00};
+const struct gpio_handle wheel_driver_standby = {.gpio_pin_address = AVR32_PIN_PB04};
+const struct gpio_handle wheel_driver_cld = {.gpio_pin_address = AVR32_PIN_PB10};
+const struct gpio_handle wheel_driver_motor_1_in1 = {.gpio_pin_address = AVR32_PIN_PB01};
+const struct gpio_handle wheel_driver_motor_1_in2 = {.gpio_pin_address = AVR32_PIN_PA07};
+const struct gpio_handle wheel_driver_motor_2_in1 = {.gpio_pin_address = AVR32_PIN_PA21};
+const struct gpio_handle wheel_driver_motor_2_in2 = {.gpio_pin_address = AVR32_PIN_PA20};
+const struct gpio_handle encoder_1_channel_b = {.gpio_pin_address = AVR32_PIN_PA04};
+const struct gpio_handle encoder_2_channel_b = {.gpio_pin_address = AVR32_PIN_PA11};
 
 /* below handles have "gpio" suffix to avoid overlap w/ eic handles */
-const struct gpio_handle encoder_1_channel_a_gpio = {
-    .gpio_pin_address = AVR32_PIN_PB07
-};
-
-const struct gpio_handle encoder_2_channel_a_gpio = {
-    .gpio_pin_address = AVR32_PIN_PB09
-};
-
-const struct gpio_handle config_pushbutton_gpio = {
-    .gpio_pin_address = AVR32_PIN_PA06
-};
+const struct gpio_handle encoder_1_channel_a_gpio = {.gpio_pin_address = AVR32_PIN_PB07};
+const struct gpio_handle encoder_2_channel_a_gpio = {.gpio_pin_address = AVR32_PIN_PB09};
+const struct gpio_handle config_pushbutton_gpio = {.gpio_pin_address = AVR32_PIN_PA06};
 
 /*----------------------------------------------------------------------------*/
 /*                         Public Function Definitions                        */
@@ -158,7 +106,7 @@ bool read_gpio_pin_at32uc3l0256(const struct gpio_handle *handle)
 
 void write_gpio_pin_at32uc3l0256(const struct gpio_handle *handle, bool value)
 {
-    if(value) {
+    if (value) {
         gpio_set_gpio_pin(handle->gpio_pin_address);
     } else {
         gpio_clr_gpio_pin(handle->gpio_pin_address);

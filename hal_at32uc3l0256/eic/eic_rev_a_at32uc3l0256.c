@@ -37,10 +37,9 @@ enum
 };
 
 static void (*user_isr_callbacks[EXTERNAL_INTERRUPT_COUNT])(void) = {
-    dummy_user_callback,
-    dummy_user_callback,
-    dummy_user_callback
-};
+        dummy_user_callback,
+        dummy_user_callback,
+        dummy_user_callback};
 
 /* pin selection related globals */
 /* need unsigned constants for struct/array initializers (no enums or variables) */
@@ -66,17 +65,9 @@ static const uint32_t CONFIG_PUSHBUTTON_EIC_IRQ_LINE = AVR32_EIC_IRQ_2;
 /*                               Public Handles                               */
 /*----------------------------------------------------------------------------*/
 /* below handles have "eic" suffix to avoid overlap w/ gpio handles */
-const struct eic_handle encoder_1_channel_a_eic = {
-    .eic_index = ENCODER_1_INDEX
-};
-
-const struct eic_handle encoder_2_channel_a_eic = {
-    .eic_index = ENCODER_2_INDEX
-};
-
-const struct eic_handle config_pushbutton_eic = {
-    .eic_index = CONFIG_PUSHBUTTON_INDEX
-};
+const struct eic_handle encoder_1_channel_a_eic = {.eic_index = ENCODER_1_INDEX};
+const struct eic_handle encoder_2_channel_a_eic = {.eic_index = ENCODER_2_INDEX};
+const struct eic_handle config_pushbutton_eic = {.eic_index = CONFIG_PUSHBUTTON_INDEX};
 
 /*----------------------------------------------------------------------------*/
 /*                         Interrupt Service Routines                         */
@@ -133,13 +124,12 @@ void deinit_eic_at32uc3l0256(void)
     reset_user_callbacks();
 }
 
-void set_external_callback_at32uc3l0256(const struct eic_handle *handle,
-        void (*callback)(void))
+void set_external_callback_at32uc3l0256(const struct eic_handle *handle, void (*callback)(void))
 {
     if (eic_failed) {
         return;
     }
-    
+
     user_isr_callbacks[handle->eic_index] = callback;
 }
 
@@ -169,23 +159,23 @@ static void init_eic_pins(void)
     uint32_t asf_return_value = GPIO_INVALID_ARGUMENT;
 
     static const gpio_map_t EIC_ENCODER_MAP = {
-        {ENCODER_1_CHANNEL_A_PIN, ENCODER_1_CHANNEL_A_PIN_FUNCTION},
-        {ENCODER_2_CHANNEL_A_PIN, ENCODER_2_CHANNEL_A_PIN_FUNCTION}
-    };
+            {ENCODER_1_CHANNEL_A_PIN, ENCODER_1_CHANNEL_A_PIN_FUNCTION},
+            {ENCODER_2_CHANNEL_A_PIN, ENCODER_2_CHANNEL_A_PIN_FUNCTION}};
     asf_return_value = gpio_enable_module(EIC_ENCODER_MAP,
-        sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
+                                          sizeof(EIC_ENCODER_MAP) / sizeof(EIC_ENCODER_MAP[0]));
     if (asf_return_value != GPIO_SUCCESS) {
-        eic_runtime_error("eic init pins: gpio_enable_module() on encoder pins failed", asf_return_value);
+        eic_runtime_error("eic init pins: gpio_enable_module() on encoder pins failed",
+                          asf_return_value);
         return;
     }
-    
+
     static const gpio_map_t EIC_PUSHBUTTON_MAP = {
-        {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}
-    };
-    asf_return_value = gpio_enable_module(EIC_PUSHBUTTON_MAP, 
-        sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
+            {CONFIG_PUSHBUTTON_PIN, CONFIG_PUSHBUTTON_PIN_FUNCTION}};
+    asf_return_value = gpio_enable_module(
+            EIC_PUSHBUTTON_MAP, sizeof(EIC_PUSHBUTTON_MAP) / sizeof(EIC_PUSHBUTTON_MAP[0]));
     if (asf_return_value != GPIO_SUCCESS) {
-        eic_runtime_error("eic init pins: gpio_enable_module() on pushbutton pin failed", asf_return_value);
+        eic_runtime_error("eic init pins: gpio_enable_module() on pushbutton pin failed",
+                          asf_return_value);
         return;
     }
 }
@@ -208,41 +198,38 @@ static void configure_eic(void)
     const unsigned char CONFIG_PUSHBUTTON_EIC_SYNC = EIC_SYNCH_MODE;
 
     /* motor 1 */
-    eic_encoder_options[0].eic_mode  = ENCODER_1_EIC_MODE;
-    eic_encoder_options[0].eic_edge  = ENCODER_1_EIC_EDGE;
+    eic_encoder_options[0].eic_mode = ENCODER_1_EIC_MODE;
+    eic_encoder_options[0].eic_edge = ENCODER_1_EIC_EDGE;
     eic_encoder_options[0].eic_async = ENCODER_1_EIC_SYNC;
-    eic_encoder_options[0].eic_line  = ENCODER_1_EIC_LINE;
-    
-    /* motor 2 */
-    eic_encoder_options[1].eic_mode  = ENCODER_2_EIC_MODE;
-    eic_encoder_options[1].eic_edge  = ENCODER_2_EIC_EDGE;
-    eic_encoder_options[1].eic_async = ENCODER_2_EIC_SYNC;
-    eic_encoder_options[1].eic_line  = ENCODER_2_EIC_LINE;
+    eic_encoder_options[0].eic_line = ENCODER_1_EIC_LINE;
 
-    eic_pushbutton_options[0].eic_mode  = CONFIG_PUSHBUTTON_EIC_MODE;
-    eic_pushbutton_options[0].eic_edge  = CONFIG_PUSHBUTTON_EIC_EDGE;
+    /* motor 2 */
+    eic_encoder_options[1].eic_mode = ENCODER_2_EIC_MODE;
+    eic_encoder_options[1].eic_edge = ENCODER_2_EIC_EDGE;
+    eic_encoder_options[1].eic_async = ENCODER_2_EIC_SYNC;
+    eic_encoder_options[1].eic_line = ENCODER_2_EIC_LINE;
+
+    eic_pushbutton_options[0].eic_mode = CONFIG_PUSHBUTTON_EIC_MODE;
+    eic_pushbutton_options[0].eic_edge = CONFIG_PUSHBUTTON_EIC_EDGE;
     eic_pushbutton_options[0].eic_async = CONFIG_PUSHBUTTON_EIC_SYNC;
-    eic_pushbutton_options[0].eic_line  = CONFIG_PUSHBUTTON_EIC_LINE;
+    eic_pushbutton_options[0].eic_line = CONFIG_PUSHBUTTON_EIC_LINE;
 
 #ifndef WINDOWS_BUILD /* can't test- AVR32 defined type parameter */
     const uint32_t INTC_LEVEL = AVR32_INTC_INT3;
-    INTC_register_interrupt(&encoder_1_channel_a_isr,
-        ENCODER_1_EIC_IRQ_LINE, INTC_LEVEL);
-    INTC_register_interrupt(&encoder_2_channel_a_isr,
-        ENCODER_2_EIC_IRQ_LINE, INTC_LEVEL);
-    INTC_register_interrupt(&config_pushbutton_isr,
-        CONFIG_PUSHBUTTON_EIC_IRQ_LINE, INTC_LEVEL);
+    INTC_register_interrupt(&encoder_1_channel_a_isr, ENCODER_1_EIC_IRQ_LINE, INTC_LEVEL);
+    INTC_register_interrupt(&encoder_2_channel_a_isr, ENCODER_2_EIC_IRQ_LINE, INTC_LEVEL);
+    INTC_register_interrupt(&config_pushbutton_isr, CONFIG_PUSHBUTTON_EIC_IRQ_LINE, INTC_LEVEL);
 #endif
 
     eic_init(&AVR32_EIC, eic_encoder_options, 2);
     eic_init(&AVR32_EIC, eic_pushbutton_options, 1);
 
-    eic_enable_lines(&AVR32_EIC,
-        (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
+    eic_enable_lines(&AVR32_EIC, (1 << eic_encoder_options[1].eic_line)
+                                 | (1 << eic_encoder_options[0].eic_line));
     eic_enable_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
 
-    eic_enable_interrupt_lines(&AVR32_EIC,
-        (1 << eic_encoder_options[1].eic_line) | (1 << eic_encoder_options[0].eic_line));
+    eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_encoder_options[1].eic_line)
+                                           | (1 << eic_encoder_options[0].eic_line));
     eic_enable_interrupt_lines(&AVR32_EIC, (1 << eic_pushbutton_options[0].eic_line));
 
     gpio_enable_pin_pull_up(ENCODER_1_CHANNEL_A_PIN);

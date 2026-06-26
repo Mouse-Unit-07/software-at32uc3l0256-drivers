@@ -11,10 +11,13 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "asf.h"
 #include "timer_counter_at32uc3l0256.h"
+
 }
 
 /*============================================================================*/
@@ -29,12 +32,11 @@ void init_tc_without_cpputest_checks(void)
 
 void immediately_fail_init_tc(void)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("tc_init_waveform").andReturnValue(TC_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_init_waveform call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message", "tc_init_waveform call failed")
+            .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
 
@@ -58,9 +60,9 @@ void RUNTIME_ERROR(uint32_t timestamp, const char *fail_message, uint32_t fail_v
 {
     CHECK(fail_message != NULL);
     mock().actualCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", timestamp)
-        .withStringParameter("fail_message", fail_message)
-        .withUnsignedIntParameter("fail_value", fail_value);
+            .withUnsignedIntParameter("timestamp", timestamp)
+            .withStringParameter("fail_message", fail_message)
+            .withUnsignedIntParameter("fail_value", fail_value);
 }
 
 /* ---------------------------------------------------------------------------*/
@@ -69,31 +71,28 @@ int tc_init_waveform(volatile avr32_tc_t *tc, const tc_waveform_opt_t *opt)
 {
     CHECK(tc != NULL);
     CHECK(opt != NULL);
-    return mock().actualCall("tc_init_waveform")
-        .returnIntValue();
+    return mock().actualCall("tc_init_waveform").returnIntValue();
 }
 
 int tc_write_rc(volatile avr32_tc_t *tc, unsigned int channel, unsigned short value)
 {
     CHECK(tc != NULL);
-    return mock().actualCall("tc_write_rc")
-        .returnIntValue();
+    return mock().actualCall("tc_write_rc").returnIntValue();
     return 1;
 }
 
-int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel, const tc_interrupt_t *bitfield)
+int tc_configure_interrupts(volatile avr32_tc_t *tc, unsigned int channel,
+                            const tc_interrupt_t *bitfield)
 {
     CHECK(tc != NULL);
     CHECK(bitfield != NULL);
-    return mock().actualCall("tc_configure_interrupts")
-        .returnIntValue();
+    return mock().actualCall("tc_configure_interrupts").returnIntValue();
 }
 
 int tc_start(volatile avr32_tc_t *tc, unsigned int channel)
 {
     CHECK(tc != NULL);
-    return mock().actualCall("tc_start")
-        .returnIntValue();
+    return mock().actualCall("tc_start").returnIntValue();
 }
 
 }
@@ -120,14 +119,10 @@ TEST_GROUP(HalTimerCounterTests)
 /*============================================================================*/
 TEST(HalTimerCounterTests, InitTimerCounterCallsFunctions)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_configure_interrupts")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_start")
-        .andReturnValue(1);
+    mock().expectOneCall("tc_init_waveform").andReturnValue(1);
+    mock().expectOneCall("tc_write_rc").andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts").andReturnValue(1);
+    mock().expectOneCall("tc_start").andReturnValue(1);
     init_timer_counter_at32uc3l0256();
 }
 
@@ -138,46 +133,37 @@ TEST(HalTimerCounterTests, InitTimerCounterInitWaveformFailureCallsRuntimeError)
 
 TEST(HalTimerCounterTests, InitTimerCounterWriteRcFailureCallsRuntimeError)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc")
-        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("tc_init_waveform").andReturnValue(1);
+    mock().expectOneCall("tc_write_rc").andReturnValue(TC_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_write_rc call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message", "tc_write_rc call failed")
+            .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
 
 TEST(HalTimerCounterTests, InitTimerCounterConfigureInterruptsFailureCallsRuntimeError)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_configure_interrupts")
-        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("tc_init_waveform").andReturnValue(1);
+    mock().expectOneCall("tc_write_rc").andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts").andReturnValue(TC_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_configure_interrupts call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message", "tc_configure_interrupts call failed")
+            .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
 
 TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
 {
-    mock().expectOneCall("tc_init_waveform")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_write_rc")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_configure_interrupts")
-        .andReturnValue(1);
-    mock().expectOneCall("tc_start")
-        .andReturnValue(TC_INVALID_ARGUMENT);
+    mock().expectOneCall("tc_init_waveform").andReturnValue(1);
+    mock().expectOneCall("tc_write_rc").andReturnValue(1);
+    mock().expectOneCall("tc_configure_interrupts").andReturnValue(1);
+    mock().expectOneCall("tc_start").andReturnValue(TC_INVALID_ARGUMENT);
     mock().expectOneCall("RUNTIME_ERROR")
-        .withUnsignedIntParameter("timestamp", 0)
-        .withStringParameter("fail_message", "tc_start call failed")
-        .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
+            .withUnsignedIntParameter("timestamp", 0)
+            .withStringParameter("fail_message", "tc_start call failed")
+            .withUnsignedIntParameter("fail_value", TC_INVALID_ARGUMENT);
     init_timer_counter_at32uc3l0256();
 }
 

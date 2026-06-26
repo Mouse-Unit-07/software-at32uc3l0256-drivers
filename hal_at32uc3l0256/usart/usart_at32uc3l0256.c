@@ -46,7 +46,10 @@ static const unsigned char CHAR_LENGTH = 8u;
 static const unsigned char PARITY = AVR32_USART_MR_PAR_NONE;
 static const unsigned short STOP_BIT = AVR32_USART_MR_NBSTOP_1;
 
-enum {RX_CIRCULAR_BUFFER_SIZE = 128};
+enum
+{
+    RX_CIRCULAR_BUFFER_SIZE = 128
+};
 
 struct circular_buffer {
     volatile uint32_t head;
@@ -82,12 +85,11 @@ void init_usart_at32uc3l0256(void)
     reset_usart_state();
 
     uint32_t uint_return_value = GPIO_INVALID_ARGUMENT;
-    gpio_map_t USART_GPIO_MAP =
-    {
-        {USART_RX_PIN, USART_RX_FUNCTION},
-        {USART_TX_PIN, USART_TX_FUNCTION}
-    };
-    uint_return_value = gpio_enable_module(USART_GPIO_MAP, sizeof(USART_GPIO_MAP) / sizeof (USART_GPIO_MAP[0]));
+    gpio_map_t USART_GPIO_MAP = {
+            {USART_RX_PIN, USART_RX_FUNCTION},
+            {USART_TX_PIN, USART_TX_FUNCTION}};
+    uint_return_value =
+            gpio_enable_module(USART_GPIO_MAP, sizeof(USART_GPIO_MAP) / sizeof (USART_GPIO_MAP[0]));
     
     if (uint_return_value != GPIO_SUCCESS) {
         RUNTIME_ERROR(0, "usart init: init_usart_at32uc3l0256() failed", GPIO_INVALID_ARGUMENT);
@@ -95,11 +97,10 @@ void init_usart_at32uc3l0256(void)
     }
 
     const usart_serial_options_t usart_serial_options = {
-        .baudrate     = BAUDRATE,
-        .charlength   = CHAR_LENGTH,
-        .paritytype   = PARITY,
-        .stopbits     = STOP_BIT
-    };
+            .baudrate = BAUDRATE,
+            .charlength = CHAR_LENGTH,
+            .paritytype = PARITY,
+            .stopbits = STOP_BIT};
 
     stdio_serial_init(USART_SERIAL_BASE_ADDRESS, &usart_serial_options);
 

@@ -8,10 +8,13 @@
 /*============================================================================*/
 /*                               Include Files                                */
 /*============================================================================*/
-extern "C" {
+extern "C"
+{
+
 #include <stdint.h>
 #include "adc_hal.h"
 #include "adc_hal_config.h"
+
 }
 
 #include <CppUTest/TestHarness.h>
