@@ -27,9 +27,9 @@ constexpr int WATCHDOG_MAX{2000u};
 
 void init_adc_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_adc_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 /*============================================================================*/

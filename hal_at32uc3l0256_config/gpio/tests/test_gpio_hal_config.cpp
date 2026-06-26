@@ -45,13 +45,13 @@ TEST_GROUP(GpioHalConfigTest)
 /*============================================================================*/
 TEST(GpioHalConfigTest, GpioHandlerIsNotNull)
 {
-    const struct gpio_hal_handler *gpio_handler = get_gpio_hal_handler();
+    const struct gpio_hal_handler *gpio_handler{get_gpio_hal_handler()};
     CHECK(gpio_handler != NULL);
 }
 
 TEST(GpioHalConfigTest, GpioHandlerElementsAreNotNull)
 {
-    const struct gpio_hal_handler *gpio_handler = get_gpio_hal_handler();
+    const struct gpio_hal_handler *gpio_handler{get_gpio_hal_handler()};
     CHECK(gpio_handler->init_gpio != NULL);
     CHECK(gpio_handler->deinit_gpio != NULL);
     CHECK(gpio_handler->read_gpio_pin != NULL);

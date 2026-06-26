@@ -25,9 +25,9 @@ extern "C"
 /*============================================================================*/
 void init_tc_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_timer_counter_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 void immediately_fail_init_tc(void)
@@ -43,7 +43,7 @@ void immediately_fail_init_tc(void)
 /* this call takes 9 seconds to run */
 void call_tc_isr_to_uint32_max(void)
 {
-    for (uint32_t i = 0u; i < UINT32_MAX; i++) {
+    for (uint32_t i{0u}; i < UINT32_MAX; i++) {
         tc_irq();
     }
 }
@@ -170,7 +170,7 @@ TEST(HalTimerCounterTests, InitTimerCounterTcStartFailureCallsRuntimeError)
 TEST(HalTimerCounterTests, TimerCounterCountIsZeroOnInit)
 {
     init_tc_without_cpputest_checks();
-    CHECK(get_timer_count_at32uc3l0256() == 0);
+    LONGS_EQUAL(0u, get_timer_count_at32uc3l0256());
 }
 
 /* time consuming- turn on when needed */
@@ -178,7 +178,7 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterIsrIncrementsCount)
 {
     init_tc_without_cpputest_checks();
     call_tc_isr_to_uint32_max();
-    CHECK(get_timer_count_at32uc3l0256() == UINT32_MAX);
+    LONGS_EQUAL(UINT32_MAX, get_timer_count_at32uc3l0256());
 }
 
 /* time consuming- turn on when needed */
@@ -187,7 +187,7 @@ IGNORE_TEST(HalTimerCounterTests, TimerCounterRollsOverOnOverflow)
     init_tc_without_cpputest_checks();
     call_tc_isr_to_uint32_max();
     tc_irq();
-    CHECK(get_timer_count_at32uc3l0256() == 0);
+    LONGS_EQUAL(0u, get_timer_count_at32uc3l0256());
 }
 
 TEST(HalTimerCounterTests, NoIncrementsAfterInitTimerCounterFailure)
@@ -195,7 +195,7 @@ TEST(HalTimerCounterTests, NoIncrementsAfterInitTimerCounterFailure)
     immediately_fail_init_tc();
     tc_irq();
     tc_irq();
-    CHECK(get_timer_count_at32uc3l0256() == 0);
+    LONGS_EQUAL(0u, get_timer_count_at32uc3l0256());
 }
 
 TEST(HalTimerCounterTests, DeinitResetsCount)
@@ -203,7 +203,7 @@ TEST(HalTimerCounterTests, DeinitResetsCount)
     init_tc_without_cpputest_checks();
     tc_irq();
     deinit_timer_counter_at32uc3l0256();
-    CHECK(get_timer_count_at32uc3l0256() == 0);
+    LONGS_EQUAL(0u, get_timer_count_at32uc3l0256());
 }
 
 TEST(HalTimerCounterTests, RestartTimerResetsCount)
@@ -211,5 +211,5 @@ TEST(HalTimerCounterTests, RestartTimerResetsCount)
     init_tc_without_cpputest_checks();
     tc_irq();
     restart_timer_at32uc3l0256();
-    CHECK(get_timer_count_at32uc3l0256() == 0);
+    LONGS_EQUAL(0u, get_timer_count_at32uc3l0256());
 }

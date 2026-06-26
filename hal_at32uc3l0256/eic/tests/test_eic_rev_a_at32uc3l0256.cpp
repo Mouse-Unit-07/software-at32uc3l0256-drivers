@@ -51,18 +51,18 @@ void my_user_callback_3(void)
 
 void init_eic_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_eic_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 void call_all_isrs_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     encoder_1_channel_a_isr();
     encoder_2_channel_a_isr();
     config_pushbutton_isr();
-    mock().clear();
+    mock().enable();
 }
 
 void immediately_fail_eic_init(void)
@@ -85,9 +85,9 @@ void set_all_callbacks(void)
 
 void check_all_callback_flags(bool check_value)
 {
-    CHECK(my_user_callback_1_called == check_value);
-    CHECK(my_user_callback_2_called == check_value);
-    CHECK(my_user_callback_3_called == check_value);
+    CHECK_EQUAL(check_value, my_user_callback_1_called);
+    CHECK_EQUAL(check_value, my_user_callback_2_called);
+    CHECK_EQUAL(check_value, my_user_callback_3_called);
 }
 
 /*============================================================================*/

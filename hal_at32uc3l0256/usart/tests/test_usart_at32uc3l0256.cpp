@@ -25,9 +25,9 @@ extern "C"
 /*============================================================================*/
 void init_usart_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_usart_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 void overflow_rx_buffer_with_cpputest_checks(void)
@@ -143,7 +143,7 @@ TEST(HalUsartTests, DeinitUsart)
 
 TEST(HalUsartTests, RxBufferStartsEmpty)
 {
-    CHECK(is_rx_buffer_empty_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_empty_at32uc3l0256());
 }
 
 TEST(HalUsartTests, RxIsrStoresCharacter)
@@ -184,7 +184,7 @@ TEST(HalUsartTests, PopRxBufferMakesBufferEmpty)
 
     pop_rx_buffer_at32uc3l0256();
 
-    CHECK(is_rx_buffer_empty_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_empty_at32uc3l0256());
 }
 
 TEST(HalUsartTests, EmptyPopReturnsNullCharacter)
@@ -201,7 +201,7 @@ TEST(HalUsartTests, RxFailureDoesNotPushCharacter)
 {
     fail_rx_with_cpputest_checks();
 
-    CHECK(is_rx_buffer_empty_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_empty_at32uc3l0256());
 }
 
 TEST(HalUsartTests, IsRxBufferFullInitiallyFalse)
@@ -221,7 +221,7 @@ TEST(HalUsartTests, IsRxBufferFullReturnsTrueWhenFullAndOverflow)
         rx_isr();
     }
 
-    CHECK(is_rx_buffer_full_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_full_at32uc3l0256());
 
     mock().expectOneCall("usart_read_char")
             .withOutputParameterReturning("c", &c, sizeof(c))
@@ -229,7 +229,7 @@ TEST(HalUsartTests, IsRxBufferFullReturnsTrueWhenFullAndOverflow)
 
     rx_isr();
 
-    CHECK(is_rx_buffer_full_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_full_at32uc3l0256());
 }
 
 TEST(HalUsartTests, ClearRxBufferEmptiesBuffer)
@@ -256,7 +256,7 @@ TEST(HalUsartTests, InitResetsDriverState)
 
     init_usart_without_cpputest_checks();
 
-    CHECK(is_rx_buffer_empty_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_empty_at32uc3l0256());
     CHECK_FALSE(is_rx_buffer_full_at32uc3l0256());
 }
 
@@ -267,6 +267,6 @@ TEST(HalUsartTests, DeinitResetsDriverState)
 
     deinit_usart_at32uc3l0256();
 
-    CHECK(is_rx_buffer_empty_at32uc3l0256());
+    CHECK_TRUE(is_rx_buffer_empty_at32uc3l0256());
     CHECK_FALSE(is_rx_buffer_full_at32uc3l0256());
 }

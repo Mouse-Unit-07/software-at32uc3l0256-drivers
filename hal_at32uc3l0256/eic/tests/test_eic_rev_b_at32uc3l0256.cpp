@@ -85,9 +85,9 @@ void set_all_callbacks(void)
 
 void check_all_callback_flags(bool check_value)
 {
-    CHECK(my_user_callback_1_called == check_value);
-    CHECK(my_user_callback_2_called == check_value);
-    CHECK(my_user_callback_3_called == check_value);
+    CHECK_EQUAL(check_value, my_user_callback_1_called);
+    CHECK_EQUAL(check_value, my_user_callback_2_called);
+    CHECK_EQUAL(check_value, my_user_callback_3_called);
 }
 
 /*============================================================================*/

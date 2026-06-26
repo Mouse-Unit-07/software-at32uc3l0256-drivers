@@ -45,13 +45,13 @@ TEST_GROUP(AdcHalConfigTest)
 /*============================================================================*/
 TEST(AdcHalConfigTest, AdcHandlerIsNotNull)
 {
-    const struct adc_hal_handler *adc_handler = get_adc_hal_handler();
+    const struct adc_hal_handler *adc_handler{get_adc_hal_handler()};
     CHECK(adc_handler != NULL);
 }
 
 TEST(AdcHalConfigTest, AdcHandlerElementsAreNotNull)
 {
-    const struct adc_hal_handler *adc_handler = get_adc_hal_handler();
+    const struct adc_hal_handler *adc_handler{get_adc_hal_handler()};
     CHECK(adc_handler->init_adc != NULL);
     CHECK(adc_handler->deinit_adc != NULL);
     CHECK(adc_handler->read_adc_channel != NULL);

@@ -25,9 +25,9 @@ extern "C"
 /*============================================================================*/
 void init_pwm_without_cpputest_checks(void)
 {
-    mock().ignoreOtherCalls();
+    mock().disable();
     init_pwm_at32uc3l0256();
-    mock().clear();
+    mock().enable();
 }
 
 void immediately_fail_pwm_init(void)
